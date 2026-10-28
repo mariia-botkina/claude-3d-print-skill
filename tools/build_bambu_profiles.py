@@ -30,6 +30,139 @@ import re
 import zipfile
 
 STD_VARIANT = "Direct Drive Standard"
+# Keys stored once per extruder variant in system presets ("_2": twice, normal + silent mode).
+# A project file keeps only the selected variant, exactly like Bambu Studio saves it.
+VARIANT_KEYS = {
+ "print_options_with_variant": [
+  "bridge_speed",
+  "default_acceleration",
+  "enable_height_slowdown",
+  "enable_overhang_speed",
+  "gap_infill_speed",
+  "initial_layer_acceleration",
+  "initial_layer_infill_speed",
+  "initial_layer_speed",
+  "initial_layer_travel_acceleration",
+  "inner_wall_acceleration",
+  "inner_wall_speed",
+  "internal_solid_infill_speed",
+  "outer_wall_acceleration",
+  "outer_wall_speed",
+  "overhang_1_4_speed",
+  "overhang_2_4_speed",
+  "overhang_3_4_speed",
+  "overhang_4_4_speed",
+  "overhang_totally_speed",
+  "print_extruder_id",
+  "print_extruder_variant",
+  "slowdown_end_acc",
+  "slowdown_end_height",
+  "slowdown_end_speed",
+  "slowdown_start_acc",
+  "slowdown_start_height",
+  "slowdown_start_speed",
+  "small_perimeter_speed",
+  "small_perimeter_threshold",
+  "sparse_infill_acceleration",
+  "sparse_infill_speed",
+  "support_interface_speed",
+  "support_speed",
+  "top_solid_infill_flow_ratio",
+  "top_surface_acceleration",
+  "top_surface_speed",
+  "travel_acceleration",
+  "travel_short_distance_acceleration",
+  "travel_speed",
+  "travel_speed_z",
+  "vertical_shell_speed"
+ ],
+ "filament_options_with_variant": [
+  "filament_adaptive_volumetric_speed",
+  "filament_bridge_speed",
+  "filament_cooling_before_tower",
+  "filament_deretraction_speed",
+  "filament_enable_overhang_speed",
+  "filament_extruder_variant",
+  "filament_flow_ratio",
+  "filament_flush_temp",
+  "filament_flush_volumetric_speed",
+  "filament_long_retractions_when_cut",
+  "filament_max_volumetric_speed",
+  "filament_overhang_1_4_speed",
+  "filament_overhang_2_4_speed",
+  "filament_overhang_3_4_speed",
+  "filament_overhang_4_4_speed",
+  "filament_overhang_totally_speed",
+  "filament_pre_cooling_temperature",
+  "filament_pre_cooling_temperature_nc",
+  "filament_ramming_travel_time",
+  "filament_ramming_travel_time_nc",
+  "filament_ramming_volumetric_speed",
+  "filament_ramming_volumetric_speed_nc",
+  "filament_retract_before_wipe",
+  "filament_retract_length_nc",
+  "filament_retract_restart_extra",
+  "filament_retract_when_changing_layer",
+  "filament_retraction_distances_when_cut",
+  "filament_retraction_length",
+  "filament_retraction_minimum_travel",
+  "filament_retraction_speed",
+  "filament_wipe",
+  "filament_wipe_distance",
+  "filament_z_hop",
+  "filament_z_hop_types",
+  "long_retractions_when_ec",
+  "nozzle_temperature",
+  "nozzle_temperature_initial_layer",
+  "override_process_overhang_speed",
+  "retraction_distances_when_ec",
+  "slow_down_min_speed",
+  "volumetric_speed_coefficients"
+ ],
+ "printer_options_with_variant_1": [
+  "deretraction_speed",
+  "hotend_cooling_rate",
+  "hotend_heating_rate",
+  "long_retractions_when_cut",
+  "nozzle_flush_dataset",
+  "nozzle_type",
+  "nozzle_volume",
+  "printer_extruder_id",
+  "printer_extruder_variant",
+  "retract_before_wipe",
+  "retract_length_toolchange",
+  "retract_lift_above",
+  "retract_lift_below",
+  "retract_restart_extra",
+  "retract_restart_extra_toolchange",
+  "retract_when_changing_layer",
+  "retraction_distances_when_cut",
+  "retraction_length",
+  "retraction_minimum_travel",
+  "retraction_speed",
+  "wipe",
+  "wipe_distance",
+  "z_hop",
+  "z_hop_types"
+ ],
+ "printer_options_with_variant_2": [
+  "machine_max_acceleration_e",
+  "machine_max_acceleration_extruding",
+  "machine_max_acceleration_retracting",
+  "machine_max_acceleration_travel",
+  "machine_max_acceleration_x",
+  "machine_max_acceleration_y",
+  "machine_max_acceleration_z",
+  "machine_max_jerk_e",
+  "machine_max_jerk_x",
+  "machine_max_jerk_y",
+  "machine_max_jerk_z",
+  "machine_max_speed_e",
+  "machine_max_speed_x",
+  "machine_max_speed_y",
+  "machine_max_speed_z"
+ ]
+}  # from Bambu Studio PrintConfig.cpp (*_options_with_variant*)
 
 
 class Profiles:
@@ -76,14 +209,31 @@ class Profiles:
 
 
 def variant_index(prof):
-    variants = prof.get("filament_extruder_variant") or prof.get("print_extruder_variant")
+    variants = (prof.get("filament_extruder_variant") or prof.get("print_extruder_variant")
+                or prof.get("printer_extruder_variant"))
     if isinstance(variants, list) and STD_VARIANT in variants:
         return variants.index(STD_VARIANT), len(variants)
     return 0, 1
 
 
-def norm_scalar_list(value, tpl_value, vidx, vcount):
+def pick_variant(key, value, vidx, vcount):
+    """Reduce a per-variant list to the selected variant, as Bambu writes it into a project."""
+    if not isinstance(value, list) or vcount <= 1:
+        return value
+    if key in VARIANT_KEYS["printer_options_with_variant_2"] and len(value) == 2 * vcount:
+        return value[2 * vidx:2 * vidx + 2]
+    if key in VARIANT_KEYS["printer_options_with_variant_1"] or key in VARIANT_KEYS["print_options_with_variant"]:
+        if len(value) == vcount:
+            return [value[vidx]]
+    return value
+
+
+def norm_scalar_list(value, tpl_value, vidx, vcount, key=None):
     """Fit a preset value to the length the project file uses."""
+    if key is not None:
+        reduced = pick_variant(key, value, vidx, vcount)
+        if reduced is not value:
+            return reduced
     if not isinstance(value, list) or not isinstance(tpl_value, list):
         return value
     if len(value) == len(tpl_value):
@@ -151,20 +301,23 @@ def build(P, tpl, profiles_dir, printer, process, filament, bed_type, out, brand
     base = dict(tpl)
     for k in machine_keys:
         if k in tpl:
-            base[k] = norm_scalar_list(machine[k], tpl[k], m_vidx, m_vcount)
+            base[k] = norm_scalar_list(machine[k], tpl[k], m_vidx, m_vcount, k)
         else:
-            base[k] = machine[k]
+            base[k] = pick_variant(k, machine[k], m_vidx, m_vcount)
     proc = processes[process]
+    p_vidx, p_vcount = variant_index(proc)
     for k in process_keys & set(proc):
-        base[k] = norm_scalar_list(proc[k], tpl.get(k), m_vidx, m_vcount) if k in tpl else proc[k]
+        base[k] = norm_scalar_list(proc[k], tpl.get(k), p_vidx, p_vcount, k) if k in tpl else pick_variant(k, proc[k], p_vidx, p_vcount)
     base["printer_settings_id"] = printer
     base["print_settings_id"] = process
     base["default_print_profile"] = machine.get("default_print_profile", process)
     base["print_compatible_printers"] = proc.get("compatible_printers", [printer])
     base["inherits_group"] = []  # rebuilt by make_3mf
     for k in ("print_extruder_variant", "printer_extruder_variant"):
-        if k in base:
-            base[k] = [STD_VARIANT]
+        base[k] = [STD_VARIANT]
+    for k in ("print_extruder_id", "printer_extruder_id"):
+        base[k] = ["1"]
+    base["print_compatible_printers"] = [printer]
     # strip identity of whoever made the skeleton
     for k in list(base):
         if k.lower().startswith(("user_", "designer")):
@@ -188,7 +341,8 @@ def build(P, tpl, profiles_dir, printer, process, filament, bed_type, out, brand
         "profiles_version": json.load(open(os.path.join(profiles_dir, "..", "BBL.json"))).get("version", "?"),
     }}
     for name, p in processes.items():
-        presets["process"][name] = {k: (norm_scalar_list(p[k], tpl.get(k), m_vidx, m_vcount) if k in tpl else p[k])
+        pv, pc = variant_index(p)
+        presets["process"][name] = {k: (norm_scalar_list(p[k], tpl.get(k), pv, pc, k) if k in tpl else pick_variant(k, p[k], pv, pc))
                                     for k in process_keys & set(p)}
     for name in filaments:
         presets["filament"][name] = filament_slot_values(name)

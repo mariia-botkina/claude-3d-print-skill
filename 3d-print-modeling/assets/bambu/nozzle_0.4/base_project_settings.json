@@ -674,93 +674,63 @@
  "machine_load_filament_time": "29",
  "machine_max_acceleration_e": [
   "5000",
-  "5000",
-  "5000",
   "5000"
  ],
  "machine_max_acceleration_extruding": [
-  "20000",
-  "20000",
   "20000",
   "20000"
  ],
  "machine_max_acceleration_retracting": [
   "5000",
-  "5000",
-  "5000",
   "5000"
  ],
  "machine_max_acceleration_travel": [
-  "9000",
-  "9000",
   "9000",
   "9000"
  ],
  "machine_max_acceleration_x": [
   "20000",
-  "20000",
-  "20000",
   "20000"
  ],
  "machine_max_acceleration_y": [
   "20000",
-  "20000",
-  "20000",
   "20000"
  ],
  "machine_max_acceleration_z": [
-  "500",
-  "500",
   "500",
   "500"
  ],
  "machine_max_force_Y": "0",
  "machine_max_jerk_e": [
   "2.5",
-  "2.5",
-  "2.5",
   "2.5"
  ],
  "machine_max_jerk_x": [
-  "9",
-  "9",
   "9",
   "9"
  ],
  "machine_max_jerk_y": [
   "9",
-  "9",
-  "9",
   "9"
  ],
  "machine_max_jerk_z": [
-  "3",
-  "3",
   "3",
   "3"
  ],
  "machine_max_printed_mass": "0",
  "machine_max_speed_e": [
   "30",
-  "30",
-  "30",
   "30"
  ],
  "machine_max_speed_x": [
-  "500",
-  "500",
   "500",
   "500"
  ],
  "machine_max_speed_y": [
   "500",
-  "500",
-  "500",
   "500"
  ],
  "machine_max_speed_z": [
-  "20",
-  "20",
   "20",
   "20"
  ],
@@ -898,10 +868,7 @@
  "prime_tower_width": "35",
  "prime_volume_mode": "Default",
  "print_compatible_printers": [
-  "Bambu Lab X1 Carbon 0.4 nozzle",
-  "Bambu Lab X1 0.4 nozzle",
-  "Bambu Lab P1S 0.4 nozzle",
-  "Bambu Lab X1E 0.4 nozzle"
+  "Bambu Lab P1S 0.4 nozzle"
  ],
  "print_extruder_id": [
   "1"
