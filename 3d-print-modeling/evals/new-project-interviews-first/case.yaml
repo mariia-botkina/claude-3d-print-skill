@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: new-project-interviews-first
+expected_outcome: |
+  Claude treats this as a new project: it does not generate a model yet. It asks a round of numbered questions with proposed defaults (phone size/case, orientation, angle, cable, stability, look/colour, supports, quantity), proposes a few concrete usability checks for this object (tipping when tapped, cable fit, one-hand removal) and asks which to run. Replies in Russian.

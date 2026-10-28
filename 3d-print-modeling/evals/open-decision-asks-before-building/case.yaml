@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: open-decision-asks-before-building
+expected_outcome: |
+  REQUIREMENTS.md is confirmed except for one blocking open question: the print
+  orientation (the decision log entry is unfinished). Claude notices this and asks
+  about orientation before building (explaining the trade-off: face up on the bed
+  means the hooks stick up and print as vertical pegs that are weak along Z; hooks
+  printed separately and glued, or other options), instead of silently choosing.
+  It does not deliver a 3MF built on a guessed orientation. Reply in Russian.
+context:
+  scaffold_script: place-files.sh

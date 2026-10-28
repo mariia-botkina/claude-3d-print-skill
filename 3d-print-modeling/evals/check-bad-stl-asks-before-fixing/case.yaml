@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: check-bad-stl-asks-before-fixing
+expected_outcome: |
+  Claude runs the printability check on bad.stl and reports in Russian, in plain words: the part starting in mid-air (island), the 0.3 mm wall that will be dropped, the thin 0.6 mm wall, the unsupported cantilever ledge at the top, and that the bridge is fine. For each problem it gives fix options with a recommendation and asks the user to choose; it does not modify the model on its own.
+context:
+  scaffold_script: place-files.sh

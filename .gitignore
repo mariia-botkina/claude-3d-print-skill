@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Generated models and print files (keep sources, not outputs)
+*.stl
+*.3mf
+*.gcode
+*.step
+*.png
+!docs/**/*.png
+!3d-print-modeling/evals/**/files/*.stl
+
+# Skill packaging and eval runs
+*.skill
+*-workspace/
+3d-print-modeling/evals/results/
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

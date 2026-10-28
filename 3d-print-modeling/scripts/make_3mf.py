@@ -1,0 +1,640 @@
+#!/usr/bin/env python3
+"""Build a Bambu Studio project (.3mf) from a JSON spec: plates, layout, print
+settings and AMS filament assignment, ready to open and slice.
+
+  python make_3mf.py spec.json -o Project.3mf
+  python make_3mf.py --example > spec.json        # annotated example spec
+  python make_3mf.py --list-filaments [PLA]       # filament presets available
+  python make_3mf.py --list-processes
+
+Spec (JSON). Paths are relative to the spec file. Every key but "plates" is optional.
+
+{
+  "project": "Lantern",
+  "process": "0.20mm Standard @BBL X1C",      # Bambu process preset (P1S uses the X1C ones)
+  "bed_type": "Textured PEI Plate",            # Cool Plate | Engineering Plate | High Temp Plate | Textured PEI Plate
+  "filaments": [                               # AMS slots in order: slot 1, 2, ...
+    {"preset": "Bambu PLA Basic", "color": "#F2F2F2", "label": "white"},
+    {"preset": "Bambu PLA Basic", "color": "#1E1E1E", "label": "black"}
+  ],
+  "settings": {"wall_loops": 3, "sparse_infill_density": "20%"},   # project-wide overrides
+  "plates": [
+    {"name": "Body", "objects": [
+      {"file": "body.stl", "name": "Body", "filament": 1,
+       "rotate": [0, 0, 0],                     # degrees, applied before placing
+       "copies": 1,
+       "settings": {"enable_support": 1, "support_type": "tree(auto)"},   # per-object overrides
+       "parts": [                              # optional extra volumes of the same object
+         {"file": "text.stl", "filament": 2, "type": "normal_part"},       # multi-colour inlay
+         {"file": "dense.stl", "type": "modifier_part", "settings": {"sparse_infill_density": "50%"}}
+       ]}
+    ]},
+    {"name": "Small parts", "objects": [{"file": "clip.stl", "copies": 4}]}
+  ]
+}
+
+Objects are placed in the orientation given (after "rotate"), dropped onto the
+bed, and packed on their plate; objects that do not fit raise an error. Use
+"plates": "auto" with a top-level "objects" list to let the script fill as
+many plates as needed. Extra parts ("parts") must already sit in the same
+coordinate frame as the main file (export them from the same model).
+"""
+import argparse
+import datetime
+import io
+import json
+import math
+import os
+import sys
+import uuid
+import zipfile
+from xml.sax.saxutils import escape
+
+import numpy as np
+import trimesh
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+from meshio_util import load_mesh, rotation_matrix_deg  # noqa: E402
+
+ASSETS = os.path.join(os.path.dirname(HERE), "assets", "bambu")
+BED = 256.0
+PLATE_STRIDE = BED * 1.2          # Bambu lays plates out on a grid with 20% gaps
+EXCLUDE = (0.0, 0.0, 18.0, 28.0)  # P1S: no-print corner (purge chute)
+MARGIN = 6.0
+GAP = 6.0
+TOWER = (160.0, 205.0, 256.0, 256.0)  # area kept free for the prime tower on multi-filament plates
+APP_VERSION = "02.06.00.51"
+
+EXAMPLE = {
+    "project": "Example",
+    "process": "0.20mm Standard @BBL X1C",
+    "bed_type": "Textured PEI Plate",
+    "filaments": [{"preset": "Bambu PLA Basic", "color": "#F2F2F2", "label": "white"},
+                  {"preset": "Bambu PLA Basic", "color": "#202020", "label": "black"}],
+    "settings": {"wall_loops": 2, "sparse_infill_density": "15%", "brim_type": "auto_brim"},
+    "plates": [{"name": "Main", "objects": [{"file": "part.stl", "name": "Part", "filament": 1,
+                                             "settings": {"enable_support": 0}}]}],
+}
+
+
+# ------------------------------------------------------------------ profiles
+
+def load_assets():
+    with open(os.path.join(ASSETS, "base_project_settings.json"), encoding="utf-8") as f:
+        base = json.load(f)
+    with open(os.path.join(ASSETS, "presets.json"), encoding="utf-8") as f:
+        presets = json.load(f)
+    with open(os.path.join(ASSETS, "key_roles.json"), encoding="utf-8") as f:
+        roles = json.load(f)
+    return base, presets, roles
+
+
+def find_filament(presets, name):
+    fil = presets["filament"]
+    if name in fil:
+        return name
+    printer = presets["meta"]["printer"]           # e.g. "Bambu Lab P1S 0.4 nozzle"
+    short = printer.replace("Bambu Lab ", "")       # "P1S 0.4 nozzle"
+    model = short.split()[0]                        # "P1S"
+    for cand in (f"{name} @BBL {short}", f"{name} @BBL {model}", f"{name} @BBL X1C", f"{name} @BBL X1"):
+        if cand in fil:
+            return cand
+    hits = [n for n in fil if n.lower().startswith(name.lower())]
+    if len(hits) == 1:
+        return hits[0]
+    raise SystemExit(f"filament preset '{name}' not found; try --list-filaments. Close matches: {hits[:8]}")
+
+
+def find_process(presets, name):
+    if name in presets["process"]:
+        return name
+    hits = [n for n in presets["process"] if n.lower().startswith(name.lower())]
+    if len(hits) == 1:
+        return hits[0]
+    raise SystemExit(f"process preset '{name}' not found; options: {sorted(presets['process'])}")
+
+
+def as_cfg(v):
+    """Bambu stores every value as a string (or list of strings)."""
+    if isinstance(v, bool):
+        return "1" if v else "0"
+    if isinstance(v, (int, float)):
+        return str(v)
+    if isinstance(v, list):
+        return [as_cfg(x) for x in v]
+    return v
+
+
+def build_project_settings(spec, base, presets, roles, n_plates):
+    cfg = json.loads(json.dumps(base))
+    proc_name = find_process(presets, spec.get("process", presets["meta"]["default_process"]))
+    for k, v in presets["process"][proc_name].items():
+        cfg[k] = v
+    cfg["print_settings_id"] = proc_name
+
+    fils = spec.get("filaments") or [{"preset": "Bambu PLA Basic", "color": "#FFFFFF"}]
+    names = [find_filament(presets, f.get("preset", "Bambu PLA Basic")) for f in fils]
+    n = len(names)
+    slot_keys = set(roles["filament"]) | set(roles["slot_extra"])
+    chunk = roles.get("slot_chunk", {})
+    for k in slot_keys:
+        c = chunk.get(k, 1)
+        default = base.get(k)
+        vals = []
+        for i, nm in enumerate(names):
+            pv = presets["filament"][nm].get(k)
+            if pv is None:
+                pv = (default[:c] if isinstance(default, list) and default else [default] * c)
+            vals.extend(pv)
+        if any(v is not None for v in vals):
+            cfg[k] = vals
+    colors = [f.get("color", "#FFFFFF").upper() for f in fils]
+    cfg["filament_colour"] = colors
+    cfg["filament_multi_colour"] = colors
+    cfg["filament_colour_type"] = ["1"] * n
+    cfg["filament_self_index"] = [str(i + 1) for i in range(n)]
+    cfg["filament_map"] = ["1"] * n
+    cfg["filament_nozzle_map"] = ["0"] * n
+    cfg["filament_volume_map"] = ["0"] * n
+    cfg["filament_is_mixed"] = ["0"] * n
+    cfg["filament_mixed_components"] = [""] * n
+    cfg["default_filament_colour"] = [""] * n
+    flush = spec.get("flush_volume", 280)
+    cfg["flush_volumes_matrix"] = [("0" if i == j else str(flush)) for i in range(n) for j in range(n)]
+    cfg["flush_volumes_vector"] = ["140"] * (2 * n)
+    cfg["wipe_tower_x"] = [str(TOWER[0] + 5)] * n_plates
+    cfg["wipe_tower_y"] = [str(TOWER[1] + 5)] * n_plates
+    cfg["enable_prime_tower"] = "1" if n > 1 else cfg.get("enable_prime_tower", "1")
+    if spec.get("bed_type"):
+        cfg["curr_bed_type"] = spec["bed_type"]
+
+    # user overrides (project wide), recorded so Bambu shows them as modified
+    changed_proc = []
+    for k, v in (spec.get("settings") or {}).items():
+        if k not in cfg:
+            print(f"warning: setting '{k}' is not a known Bambu key; written anyway", file=sys.stderr)
+        cfg[k] = as_cfg(v)
+        if k in roles["process"]:
+            changed_proc.append(k)
+    fil_changed = []
+    for i, f in enumerate(fils):
+        changed = []
+        for k, v in (f.get("settings") or {}).items():
+            c = chunk.get(k, 1)
+            arr = cfg.get(k)
+            if isinstance(arr, list) and len(arr) >= (i + 1) * c:
+                vv = as_cfg(v) if isinstance(v, list) else [as_cfg(v)] * c
+                arr[i * c:(i + 1) * c] = vv
+                changed.append(k)
+        fil_changed.append(";".join(changed))
+    cfg["different_settings_to_system"] = [";".join(changed_proc)] + fil_changed + [""]
+    cfg["inherits_group"] = [""] * (n + 2)
+    cfg["filament_settings_id"] = names
+    return cfg, names, colors
+
+
+# ------------------------------------------------------------------ geometry
+
+class Obj:
+    def __init__(self, name, parts, filament, settings):
+        self.name = name
+        self.parts = parts          # [(mesh, filament or None, subtype, name, settings)]
+        self.filament = filament
+        self.settings = settings or {}
+        lo = np.min([p[0].bounds[0] for p in parts if p[2] == "normal_part"], axis=0)
+        hi = np.max([p[0].bounds[1] for p in parts if p[2] == "normal_part"], axis=0)
+        self.center = (lo + hi) / 2
+        self.size = hi - lo
+        self.pos = None   # plate-local x, y of the centre
+        self.plate = None
+
+
+def load_object(o, base_dir, idx):
+    T = rotation_matrix_deg(*o.get("rotate", [0, 0, 0]))
+    main = load_mesh(os.path.join(base_dir, o["file"]))
+    main.apply_transform(T)
+    if main.is_watertight and main.volume < 0:
+        main.invert()
+    name = o.get("name") or os.path.splitext(os.path.basename(o["file"]))[0]
+    parts = [(main, o.get("filament"), "normal_part", name, {})]
+    for p in o.get("parts", []):
+        m = load_mesh(os.path.join(base_dir, p["file"]))
+        m.apply_transform(T)
+        parts.append((m, p.get("filament"), p.get("type", "normal_part"),
+                      p.get("name") or os.path.splitext(os.path.basename(p["file"]))[0], p.get("settings", {})))
+    objs = []
+    for c in range(int(o.get("copies", 1))):
+        nm = name if o.get("copies", 1) == 1 else f"{name} #{c + 1}"
+        objs.append(Obj(nm, [(m.copy(), f, t, n, s) for (m, f, t, n, s) in parts], o.get("filament", 1), o.get("settings")))
+    return objs
+
+
+def rects_overlap(a, b):
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
+
+
+def pack(objs, keep_out):
+    """Shelf packing inside the bed. Returns True if every object got a position."""
+    if len(objs) == 1:
+        o = objs[0]
+        w, d = o.size[0], o.size[1]
+        r = (BED / 2 - w / 2, BED / 2 - d / 2, BED / 2 + w / 2, BED / 2 + d / 2)
+        if w <= BED - 2 * MARGIN and d <= BED - 2 * MARGIN and not any(rects_overlap(r, k) for k in keep_out):
+            o.pos = (BED / 2, BED / 2)
+            return True
+    order = sorted(objs, key=lambda o: -o.size[1])
+    x, y, row_h = MARGIN, MARGIN, 0.0
+    placed = []
+    for o in order:
+        w, d = o.size[0], o.size[1]
+        for _ in range(400):
+            if x + w > BED - MARGIN:
+                x, y, row_h = MARGIN, y + row_h + GAP, 0.0
+            if y + d > BED - MARGIN:
+                return False
+            r = (x, y, x + w, y + d)
+            blocker = next((k for k in keep_out + placed if rects_overlap(r, k)), None)
+            if blocker is None:
+                break
+            x = blocker[2] + GAP
+        else:
+            return False
+        o.pos = (x + w / 2, y + d / 2)
+        placed.append((x - GAP / 2, y - GAP / 2, x + w + GAP / 2, y + d + GAP / 2))
+        x += w + GAP
+        row_h = max(row_h, d)
+    # centre the whole group on the bed
+    lo = np.min([[o.pos[0] - o.size[0] / 2, o.pos[1] - o.size[1] / 2] for o in objs], axis=0)
+    hi = np.max([[o.pos[0] + o.size[0] / 2, o.pos[1] + o.size[1] / 2] for o in objs], axis=0)
+    shift = (BED / 2 - (lo[0] + hi[0]) / 2, BED / 2 - (lo[1] + hi[1]) / 2)
+    moved = [(o.pos[0] + shift[0], o.pos[1] + shift[1]) for o in objs]
+    rects = [(p[0] - o.size[0] / 2, p[1] - o.size[1] / 2, p[0] + o.size[0] / 2, p[1] + o.size[1] / 2) for p, o in zip(moved, objs)]
+    if all(r[0] >= MARGIN and r[1] >= MARGIN and r[2] <= BED - MARGIN and r[3] <= BED - MARGIN
+           and not any(rects_overlap(r, k) for k in keep_out) for r in rects):
+        for o, p in zip(objs, moved):
+            o.pos = p
+    return True
+
+
+def plate_origin(i, n_plates):
+    cols = max(1, math.ceil(math.sqrt(n_plates)))
+    return ((i % cols) * PLATE_STRIDE, -(i // cols) * PLATE_STRIDE)
+
+
+# ------------------------------------------------------------------ writing
+
+def mesh_xml(mesh, oid, uid):
+    v = np.asarray(mesh.vertices)
+    f = np.asarray(mesh.faces)
+    out = io.StringIO()
+    out.write(f'  <object id="{oid}" p:UUID="{uid}" type="model">\n   <mesh>\n    <vertices>\n')
+    for x, y, z in v:
+        out.write(f'     <vertex x="{x:.6g}" y="{y:.6g}" z="{z:.6g}"/>\n')
+    out.write('    </vertices>\n    <triangles>\n')
+    for a, b, c in f:
+        out.write(f'     <triangle v1="{a}" v2="{b}" v3="{c}"/>\n')
+    out.write('    </triangles>\n   </mesh>\n  </object>\n')
+    return out.getvalue()
+
+
+def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs):
+    n_plates = len(plates)
+    files = {}
+    rels_obj, model_objs, build_items, settings_objs, assemble = [], [], [], [], []
+    next_id = 1
+    identify = 1000
+    plate_instances = {i: [] for i in range(n_plates)}
+    for k, o in enumerate(objs):
+        part_ids = []
+        sub_xml = []
+        for (m, fil, subtype, pname, psettings) in o.parts:
+            pid = next_id
+            next_id += 1
+            mm = m.copy()
+            mm.apply_translation(-o.center)
+            sub_xml.append(mesh_xml(mm, pid, str(uuid.uuid4())))
+            part_ids.append(pid)
+        oid = next_id
+        next_id += 1
+        obj_file = f"3D/Objects/object_{k + 1}.model"
+        files[obj_file] = (
+            '<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<model unit="millimeter" xml:lang="en-US" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
+            'xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" '
+            'xmlns:p="http://schemas.microsoft.com/3dmanufacturing/production/2015/06" requiredextensions="p">\n'
+            ' <metadata name="BambuStudio:3mfVersion">1</metadata>\n <resources>\n'
+            + "".join(sub_xml) + ' </resources>\n <build/>\n</model>\n')
+        rels_obj.append(obj_file)
+        comps = "".join(
+            f'    <component p:path="/{obj_file}" objectid="{pid}" p:UUID="{uuid.uuid4()}" transform="1 0 0 0 1 0 0 0 1 0 0 0"/>\n'
+            for pid in part_ids)
+        model_objs.append(f'  <object id="{oid}" p:UUID="{uuid.uuid4()}" type="model">\n   <components>\n{comps}   </components>\n  </object>\n')
+        ox, oy = plate_origin(o.plate, n_plates)
+        tx, ty, tz = ox + o.pos[0], oy + o.pos[1], o.size[2] / 2
+        tr = f"1 0 0 0 1 0 0 0 1 {tx:.6g} {ty:.6g} {tz:.6g}"
+        build_items.append(f'  <item objectid="{oid}" p:UUID="{uuid.uuid4()}" transform="{tr}" printable="1"/>\n')
+        assemble.append(f'   <assemble_item object_id="{oid}" instance_id="0" transform="{tr}" offset="0 0 0" />\n')
+
+        meta = [f'    <metadata key="name" value="{escape(o.name)}"/>\n',
+                f'    <metadata key="extruder" value="{int(o.filament or 1)}"/>\n']
+        for sk, sv in o.settings.items():
+            meta.append(f'    <metadata key="{escape(sk)}" value="{escape(str(as_cfg(sv)))}"/>\n')
+        parts_xml = []
+        for pid, (m, fil, subtype, pname, psettings) in zip(part_ids, o.parts):
+            pm = [f'      <metadata key="name" value="{escape(pname)}"/>\n',
+                  '      <metadata key="matrix" value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>\n']
+            if fil:
+                pm.append(f'      <metadata key="extruder" value="{int(fil)}"/>\n')
+            for sk, sv in (psettings or {}).items():
+                pm.append(f'      <metadata key="{escape(sk)}" value="{escape(str(as_cfg(sv)))}"/>\n')
+            parts_xml.append(f'    <part id="{pid}" subtype="{subtype}">\n' + "".join(pm) +
+                             f'      <mesh_stat face_count="{len(m.faces)}" edges_fixed="0" degenerate_facets="0" facets_removed="0" facets_reversed="0" backwards_edges="0"/>\n    </part>\n')
+        settings_objs.append(f'  <object id="{oid}">\n' + "".join(meta) + "".join(parts_xml) + '  </object>\n')
+        identify += 1
+        plate_instances[o.plate].append((oid, identify))
+
+    today = datetime.date.today().isoformat()
+    title = escape(spec.get("project", "Project"))
+    files["3D/3dmodel.model"] = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<model unit="millimeter" xml:lang="en-US" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
+        'xmlns:BambuStudio="http://schemas.bambulab.com/package/2021" '
+        'xmlns:p="http://schemas.microsoft.com/3dmanufacturing/production/2015/06" requiredextensions="p">\n'
+        f' <metadata name="Application">BambuStudio-{spec.get("app_version", APP_VERSION)}</metadata>\n'
+        ' <metadata name="BambuStudio:3mfVersion">1</metadata>\n'
+        f' <metadata name="Title">{title}</metadata>\n'
+        f' <metadata name="CreationDate">{today}</metadata>\n'
+        f' <metadata name="ModificationDate">{today}</metadata>\n'
+        ' <resources>\n' + "".join(model_objs) + ' </resources>\n'
+        f' <build p:UUID="{uuid.uuid4()}">\n' + "".join(build_items) + ' </build>\n</model>\n')
+    files["3D/_rels/3dmodel.model.rels"] = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">\n'
+        + "".join(f' <Relationship Target="/{p}" Id="rel-{i + 1}" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>\n'
+                  for i, p in enumerate(rels_obj))
+        + '</Relationships>\n')
+
+    plate_xml = []
+    for i, pl in enumerate(plates):
+        inst = "".join(
+            '    <model_instance>\n'
+            f'      <metadata key="object_id" value="{oid}"/>\n'
+            '      <metadata key="instance_id" value="0"/>\n'
+            f'      <metadata key="identify_id" value="{ident}"/>\n'
+            '    </model_instance>\n' for oid, ident in plate_instances[i])
+        thumb = (f'    <metadata key="thumbnail_file" value="Metadata/plate_{i + 1}.png"/>\n'
+                 if f"Metadata/plate_{i + 1}.png" in thumbs else "")
+        plate_xml.append(
+            '  <plate>\n'
+            f'    <metadata key="plater_id" value="{i + 1}"/>\n'
+            f'    <metadata key="plater_name" value="{escape(pl.get("name", ""))}"/>\n'
+            '    <metadata key="locked" value="false"/>\n'
+            '    <metadata key="filament_map_mode" value="Auto For Flush"/>\n'
+            + thumb + inst + '  </plate>\n')
+    files["Metadata/model_settings.config"] = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n<config>\n' + "".join(settings_objs) + "".join(plate_xml)
+        + '  <assemble>\n' + "".join(assemble) + '  </assemble>\n</config>\n')
+    files["Metadata/project_settings.config"] = json.dumps(cfg, indent=4, ensure_ascii=False)
+    files["Metadata/filament_sequence.json"] = json.dumps(
+        {f"plate_{i + 1}": {"nozzle_sequence": [], "optimal_assignment": [], "sequence": []} for i in range(n_plates)})
+    files["Metadata/slice_info.config"] = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n<config>\n  <header>\n'
+        '    <header_item key="X-BBL-Client-Type" value="slicer"/>\n'
+        f'    <header_item key="X-BBL-Client-Version" value="{spec.get("app_version", APP_VERSION)}"/>\n'
+        '  </header>\n</config>\n')
+    files["[Content_Types].xml"] = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">\n'
+        ' <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>\n'
+        ' <Default Extension="model" ContentType="application/vnd.ms-package.3dmanufacturing-3dmodel+xml"/>\n'
+        ' <Default Extension="png" ContentType="image/png"/>\n'
+        ' <Default Extension="gcode" ContentType="text/x.gcode"/>\n</Types>\n')
+    thumb_rel = ""
+    if "Metadata/plate_1.png" in thumbs:
+        thumb_rel = (' <Relationship Target="/Metadata/plate_1.png" Id="rel-2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail"/>\n'
+                     ' <Relationship Target="/Metadata/plate_1.png" Id="rel-4" Type="http://schemas.bambulab.com/package/2021/cover-thumbnail-middle"/>\n'
+                     ' <Relationship Target="/Metadata/plate_1.png" Id="rel-5" Type="http://schemas.bambulab.com/package/2021/cover-thumbnail-small"/>\n')
+    files["_rels/.rels"] = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">\n'
+        ' <Relationship Target="/3D/3dmodel.model" Id="rel-1" Type="http://schemas.microsoft.com/3dmanufacturing/2013/01/3dmodel"/>\n'
+        + thumb_rel + '</Relationships>\n')
+
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("[Content_Types].xml", files.pop("[Content_Types].xml"))
+        z.writestr("_rels/.rels", files.pop("_rels/.rels"))
+        for name, data in files.items():
+            z.writestr(name, data)
+        for name, data in thumbs.items():
+            z.writestr(name, data)
+
+
+# ------------------------------------------------------------------ self-check
+
+def verify_3mf(path):
+    """Structural checks mirroring what Bambu Studio's loader needs. Returns a list of problems."""
+    import re
+    import xml.etree.ElementTree as ET
+    ns = {"m": "http://schemas.microsoft.com/3dmanufacturing/core/2015/02",
+          "p": "http://schemas.microsoft.com/3dmanufacturing/production/2015/06"}
+    P = "{%s}" % ns["p"]
+    probs = []
+    with zipfile.ZipFile(path) as z:
+        names = set(z.namelist())
+        for need in ("[Content_Types].xml", "_rels/.rels", "3D/3dmodel.model",
+                     "Metadata/model_settings.config", "Metadata/project_settings.config"):
+            if need not in names:
+                probs.append(f"missing {need}")
+        if probs:
+            return probs
+        root = ET.fromstring(z.read("3D/3dmodel.model"))
+        app = [m.text for m in root.findall("m:metadata", ns) if m.get("name") == "Application"]
+        if not app or not app[0].startswith("BambuStudio-"):
+            probs.append("Application metadata is not BambuStudio-*: Bambu would ignore plates/settings")
+        sub_ids = {}
+        for fn in names:
+            if fn.startswith("3D/Objects/") and fn.endswith(".model"):
+                r = ET.fromstring(z.read(fn))
+                for o in r.findall("m:resources/m:object", ns):
+                    if o.find("m:mesh", ns) is None:
+                        probs.append(f"{fn}: object {o.get('id')} has no mesh")
+                    sub_ids[("/" + fn, o.get("id"))] = o
+        main_ids, comp_ids = set(), {}
+        for o in root.findall("m:resources/m:object", ns):
+            oid = o.get("id")
+            main_ids.add(oid)
+            comp_ids[oid] = []
+            for c in o.findall("m:components/m:component", ns):
+                key = (c.get(P + "path"), c.get("objectid"))
+                if key not in sub_ids:
+                    probs.append(f"object {oid}: component {key} not found")
+                comp_ids[oid].append(c.get("objectid"))
+        for it in root.findall("m:build/m:item", ns):
+            if it.get("objectid") not in main_ids:
+                probs.append(f"build item points to missing object {it.get('objectid')}")
+        cfg = ET.fromstring(z.read("Metadata/model_settings.config"))
+        for o in cfg.findall("object"):
+            oid = o.get("id")
+            if oid not in main_ids:
+                probs.append(f"model_settings object {oid} not in 3dmodel.model")
+                continue
+            parts = [pt.get("id") for pt in o.findall("part")]
+            if parts != comp_ids[oid]:
+                probs.append(f"object {oid}: part ids {parts} != component ids {comp_ids[oid]}")
+        for pl in cfg.findall("plate"):
+            for mi in pl.findall("model_instance"):
+                oid = [m.get("value") for m in mi.findall("metadata") if m.get("key") == "object_id"]
+                if oid and oid[0] not in main_ids:
+                    probs.append(f"plate references missing object {oid[0]}")
+            for m in pl.findall("metadata"):
+                if m.get("key") == "thumbnail_file" and m.get("value") not in names:
+                    probs.append(f"thumbnail {m.get('value')} missing")
+        ps = json.loads(z.read("Metadata/project_settings.config"))
+        n = len(ps.get("filament_settings_id", []))
+        for k in ("filament_colour", "filament_type", "nozzle_temperature", "filament_ids"):
+            if len(ps.get(k, [])) != n:
+                probs.append(f"project_settings {k} has {len(ps.get(k, []))} entries for {n} filaments")
+        if len(ps.get("flush_volumes_matrix", [])) not in (n * n, 0):
+            probs.append("flush_volumes_matrix size does not match filament count")
+        used = set()
+        for o in cfg.findall("object"):
+            for m in o.iter("metadata"):
+                if m.get("key") == "extruder":
+                    used.add(int(m.get("value")))
+        if used and max(used) > n:
+            probs.append(f"an object uses filament {max(used)} but only {n} are defined")
+    return probs
+
+
+# ------------------------------------------------------------------ main
+
+def assign_plates(spec, base_dir, has_multi):
+    plates_spec = spec.get("plates", "auto")
+    all_objs, plates = [], []
+    if plates_spec == "auto":
+        pending = []
+        for i, o in enumerate(spec.get("objects", [])):
+            pending += load_object(o, base_dir, i)
+        while pending:
+            plate_objs = []
+            for o in list(pending):
+                trial = plate_objs + [o]
+                keep = [EXCLUDE] + ([TOWER] if has_multi(trial) else [])
+                if pack(trial, keep):
+                    plate_objs = trial
+                    pending.remove(o)
+            if not plate_objs:
+                o = pending[0]
+                raise SystemExit(f"'{o.name}' ({o.size[0]:.0f} x {o.size[1]:.0f} mm) does not fit on a {BED:.0f} mm plate")
+            idx = len(plates)
+            pack(plate_objs, [EXCLUDE] + ([TOWER] if has_multi(plate_objs) else []))
+            for o in plate_objs:
+                o.plate = idx
+            plates.append({"name": f"Plate {idx + 1}"})
+            all_objs += plate_objs
+    else:
+        for pi, pl in enumerate(plates_spec):
+            objs = []
+            for i, o in enumerate(pl.get("objects", [])):
+                objs += load_object(o, base_dir, i)
+            keep = [EXCLUDE] + ([TOWER] if has_multi(objs) else [])
+            if objs and not pack(objs, keep):
+                raise SystemExit(f"plate '{pl.get('name', pi + 1)}' is too full: move objects to another plate")
+            for o in objs:
+                o.plate = pi
+                if o.size[2] > BED:
+                    raise SystemExit(f"'{o.name}' is {o.size[2]:.0f} mm tall, more than the {BED:.0f} mm build height")
+            plates.append({"name": pl.get("name", f"Plate {pi + 1}")})
+            all_objs += objs
+    return all_objs, plates
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("spec", nargs="?")
+    ap.add_argument("-o", "--out")
+    ap.add_argument("--no-thumbnails", action="store_true")
+    ap.add_argument("--example", action="store_true")
+    ap.add_argument("--list-filaments", nargs="?", const="", metavar="FILTER")
+    ap.add_argument("--list-processes", action="store_true")
+    ap.add_argument("--verify", metavar="3MF", help="only run the structural self-check on an existing 3MF")
+    a = ap.parse_args()
+
+    if a.verify:
+        probs = verify_3mf(a.verify)
+        print("OK" if not probs else "\n".join(probs))
+        sys.exit(1 if probs else 0)
+    base, presets, roles = load_assets()
+    if a.example:
+        print(json.dumps(EXAMPLE, indent=2))
+        return
+    if a.list_filaments is not None:
+        for n in sorted(presets["filament"]):
+            if a.list_filaments.lower() in n.lower():
+                print(n)
+        return
+    if a.list_processes:
+        print("\n".join(sorted(presets["process"])))
+        return
+    if not a.spec or not a.out:
+        ap.error("spec and -o are required")
+
+    with open(a.spec, encoding="utf-8") as f:
+        spec = json.load(f)
+    base_dir = os.path.dirname(os.path.abspath(a.spec))
+    n_fil = len(spec.get("filaments") or [1])
+
+    def has_multi(objs):
+        used = set()
+        for o in objs:
+            for (_, fil, subtype, _, _) in o.parts:
+                if subtype == "normal_part":
+                    used.add(int(fil or o.filament or 1))
+        return len(used) > 1
+
+    objs, plates = assign_plates(spec, base_dir, has_multi)
+    for o in objs:
+        for (_, fil, _, _, _) in o.parts:
+            if int(fil or o.filament or 1) > n_fil:
+                raise SystemExit(f"'{o.name}' uses filament {fil or o.filament} but only {n_fil} filament slot(s) are defined")
+    cfg, names, colors = build_project_settings(spec, base, presets, roles, len(plates))
+
+    thumbs = {}
+    if not a.no_thumbnails:
+        try:
+            import tempfile
+            from render import preview
+            tmp = tempfile.mkdtemp(prefix="thumb_")
+            for i in range(len(plates)):
+                meshes, cols = [], []
+                for o in objs:
+                    if o.plate != i:
+                        continue
+                    for (m, fil, subtype, _, _) in o.parts:
+                        if subtype != "normal_part":
+                            continue
+                        mm = m.copy()
+                        mm.apply_translation(-o.center + [o.pos[0], o.pos[1], o.size[2] / 2])
+                        meshes.append(mm)
+                        hexc = colors[int(fil or o.filament or 1) - 1].lstrip("#")
+                        cols.append(np.array([int(hexc[j:j + 2], 16) / 255 for j in (0, 2, 4)]))
+                if meshes:
+                    p = os.path.join(tmp, f"plate_{i + 1}.png")
+                    preview(meshes, p, views=["iso front"], colors=cols)
+                    with open(p, "rb") as fh:
+                        thumbs[f"Metadata/plate_{i + 1}.png"] = fh.read()
+        except Exception as e:  # thumbnails are cosmetic; Bambu regenerates them on slicing
+            print(f"thumbnails skipped: {e}", file=sys.stderr)
+
+    write_3mf(a.out, spec, objs, plates, cfg, names, colors, thumbs)
+    problems = verify_3mf(a.out)
+    if problems:
+        print("3MF self-check FAILED:\n  " + "\n  ".join(problems), file=sys.stderr)
+        sys.exit(1)
+    print(f"wrote {a.out}: {len(plates)} plate(s), {len(objs)} object(s), filaments: "
+          + ", ".join(f"{i + 1}={n.split(' @')[0]} {c}" for i, (n, c) in enumerate(zip(names, colors))))
+    for i, pl in enumerate(plates):
+        names_on = [o.name for o in objs if o.plate == i]
+        print(f"  plate {i + 1} '{pl['name']}': " + ", ".join(names_on))
+
+
+if __name__ == "__main__":
+    main()
