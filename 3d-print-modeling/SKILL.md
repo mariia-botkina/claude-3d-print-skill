@@ -1,6 +1,6 @@
 ---
 name: 3d-print-modeling
-description: 3D modelling for FDM printing (Bambu Lab P1S + AMS by default) from interview to a ready Bambu Studio 3MF. Use whenever the user mentions 3D modelling, 3D printing, a printer, STL/3MF/OpenSCAD/STEP files, filament, supports, tolerances or fits, or asks to design, model, fix or check any physical object, part, holder, case, stand, figurine, sign or replacement piece, even without saying "print" (every model is assumed to be for the printer). Also for quick printing questions (material, orientation, will this print). Russian triggers - 3д, 3D-модель, моделирование, печать, напечатать, принтер, пластик, филамент, поддержки, зазор, STL, 3MF.
+description: 3D modelling for FDM printing (Bambu Lab P1S + AMS by default) from interview to a ready Bambu Studio 3MF. Use whenever the user mentions 3D modelling, 3D printing, a printer, STL/3MF/OpenSCAD/STEP files, filament, supports, tolerances or fits, or asks to design, model, fix or check any physical object (including embedding magnets or nuts and multi-colour prints), part, holder, case, stand, figurine, sign or replacement piece, even without saying "print" (every model is assumed to be for the printer). Also for quick printing questions (material, orientation, will this print). Russian triggers - 3д, 3D-модель, моделирование, печать, напечатать, принтер, пластик, филамент, поддержки, зазор, STL, 3MF.
 ---
 
 # 3D modelling for printing
@@ -101,7 +101,8 @@ fixed and reported.
 ### 8. Package
 Build the Bambu Studio project with `scripts/make_3mf.py` (spec format in
 `references/bambu-3mf.md`): named plates, layout, process preset, per-object settings,
-AMS slots with the confirmed filaments and colours, multi-colour parts. Ask about the AMS
+AMS slots with the confirmed filaments and colours, multi-colour parts, pauses and colour
+changes by height (section below). Ask about the AMS
 loadout if it is not confirmed. Deliver with SendUserFile (or the conversation's file
 tool): the `.3mf`, the source (`.scad`/`.py`), `REQUIREMENTS.md`, and a preview PNG.
 
@@ -128,6 +129,28 @@ Waiting for your decision: <numbered questions>
 ```
 Keep it to what the user needs to decide or know. Full JSON reports stay in files.
 
+## Pauses and colour changes by height
+Both go into the 3MF as layer events (`"events"` in the make_3mf spec, see
+`references/bambu-3mf.md`); the user does not set them by hand in Bambu Studio.
+
+**Embedded inserts (magnets, nuts, coins, weights).** Two ways in, both end the same:
+- the user names what goes where ("10x3 magnets in the base"): design a closed pocket
+  (insert + 0.2 mm in XY, + 0.2 mm in height, floor and ceiling on the layer grid);
+- the model already has closed voids: `check_print.py` reports them as `cavities`.
+
+Then run `python scripts/find_pockets.py part.stl --insert 10x3` (DxH, WxLxH or M3nut;
+repeat --insert per pocket). It gives each pocket's pause layer and fails if the insert
+would stick out above the closing layer (the nozzle would hit it) or not fit. Show the
+user the list (pocket, insert, layer number, height) and confirm before building the
+3MF. In the report say what to insert at which pause and which way up (magnet
+polarity), and that the head lifts and parks at the back while waiting.
+
+**Colour by height** (bands, layered signs, a contrasting top): the user describes it in
+words ("top 2 mm black"); translate to heights, show a preview with
+`render.py part.stl --bands "#F2F2F2;8.0:#1A1A1A"`, confirm, then add `filament` events.
+A plate with height colour changes must hold only single-filament objects; multi-colour
+objects (inlays as parts) go on another plate.
+
 ## Tolerance comb
 If no fits are measured yet (printer-profile.md, "Measured fits") and the project has
 joints, offer the tolerance comb: `python scripts/tolerance_comb.py -o comb/` builds a
@@ -138,8 +161,9 @@ header of `assets/tolerance_comb.scad`) and record the results in the profile.
 - `scripts/setup.sh` install toolchain
 - `scripts/check_print.py` printability analysis (mesh, size, islands, overhangs, bridges, thin features, adhesion, orientation ranking)
 - `scripts/slice_check.py` PrusaSlicer reference slice
-- `scripts/render.py` previews, variants side by side, problem overlays
-- `scripts/make_3mf.py` Bambu Studio project builder
+- `scripts/render.py` previews, variants side by side, problem overlays, colour bands
+- `scripts/make_3mf.py` Bambu Studio project builder (plates, settings, AMS, pauses, colour by height, --verify)
+- `scripts/find_pockets.py` closed pockets: pause layer and insert fit
 - `scripts/tolerance_comb.py` + `assets/tolerance_comb.scad` fit calibration print
 - `assets/bambu/` P1S presets extracted from Bambu Studio (regenerate with `tools/build_bambu_profiles.py` in the repo)
 - `references/` printer-profile, interview, usability-checks, design-rules, modeling-workflow, requirements-template, bambu-3mf

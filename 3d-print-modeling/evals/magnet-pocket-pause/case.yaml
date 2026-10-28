@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: magnet-pocket-pause
+expected_outcome: |
+  Claude finds the three closed magnet pockets (10.2 x 3.2 mm, floor 1.0, ceiling 4.2 mm),
+  confirms that a 10x3 magnet fits (0.2 mm play in height), and produces a Bambu 3MF
+  with one pause before layer 22 (print_z 4.4 mm) via the layer events, so all three
+  magnets go in at one pause. The reply (Russian) says at which layer/height the printer
+  stops, what to insert, mentions magnet polarity, and that the head lifts and parks at
+  the back while waiting.
+context:
+  scaffold_script: place-files.sh

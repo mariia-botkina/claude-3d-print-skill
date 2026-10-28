@@ -29,14 +29,26 @@ Spec (JSON). Paths are relative to the spec file. Every key but "plates" is opti
          {"file": "dense.stl", "type": "modifier_part", "settings": {"sparse_infill_density": "50%"}}
        ]}
     ]},
-    {"name": "Small parts", "objects": [{"file": "clip.stl", "copies": 4}]}
-  ]
+    {"name": "Small parts", "objects": [{"file": "clip.stl", "copies": 4}]},
+    {"name": "Coaster", "objects": [{"file": "coaster.stl", "filament": 1}],
+     "events": [                                # pauses and colour changes by height, per plate
+       {"type": "pause", "z": 4.2, "note": "insert 10x3 magnet, N up"},   # z = pocket ceiling (find_pockets.py)
+       {"type": "filament", "z": 5.6, "filament": 2}                      # from 5.6 mm up: slot 2
+     ]}
+  ],
+  "pause_park": {"x": 65, "y": 245, "lift": 10}  # optional; where the head waits during pauses
 }
+
+Events: "z" is a height on the part; the event happens before the first layer that lies
+entirely above it (snapped to the process' layer grid; the script prints the layer
+number). "print_z" instead of "z" gives the exact Bambu layer top. Pauses lift the
+nozzle, park the head and wait (M400 U1); colour changes switch the AMS slot for the
+whole plate, so every object on such a plate must use a single filament.
 
 Objects are placed in the orientation given (after "rotate"), dropped onto the
 bed, and packed on their plate; objects that do not fit raise an error. Use
 "plates": "auto" with a top-level "objects" list to let the script fill as
-many plates as needed. Extra parts ("parts") must already sit in the same
+many plates as needed (then put events in a top-level "events" list with "plate": N). Extra parts ("parts") must already sit in the same
 coordinate frame as the main file (export them from the same model).
 """
 import argparse
@@ -48,14 +60,20 @@ import os
 import sys
 import uuid
 import zipfile
-from xml.sax.saxutils import escape
+from xml.sax.saxutils import escape as _escape
 
 import numpy as np
 import trimesh
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+
+
+def escape(text, entities=None):
+    """XML-escape for attribute values (quotes included)."""
+    return _escape(str(text), {'"': "&quot;", **(entities or {})})
+
 sys.path.insert(0, HERE)
-from meshio_util import load_mesh, rotation_matrix_deg  # noqa: E402
+from meshio_util import band_split, load_mesh, rotation_matrix_deg  # noqa: E402
 
 ASSETS = os.path.join(os.path.dirname(HERE), "assets", "bambu")
 BED = 256.0
@@ -298,7 +316,7 @@ def mesh_xml(mesh, oid, uid):
     return out.getvalue()
 
 
-def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs):
+def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs, extra_files=None):
     n_plates = len(plates)
     files = {}
     rels_obj, model_objs, build_items, settings_objs, assemble = [], [], [], [], []
@@ -425,6 +443,8 @@ def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs):
             z.writestr(name, data)
         for name, data in thumbs.items():
             z.writestr(name, data)
+        for name, data in (extra_files or {}).items():
+            z.writestr(name, data)
 
 
 # ------------------------------------------------------------------ self-check
@@ -494,6 +514,23 @@ def verify_3mf(path):
                 probs.append(f"project_settings {k} has {len(ps.get(k, []))} entries for {n} filaments")
         if len(ps.get("flush_volumes_matrix", [])) not in (n * n, 0):
             probs.append("flush_volumes_matrix size does not match filament count")
+        if "Metadata/custom_gcode_per_layer.xml" in names:
+            cg = ET.fromstring(z.read("Metadata/custom_gcode_per_layer.xml"))
+            n_pl = len(cfg.findall("plate"))
+            if cg.tag != "custom_gcodes_per_layer":
+                probs.append("custom_gcode_per_layer.xml has the wrong root element")
+            for pl in cg.findall("plate"):
+                info = pl.find("plate_info")
+                if info is None or not 1 <= int(info.get("id", 0)) <= n_pl:
+                    probs.append("custom gcode refers to a missing plate")
+                for lay in pl.findall("layer"):
+                    for att in ("top_z", "type", "extruder", "color", "extra"):
+                        if lay.get(att) is None:
+                            probs.append(f"custom gcode layer is missing '{att}'")
+                    if int(lay.get("type", -1)) == 2 and int(lay.get("extruder", 0)) > n:
+                        probs.append("filament change to an undefined filament")
+                if pl.find("mode") is None:
+                    probs.append("custom gcode plate has no mode")
         used = set()
         for o in cfg.findall("object"):
             for m in o.iter("metadata"):
@@ -502,6 +539,115 @@ def verify_3mf(path):
         if used and max(used) > n:
             probs.append(f"an object uses filament {max(used)} but only {n} are defined")
     return probs
+
+
+# ------------------------------------------------------------------ layer events
+
+PAUSE, TOOLCHANGE = 1, 2   # CustomGCode::Type in Bambu Studio
+PARK_DEFAULT = {"x": 65, "y": 245, "lift": 10}  # back-left, where Bambu's own filament change parks
+MAX_Z_SAFE = 250.0
+
+
+def plate_filaments(objs, plate):
+    used = set()
+    for o in objs:
+        if o.plate != plate:
+            continue
+        for (_, fil, subtype, _, _) in o.parts:
+            if subtype == "normal_part":
+                used.add(int(fil or o.filament or 1))
+    return used
+
+
+def resolve_events(spec, plates, objs, colors, n_fil):
+    """Snap pause / filament-change events to Bambu's layer grid and validate them.
+    Returns {plate_index: [event, ...]} with print_z, layer and the Bambu fields filled in."""
+    from meshio_util import process_layers, snap_to_layer
+    first, h, proc = process_layers(spec.get("process"))
+    out = {}
+    for pi, pl in enumerate(plates):
+        evs = []
+        top = max([o.size[2] for o in objs if o.plate == pi] or [0])
+        used = plate_filaments(objs, pi)
+        for e in pl.get("events", []):
+            kind = e.get("type")
+            if "print_z" in e:
+                pz = round(float(e["print_z"]), 4)
+                k = round((pz - first) / h)
+                if abs(first + k * h - pz) > 1e-3:
+                    raise SystemExit(f"plate {pi + 1}: print_z {pz} is not on the {h} mm layer grid; use \"z\" instead")
+                bottom, layer = round(pz - h, 4), k + 1
+            else:
+                pz, bottom, layer = snap_to_layer(float(e["z"]), first, h)
+            if pz > top + 1e-6:
+                raise SystemExit(f"plate {pi + 1}: {kind} at {pz} mm is above everything on the plate ({top:.2f} mm)")
+            ev = {"type": kind, "print_z": pz, "bottom": bottom, "layer": layer, "note": e.get("note", "")}
+            if kind == "pause":
+                ev.update(code=PAUSE, extruder=min(used or {1}), color="", gcode="pause")
+            elif kind == "filament":
+                f = int(e["filament"])
+                if not 1 <= f <= n_fil:
+                    raise SystemExit(f"plate {pi + 1}: filament change to slot {f}, but only {n_fil} filament(s) are defined")
+                if len(used) > 1:
+                    raise SystemExit(
+                        f"plate {pi + 1}: height colour changes need every object on the plate to use one filament "
+                        f"(this plate uses {sorted(used)}); move multi-colour objects to another plate")
+                ev.update(code=TOOLCHANGE, extruder=f, color=colors[f - 1], gcode="tool_change")
+            else:
+                raise SystemExit(f"plate {pi + 1}: unknown event type '{kind}' (use pause or filament)")
+            evs.append(ev)
+        evs.sort(key=lambda x: x["print_z"])
+        for a_, b_ in zip(evs, evs[1:]):
+            if abs(a_["print_z"] - b_["print_z"]) < 1e-6:
+                raise SystemExit(f"plate {pi + 1}: two events on the same layer ({a_['print_z']} mm)")
+        if evs:
+            if n_fil == 1:
+                mode = "SingleExtruder"
+            elif len(used) <= 1:
+                mode = "MultiAsSingle"
+            else:
+                mode = "MultiExtruder"
+            out[pi] = {"events": evs, "mode": mode}
+    return out, (first, h, proc)
+
+
+def pause_gcode(spec, events):
+    """machine_pause_gcode that lifts, parks the head at the back and waits for the user."""
+    park = dict(PARK_DEFAULT, **(spec.get("pause_park") or {}))
+    pauses = [e for v in events.values() for e in v["events"] if e["type"] == "pause"]
+    if not pauses:
+        return None, None
+    highest = max(e["bottom"] for e in pauses)
+    lift = max(0.0, min(float(park["lift"]), MAX_Z_SAFE - highest))
+    lines = [
+        "; pause: lift, park at the back, wait (3d-print-modeling skill)",
+        "M400",
+        "M83",
+        "G1 E-0.8 F1800 ; retract so it does not ooze while parked",
+        "G91",
+        f"G1 Z{lift:.1f} F900",
+        "G90",
+        f"G1 X{float(park['x']):.0f} Y{float(park['y']):.0f} F12000",
+        "M400 U1 ; pause, resume from the printer screen or the app",
+        "G1 E0.8 F1800",
+    ]
+    return "\n".join(lines), {"x": park["x"], "y": park["y"], "lift": lift}
+
+
+def custom_gcode_xml(events, pause_code):
+    rows = ['<?xml version="1.0" encoding="utf-8"?>', "<custom_gcodes_per_layer>"]
+    for pi in sorted(events):
+        rows.append("<plate>")
+        rows.append(f'<plate_info id="{pi + 1}"/>')
+        for e in events[pi]["events"]:
+            g = pause_code if e["code"] == PAUSE else "tool_change"
+            rows.append(f'<layer top_z="{e["print_z"]:g}" type="{e["code"]}" extruder="{e["extruder"]}" '
+                        f'color="{escape(e["color"])}" extra="{escape(e["note"])}" '
+                        f'gcode="{escape(g, {chr(10): "&#10;"})}"/>')
+        rows.append(f'<mode value="{events[pi]["mode"]}"/>')
+        rows.append("</plate>")
+    rows.append("</custom_gcodes_per_layer>")
+    return "\n".join(rows) + "\n"
 
 
 # ------------------------------------------------------------------ main
@@ -528,7 +674,8 @@ def assign_plates(spec, base_dir, has_multi):
             pack(plate_objs, [EXCLUDE] + ([TOWER] if has_multi(plate_objs) else []))
             for o in plate_objs:
                 o.plate = idx
-            plates.append({"name": f"Plate {idx + 1}"})
+            plates.append({"name": f"Plate {idx + 1}",
+                           "events": [e for e in spec.get("events", []) if int(e.get("plate", 1)) == idx + 1]})
             all_objs += plate_objs
     else:
         for pi, pl in enumerate(plates_spec):
@@ -542,7 +689,7 @@ def assign_plates(spec, base_dir, has_multi):
                 o.plate = pi
                 if o.size[2] > BED:
                     raise SystemExit(f"'{o.name}' is {o.size[2]:.0f} mm tall, more than the {BED:.0f} mm build height")
-            plates.append({"name": pl.get("name", f"Plate {pi + 1}")})
+            plates.append({"name": pl.get("name", f"Plate {pi + 1}"), "events": pl.get("events", [])})
             all_objs += objs
     return all_objs, plates
 
@@ -596,6 +743,15 @@ def main():
             if int(fil or o.filament or 1) > n_fil:
                 raise SystemExit(f"'{o.name}' uses filament {fil or o.filament} but only {n_fil} filament slot(s) are defined")
     cfg, names, colors = build_project_settings(spec, base, presets, roles, len(plates))
+    events, (first_h, layer_h, proc_name) = resolve_events(spec, plates, objs, colors, n_fil)
+    extra_files, park = {}, None
+    if events:
+        pcode, park = pause_gcode(spec, events)
+        if pcode:
+            cfg["machine_pause_gcode"] = pcode
+            diff = cfg["different_settings_to_system"]
+            diff[-1] = ";".join(x for x in (diff[-1], "machine_pause_gcode") if x)
+        extra_files["Metadata/custom_gcode_per_layer.xml"] = custom_gcode_xml(events, cfg.get("machine_pause_gcode", "M400 U1"))
 
     thumbs = {}
     if not a.no_thumbnails:
@@ -613,9 +769,13 @@ def main():
                             continue
                         mm = m.copy()
                         mm.apply_translation(-o.center + [o.pos[0], o.pos[1], o.size[2] / 2])
-                        meshes.append(mm)
-                        hexc = colors[int(fil or o.filament or 1) - 1].lstrip("#")
-                        cols.append(np.array([int(hexc[j:j + 2], 16) / 255 for j in (0, 2, 4)]))
+                        start = int(fil or o.filament or 1)
+                        cuts = [(e["bottom"], e["extruder"]) for e in events.get(i, {}).get("events", [])
+                                if e["type"] == "filament"]
+                        for piece, f in band_split(mm, start, cuts):
+                            meshes.append(piece)
+                            hexc = colors[f - 1].lstrip("#")
+                            cols.append(np.array([int(hexc[j:j + 2], 16) / 255 for j in (0, 2, 4)]))
                 if meshes:
                     p = os.path.join(tmp, f"plate_{i + 1}.png")
                     preview(meshes, p, views=["iso front"], colors=cols)
@@ -624,7 +784,7 @@ def main():
         except Exception as e:  # thumbnails are cosmetic; Bambu regenerates them on slicing
             print(f"thumbnails skipped: {e}", file=sys.stderr)
 
-    write_3mf(a.out, spec, objs, plates, cfg, names, colors, thumbs)
+    write_3mf(a.out, spec, objs, plates, cfg, names, colors, thumbs, extra_files)
     problems = verify_3mf(a.out)
     if problems:
         print("3MF self-check FAILED:\n  " + "\n  ".join(problems), file=sys.stderr)
@@ -634,6 +794,17 @@ def main():
     for i, pl in enumerate(plates):
         names_on = [o.name for o in objs if o.plate == i]
         print(f"  plate {i + 1} '{pl['name']}': " + ", ".join(names_on))
+        for e in events.get(i, {}).get("events", []):
+            if e["type"] == "pause":
+                print(f"    pause before layer {e['layer']} (print_z {e['print_z']} mm; everything below {e['bottom']} mm is done)"
+                      + (f": {e['note']}" if e["note"] else ""))
+            else:
+                print(f"    from layer {e['layer']} ({e['bottom']} mm up): filament {e['extruder']} {e['color']}"
+                      + (f" ({e['note']})" if e["note"] else ""))
+    if events:
+        print(f"  layers: {proc_name}, first layer {first_h} mm, then {layer_h} mm")
+    if park:
+        print(f"  pauses lift {park['lift']:.0f} mm and park the head at X{park['x']} Y{park['y']}, then wait (M400 U1)")
 
 
 if __name__ == "__main__":

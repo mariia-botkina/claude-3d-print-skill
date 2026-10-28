@@ -74,8 +74,16 @@ def check_mesh(mesh, rep):
     if degenerate:
         rep.add("degenerate", INFO, f"{degenerate} zero-area triangles")
 
-    bodies = mesh.split(only_watertight=False)
+    shells = mesh.split(only_watertight=False)
+    cavities = [b for b in shells if b.is_watertight and b.volume < 0]
+    bodies = [b for b in shells if not (b.is_watertight and b.volume < 0)]
     rep.stats["bodies"] = len(bodies)
+    if cavities:
+        rep.stats["cavities"] = len(cavities)
+        rep.add("cavities", INFO,
+                f"{len(cavities)} closed internal cavit{'y' if len(cavities) == 1 else 'ies'}: for magnets/nuts run find_pockets.py "
+                "(pause height, insert fit); otherwise make sure the void is intended",
+                centers=[np.round(c.bounds.mean(axis=0), 1).tolist() for c in cavities[:10]])
     tiny = [b for b in bodies if (b.extents.max() < 1.0) or (b.is_watertight and abs(b.volume) < 0.5)]
     if tiny:
         rep.add("debris", WARN, f"{len(tiny)} tiny separate shell(s) under 1 mm: probably modelling debris",
@@ -242,8 +250,17 @@ def analyse_layers(mesh, rep, P, overhang_deg, bridge_max):
                 for dp in to_polys(diff):
                     if dp.area < 0.5:
                         continue
-                    pieces, _ = supported_pieces(dp, prev, nozzle)
-                    if len(pieces) >= 2:
+                    pieces, edge = supported_pieces(dp, prev, nozzle)
+                    supported_frac = (edge.length / dp.boundary.length) if not edge.is_empty and dp.boundary.length else 0.0
+                    if supported_frac >= 0.6 and len(pieces) < 2:
+                        # a roof over a hole: anchored all round, prints as a bridge across the short side
+                        rect = dp.minimum_rotated_rectangle
+                        xs, ys = rect.exterior.coords.xy
+                        sides = sorted(math.dist((xs[j], ys[j]), (xs[j + 1], ys[j + 1])) for j in range(4))
+                        bridges.append({"z_mm": round(float(z), 2), "span_mm": round(sides[0], 1),
+                                        "area_mm2": round(dp.area, 1), "closed_roof": True,
+                                        "center_mm": [round(dp.centroid.x, 1), round(dp.centroid.y, 1)]})
+                    elif len(pieces) >= 2:
                         span = max(a.distance(b) for k, a in enumerate(pieces) for b in pieces[k + 1:])
                         bridges.append({"z_mm": round(float(z), 2), "span_mm": round(span, 1),
                                         "area_mm2": round(dp.area, 1),

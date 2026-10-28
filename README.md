@@ -29,6 +29,11 @@ presets (see below) to use it with another Bambu printer.
 - **Packages a Bambu Studio 3MF**: named plates, layout, process preset, per-object
   settings, AMS filament slots and colours, multi-colour parts and modifiers, thumbnails.
   Built from Bambu Studio's own system presets.
+- **Pauses for embedded inserts.** Finds closed pockets, checks that the magnet or nut
+  fits and that the nozzle will clear it, and writes a pause before the layer that closes
+  the pocket. The head lifts and parks at the back while you insert, then you resume.
+- **Colour changes by height** (bands, layered signs, a contrasting top) written into the
+  3MF as AMS filament changes, with a colour preview first.
 - **Tolerance comb** to measure real press/sliding/loose fits of your printer and filament.
 - Quick questions ("which plastic for a shower hook?") get a direct answer without the
   full workflow.
@@ -64,6 +69,7 @@ still runs the mesh checks and builds the 3MF.
     slice_check.py          PrusaSlicer reference slice
     render.py               previews and problem overlays
     make_3mf.py             Bambu Studio project builder (+ --verify)
+    find_pockets.py         closed pockets: pause layer, insert fit
     tolerance_comb.py       fit calibration print
   assets/
     bambu/                  P1S machine/process/filament presets (generated)
@@ -79,6 +85,7 @@ The scripts also work on their own:
 python 3d-print-modeling/scripts/check_print.py part.stl --orient
 python 3d-print-modeling/scripts/render.py part.stl -o views.png --overhang 45
 python 3d-print-modeling/scripts/make_3mf.py --example > spec.json
+python 3d-print-modeling/scripts/find_pockets.py coaster.stl --insert 10x3
 python 3d-print-modeling/scripts/make_3mf.py spec.json -o Project.3mf
 ```
 
@@ -96,8 +103,8 @@ python tools/build_bambu_profiles.py --profiles bs/resources/profiles/BBL \
 
 - Bambu Studio itself does not run in the sandbox: the slice check uses PrusaSlicer with
   P1S-like settings, so time and weight are estimates. You slice the 3MF in Bambu Studio.
-- Pauses for embedded magnets, colour changes by height and painted regions are done by
-  hand in Bambu Studio (the skill tells you the layer heights).
+- Painted colour regions are not generated; multi-colour designs use separate parts
+  (inlays) or colour changes by height instead.
 - Code CAD (OpenSCAD, Python) is strong for functional and geometric objects, weak for
   sculpted organic shapes.
 

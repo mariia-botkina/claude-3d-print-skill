@@ -3,7 +3,7 @@
 `scripts/make_3mf.py spec.json -o Project.3mf` writes a Bambu Studio project: objects
 on named plates, laid out, P1S printer + process preset, AMS filament slots with colours,
 project-wide and per-object setting overrides, multi-part (multi-colour) objects and
-modifiers, plate thumbnails. The owner opens it, checks, and slices.
+modifiers, pauses and colour changes by height, plate thumbnails. The owner opens it, checks, and slices.
 
 `--example` prints a full spec; `--list-filaments PLA` / `--list-processes` list presets.
 The full spec format is in the script's docstring.
@@ -43,11 +43,32 @@ numbers or strings; percentages as strings ("20%").
 Per-filament overrides go into the filament entry: `{"preset": "Bambu PETG HF", "color":
 "#3366FF", "settings": {"nozzle_temperature": 250}}`.
 
+## Layer events: pauses and colour changes by height
+
+Per plate, `"events"`: a list of
+- `{"type": "pause", "z": 4.2, "note": "10x3 magnet, N up"}`
+- `{"type": "filament", "z": 8.0, "filament": 2}` (from 8 mm up, AMS slot 2)
+
+`z` is a height on the part. The event happens before the first layer whose mid-plane is
+at or above z (slicers cut layers at mid-height), on the grid of the chosen process
+preset. For a pocket ceiling this is exactly the layer that would close it;
+`find_pockets.py` prints these layers. `print_z` instead of `z` sets an exact Bambu layer
+top. The script prints every event with its layer number: put that in the report.
+
+Pauses: the project's pause G-code retracts 0.8 mm, lifts the nozzle (10 mm, less near
+the top of the build volume), parks the head at X65 Y245 (back left, Bambu's own
+filament-change spot), waits with `M400 U1` (resume on the printer screen or in the
+app), then unretracts; the next travel move restores the height. Change the park
+position with `"pause_park": {"x": .., "y": .., "lift": ..}` at the top level. Bambu
+Studio shows the printer preset as modified because of this G-code: expected.
+
+Colour changes switch the AMS slot for the whole plate from that layer on, so a plate
+with colour changes may only hold objects that each use a single filament. Preview with
+`render.py --bands`; the plate thumbnails show the bands too.
+
 ## Not covered (tell the owner to do it in Bambu Studio)
 
-- Pause at a layer (embedding magnets/nuts): give her the Z height of the last layer
-  before the pocket closes.
-- Colour change by layer height, painted colour regions, painted supports/seams.
+- Painted colour regions, painted supports/seams.
 - Calibrated flush volumes: the script writes a flat 280 mm3 per change; she can press
   "Auto-calc" in the flushing dialog.
 

@@ -77,3 +77,5 @@ Not measured yet. `scripts/tolerance_comb.py` builds the test print; record resu
 - Plates grouped by meaning (e.g. "Frame", "Icons, row 1") and by colour set, named.
 - Object names match the part names used in conversation and in REQUIREMENTS.md.
 - Alongside the 3MF: the editable source (.scad or .py), REQUIREMENTS.md, a preview PNG.
+- Pauses (embedding magnets/nuts) park the head at the back left (X65 Y245) after a
+  10 mm lift: the owner's choice ("move the head to the edge").

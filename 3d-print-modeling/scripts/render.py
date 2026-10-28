@@ -6,6 +6,8 @@
   python render.py part.stl -o p.png --report rep.json   # also mark problems from check_print.py
   python render.py a.stl b.stl -o set.png --layout       # several parts side by side
   python render.py part.scad -D width=40 -o p.png        # renders the .scad first
+  python render.py sign.stl -o s.png --bands "#F2F2F2;3.0:#C0392B"   # colour change by height:
+                                                         # start colour, then z:colour from that height up
 
 Engine: OpenSCAD preview under a virtual display (correct hidden surfaces, colours),
 falling back to matplotlib if OpenSCAD/Xvfb are missing. Look at the image
@@ -328,6 +330,7 @@ def main():
                     help="comma list from: " + ", ".join(VIEWS) + " (default: iso front,iso back,front,top; "
                          "with --overhang: iso front,iso back,iso below,front)")
     ap.add_argument("--engine", default="auto", choices=["auto", "openscad", "matplotlib"])
+    ap.add_argument("--bands", help='colour by height: "#START;Z1:#COLOR1;Z2:#COLOR2" (z in mm above the bed)')
     ap.add_argument("--overhang", type=float, help="highlight overhangs steeper than this many degrees")
     ap.add_argument("--report", help="check_print.py JSON report: mark problem spots")
     ap.add_argument("--rotate", type=float, nargs=3)
@@ -354,10 +357,26 @@ def main():
     else:
         views = ["iso front", "iso back", "front", "top"]
     title = a.title or ", ".join(os.path.basename(f) for f in a.files)
+    colors = None
+    if a.bands:
+        from meshio_util import band_split
+        parts = [p.strip() for p in a.bands.split(";") if p.strip()]
+        palette = [parts[0]] + [p.split(":", 1)[1] for p in parts[1:]]
+        cuts = [(float(p.split(":", 1)[0]), i + 2) for i, p in enumerate(parts[1:])]
+        split, colors = [], []
+        for m in meshes:
+            m = m.copy()
+            m.apply_translation([0, 0, -m.bounds[0][2]])
+            for piece, idx in band_split(m, 1, cuts):
+                split.append(piece)
+                hx = palette[idx - 1].lstrip("#")
+                colors.append(np.array([int(hx[j:j + 2], 16) / 255 for j in (0, 2, 4)]))
+        meshes = split
     if a.engine == "matplotlib":
         render([subdivide(m) for m in meshes], a.out, views=views, overhang=a.overhang, markers=markers, title=title)
     else:
-        preview(meshes, a.out, views=views, overhang=a.overhang, markers=markers, title=title, engine=a.engine)
+        preview(meshes, a.out, views=views, overhang=a.overhang, markers=markers, title=title, engine=a.engine,
+                colors=colors)
     print(a.out)
 
 

@@ -1,5 +1,6 @@
 """Shared helpers: load any model file as a trimesh, render OpenSCAD, profile values."""
 import json
+import math
 import os
 import shutil
 import subprocess
@@ -80,3 +81,60 @@ def drop_to_bed(mesh):
     lo, hi = m.bounds
     m.apply_translation([-(lo[0] + hi[0]) / 2, -(lo[1] + hi[1]) / 2, -lo[2]])
     return m
+
+
+# ---------------------------------------------------------------- layer grid
+
+def process_layers(process=None):
+    """(first_layer_height, layer_height) for a Bambu process preset name (default preset if None)."""
+    assets = os.path.join(SKILL_DIR, "assets", "bambu")
+    with open(os.path.join(assets, "presets.json"), encoding="utf-8") as f:
+        presets = json.load(f)
+    name = process or presets["meta"]["default_process"]
+    if name not in presets["process"]:
+        hits = [n for n in presets["process"] if n.lower().startswith(name.lower())]
+        if len(hits) != 1:
+            raise ValueError(f"unknown process preset '{name}'")
+        name = hits[0]
+    p = presets["process"][name]
+    return float(p.get("initial_layer_print_height", 0.2)), float(p.get("layer_height", 0.2)), name
+
+
+def layer_tops(first, h, top):
+    """print_z (top) of every layer up to height `top`."""
+    zs = [first]
+    while zs[-1] < top - 1e-6:
+        zs.append(round(zs[-1] + h, 4))
+    return zs
+
+
+def snap_to_layer(z, first, h):
+    """The first layer whose material lies at or above height z, as Bambu's print_z (layer top).
+
+    Slicers cut each layer at its mid-height, so a layer belongs to "above z" as soon as
+    its mid-plane is at or above z. An event "at z" (pause or filament change) happens
+    before that layer. For a cavity ceiling at z this is the first layer that closes it.
+    Returns (print_z, bottom_of_that_layer, layer_number_1_based)."""
+    bottom, top, n = 0.0, first, 1
+    while (bottom + top) / 2 < z - 1e-6:
+        bottom, top, n = top, round(top + h, 4), n + 1
+    return round(top, 4), round(bottom, 4), n
+
+
+def band_split(mesh, start_filament, cuts):
+    """Split a mesh at filament-change heights for colour previews: [(piece, filament)]."""
+    cuts = sorted(c for c in cuts if mesh.bounds[0][2] < c[0] < mesh.bounds[1][2])
+    if not cuts:
+        return [(mesh, start_filament)]
+    from trimesh.intersections import slice_mesh_plane
+    out, cur, lo = [], start_filament, None
+    for z, f in cuts + [(None, None)]:
+        piece = mesh
+        if lo is not None:
+            piece = slice_mesh_plane(piece, [0, 0, 1], [0, 0, lo], cap=True)
+        if z is not None:
+            piece = slice_mesh_plane(piece, [0, 0, -1], [0, 0, z], cap=True)
+        if len(piece.faces):
+            out.append((piece, cur))
+        lo, cur = z, f
+    return out

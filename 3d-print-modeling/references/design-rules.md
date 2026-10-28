@@ -65,6 +65,9 @@ Use the fits table in printer-profile.md (measured values beat defaults).
 
 - Inlays (text, logos) as separate parts of the same object ("parts" in the 3MF spec),
   0.4-0.6 mm deep, flush with the surface: crisp, cheap in purge.
+- Colour by height (bands, a contrasting top, layered signs): one purge per change, cheap;
+  done with `filament` layer events in the 3MF. Raised text on a flat sign is the classic
+  case: base in one colour, text from the base's top surface up in another.
 - Colour changes every layer over the whole height (e.g. coloured text on a vertical face)
   cost a purge per layer: warn about filament waste and time, suggest top-face text or
   separate glued parts instead.
@@ -88,10 +91,16 @@ Use the fits table in printer-profile.md (measured values beat defaults).
 
 ## 8. Embedded hardware
 
-- Magnets: pocket = magnet diameter + 0.2 mm, depth + 0.2 mm; for fully embedded magnets
-  the owner adds a pause at that layer in Bambu Studio (tell her the layer height/Z).
-  Mark the polarity in the instructions.
-- Nuts: hex pocket across flats + 0.2 mm, slide-in slot or pause-embed.
+Closed pockets filled during a pause (`find_pockets.py`, layer events in the 3MF):
+- Pocket = insert + 0.2 mm in XY (round magnets: diameter + 0.2; nuts: across flats
+  + 0.2, hex pocket), + 0.2 mm in height so the nozzle clears the insert.
+- Put the pocket floor and ceiling on the layer grid (multiples of the layer height
+  above the first layer); otherwise the printed pocket is up to one layer shallower.
+- At least 3 layers (0.6 mm) above the insert; the first one bridges over it, so keep
+  pockets under ~20 mm across or the roof sags onto the insert.
+- Magnets: mark the polarity in the instructions; steel parts can pull a magnet up out
+  of its pocket, so pause close to the closing layer (the script does).
+- Open pockets (glued in after printing) need no pause: pocket +0.1 mm for a press fit.
 - Heat-set inserts: hole per insert spec, wall around >= 1.6 mm.
 
 ## 9. Fixing check_print.py findings
