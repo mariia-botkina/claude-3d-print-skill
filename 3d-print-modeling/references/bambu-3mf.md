@@ -60,12 +60,18 @@ top. The script prints every event with its layer number: put that in the report
 
 Pauses are written as a custom G-code on that layer (Bambu Studio's "Add custom G-code" on
 the layer slider, shown with the custom G-code icon, not the pause icon). It retracts
-0.8 mm, lifts the nozzle (10 mm, less near the top of the build volume), parks the head at
+0.8 mm, lifts the nozzle to 10 mm above the finished layer (absolute Z, capped near the
+top of the build volume), parks the head at
 X65 Y245 (back left, Bambu's own filament-change spot), waits with `M400 U1` (resume on
 the printer screen or in the app), then unretracts; the next travel move restores the
 height. The note becomes a `; PAUSE: ...` comment. The printer preset is not touched, so
 Bambu Studio shows no "Modified G-code" warning (overriding `machine_pause_gcode` would).
-The pause time is not in Bambu's time estimate. Change the park position with
+The pause time is not in Bambu's time estimate.
+
+Never put G90/G91 (or M82) into custom G-code for Bambu printers: on their firmware G90
+also switches the extruder to absolute mode, Bambu's own code does not switch it back,
+and the rest of the print moves without extruding (found the hard way in v0.1.0).
+`--verify` rejects such custom G-code. Change the park position with
 `"pause_park": {"x": .., "y": .., "lift": ..}` at the top level.
 
 Colour changes switch the AMS slot for the whole plate from that layer on, so a plate

@@ -568,6 +568,12 @@ def verify_3mf(path):
                         probs.append("filament change to an undefined filament")
                 if pl.find("mode") is None:
                     probs.append("custom gcode plate has no mode")
+                for lay in pl.findall("layer"):
+                    code = (lay.get("extra") or "") + "\n" + (lay.get("gcode") or "")
+                    cmds = [l.split(";")[0].strip().upper() for l in code.splitlines()]
+                    if any(c.startswith(("G90", "G91", "M82")) for c in cmds):
+                        probs.append(f"custom G-code at z {lay.get('top_z')} changes positioning mode (G90/G91/M82): "
+                                     "on Bambu firmware this can leave the extruder in absolute mode and stop extrusion")
         used = set()
         for o in cfg.findall("object"):
             for m in o.iter("metadata"):
@@ -652,26 +658,35 @@ def resolve_events(spec, plates, objs, colors, n_fil):
 
 
 def pause_gcode(spec, events):
-    """Per-layer G-code that lifts, parks the head at the back and waits for the user."""
+    """Settings for the per-layer park-and-wait G-code; the G-code itself is built per event
+    by pause_block() because it uses the absolute Z of that layer."""
     park = dict(PARK_DEFAULT, **(spec.get("pause_park") or {}))
     pauses = [e for v in events.values() for e in v["events"] if e["type"] == "pause"]
     if not pauses:
         return None, None
-    highest = max(e["bottom"] for e in pauses)
-    lift = max(0.0, min(float(park["lift"]), MAX_Z_SAFE - highest))
+    return park, {"x": park["x"], "y": park["y"], "lift": float(park["lift"])}
+
+
+def pause_block(park, bottom_z, note=""):
+    """Park-and-wait G-code inserted before the layer whose bottom is bottom_z.
+
+    Only absolute XYZ moves and relative extrusion, exactly the modes Bambu's G-code runs in:
+    no G90/G91 here, because on Bambu (Marlin-based) firmware G90 also switches the
+    extruder to absolute mode, and the rest of the print then extrudes nothing.
+    The next travel move of the slicer brings the nozzle back to the layer height."""
+    lift_z = min(bottom_z + float(park["lift"]), MAX_Z_SAFE)
     lines = [
+        f"; PAUSE: {' '.join(note.split())}" if note.strip() else "; PAUSE",
         "; lift, park at the back, wait for the user (3d-print-modeling skill)",
         "M400",
-        "M83",
+        "M83 ; relative extrusion, as in the rest of the file",
         "G1 E-0.8 F1800 ; retract so it does not ooze while parked",
-        "G91",
-        f"G1 Z{lift:.1f} F900",
-        "G90",
+        f"G1 Z{lift_z:.2f} F900",
         f"G1 X{float(park['x']):.0f} Y{float(park['y']):.0f} F12000",
         "M400 U1 ; pause, resume from the printer screen or the app",
-        "G1 E0.8 F1800",
+        "G1 E0.8 F1800 ; undo the retract",
     ]
-    return "\n".join(lines), {"x": park["x"], "y": park["y"], "lift": lift}
+    return "\n".join(lines)
 
 
 def custom_gcode_xml(events, pause_code):
@@ -681,8 +696,7 @@ def custom_gcode_xml(events, pause_code):
         rows.append(f'<plate_info id="{pi + 1}"/>')
         for e in events[pi]["events"]:
             if e["type"] == "pause":
-                note = " ".join(e["note"].split())
-                code = (f"; PAUSE: {note}\n" if note else "; PAUSE\n") + pause_code
+                code = pause_block(pause_code, e["bottom"], e["note"])
                 extra, g = code, code
             else:
                 extra, g = "", "tool_change"
@@ -794,8 +808,8 @@ def main():
     events, (first_h, layer_h, proc_name) = resolve_events(spec, plates, objs, colors, n_fil)
     extra_files, park = {}, None
     if events:
-        pcode, park = pause_gcode(spec, events)
-        extra_files["Metadata/custom_gcode_per_layer.xml"] = custom_gcode_xml(events, pcode or "")
+        park_cfg, park = pause_gcode(spec, events)
+        extra_files["Metadata/custom_gcode_per_layer.xml"] = custom_gcode_xml(events, park_cfg or PARK_DEFAULT)
 
     thumbs = {}
     if not a.no_thumbnails:
@@ -848,7 +862,7 @@ def main():
     if events:
         print(f"  layers: {proc_name}, first layer {first_h} mm, then {layer_h} mm")
     if park:
-        print(f"  pauses (custom G-code on the layer) lift {park['lift']:.0f} mm, park the head at X{park['x']} Y{park['y']}, then wait (M400 U1)")
+        print(f"  pauses (custom G-code on the layer) lift the nozzle {park['lift']:.0f} mm above the layer, park the head at X{park['x']} Y{park['y']}, then wait (M400 U1)")
 
 
 if __name__ == "__main__":
