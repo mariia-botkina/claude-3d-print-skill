@@ -83,12 +83,14 @@ change parameters.
    orientation is not obvious). Errors = will fail; warnings = risky; info = fyi.
    Parts of one multi-colour object (body + inlay) are checked together with
    `--together body.stl inlay.stl`: an inlay alone always looks thin.
-3. `python scripts/slice_check.py part.stl` for a PrusaSlicer reference slice (time,
+3. `python scripts/slice_check.py part.stl` (add `--nozzle` if not 0.4) for a PrusaSlicer reference slice (time,
    grams, whether supports are needed, slicer stability warnings). Reference only: final
    numbers come from Bambu Studio.
 4. Run the agreed usability checks (measure the geometry, render the critical spot,
    or specify an owner test).
-5. With findings, render again with `--report check.json` to mark the problem spots.
+5. On the first full model, and whenever detail or size changes a lot, run
+   `nozzle_advice.py` (see "Nozzle choice").
+6. With findings, render again with `--report check.json` to mark the problem spots.
 
 ### 7. Fix loop: ask first
 Do not silently change the design to fix a finding, technical or visible. For each issue:
@@ -125,9 +127,33 @@ choose. Log the result.
 - <finding in plain words> -> <proposed fix options or "fine as is">
 Usability: <check>: pass / to test on the print: <what to try>
 Estimate (PrusaSlicer reference): ~<time>, ~<g> PLA; supports: none / <where>
+Nozzle: <d> (installed) | <d>: swap before printing, put the 0.4 back afterwards
 Waiting for your decision: <numbered questions>
 ```
 Keep it to what the user needs to decide or know. Full JSON reports stay in files.
+
+## Nozzle choice
+The owner has a 0.4 nozzle and will buy another size when a project needs it. Raise it
+in both directions, at two moments:
+- **Interview**: fine detail in the brief (text under ~4 mm, filigree, miniatures, thin
+  lineart) -> mention that a 0.2 nozzle may be needed; big simple utilitarian parts ->
+  mention that 0.6 would be faster. Do not decide yet.
+- **After the first model**: run `python scripts/nozzle_advice.py parts/*.stl`. It shows,
+  per part and nozzle, the detail that would be dropped, the fragile features, and the
+  reference print time and weight, plus project-level options (everything on one nozzle
+  vs one 3MF per nozzle; a 3MF holds one nozzle).
+
+When the advice differs from the installed nozzle, ask, with the numbers: what is lost
+on the current nozzle, how much slower/faster the alternative is, and the options. Never
+switch silently. Once the user picks a nozzle for the project:
+- set `"nozzle"` in the 3MF spec (Bambu presets for 0.2/0.4/0.6/0.8 are bundled) and pass
+  `--nozzle` to check_print / slice_check / find_pockets;
+- use that nozzle's design numbers (printer-profile.md, Nozzles) and re-check the parts;
+- fits measured on another nozzle become assumptions; offer the tolerance comb with
+  `--nozzle`;
+- record the nozzle and the reason in REQUIREMENTS.md;
+- end every report with a reminder: swap the nozzle and select it in Bambu Studio before
+  printing, and put the 0.4 back afterwards.
 
 ## Pauses and colour changes by height
 Both go into the 3MF as layer events (`"events"` in the make_3mf spec, see
@@ -164,6 +190,7 @@ header of `assets/tolerance_comb.scad`) and record the results in the profile.
 - `scripts/render.py` previews, variants side by side, problem overlays, colour bands
 - `scripts/make_3mf.py` Bambu Studio project builder (plates, settings, AMS, pauses, colour by height, --verify)
 - `scripts/find_pockets.py` closed pockets: pause layer and insert fit
+- `scripts/nozzle_advice.py` per-part nozzle comparison: lost detail, fragile features, time, grams
 - `scripts/tolerance_comb.py` + `assets/tolerance_comb.scad` fit calibration print
-- `assets/bambu/` P1S presets extracted from Bambu Studio (regenerate with `tools/build_bambu_profiles.py` in the repo)
+- `assets/bambu/nozzle_<d>/` P1S presets per nozzle (0.2/0.4/0.6/0.8) extracted from Bambu Studio (regenerate with `tools/build_bambu_profiles.py` in the repo)
 - `references/` printer-profile, interview, usability-checks, design-rules, modeling-workflow, requirements-template, bambu-3mf

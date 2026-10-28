@@ -5,7 +5,10 @@ on named plates, laid out, P1S printer + process preset, AMS filament slots with
 project-wide and per-object setting overrides, multi-part (multi-colour) objects and
 modifiers, pauses and colour changes by height, plate thumbnails. The owner opens it, checks, and slices.
 
-`--example` prints a full spec; `--list-filaments PLA` / `--list-processes` list presets.
+`"nozzle": 0.2 | 0.4 | 0.6 | 0.8` in the spec selects the matching P1S printer preset, its
+default process and the filament variants for that nozzle (bundled in
+`assets/bambu/nozzle_<d>/`). `--example` prints a full spec; `--list-filaments PLA
+--nozzle 0.2` / `--list-processes --nozzle 0.2` list presets for a nozzle.
 The full spec format is in the script's docstring.
 
 ## Things to settle with the owner before building the 3MF

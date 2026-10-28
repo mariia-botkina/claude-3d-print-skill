@@ -1,7 +1,9 @@
 # FDM design rules (structure and printability)
 
 Read this when designing the structure of a part or fixing a check_print.py finding.
-Numbers for this printer are in printer-profile.md.
+Numbers for this printer are in printer-profile.md; they are given for the 0.4 nozzle.
+For another nozzle scale line-based numbers (thinnest feature, walls, text strokes) by
+nozzle / 0.4 and use that nozzle's layer height (printer-profile.md, Nozzles).
 
 ## Contents
 1. Orientation
@@ -111,7 +113,7 @@ Closed pockets filled during a pause (`find_pockets.py`, layer events in the 3MF
 | flat_ceilings | chamfer/gusset; split; bridge it by adding a support wall; support |
 | overhangs | rotate; reduce angle; accept if small and not visible |
 | long_bridges | add a pillar/rib; shorten span; split |
-| too_thin | thicken to >= 0.8 mm; remove the detail; scale the detail |
+| too_thin | thicken to >= 0.8 mm; remove the detail; scale the detail; a 0.2 nozzle (nozzle_advice.py) |
 | thin_walls | thicken to >= 0.8 mm (1.2 if loaded) |
 | thin_plates | >= 0.6 mm, better 1.0; ribs |
 | adhesion | bigger base; brim; reorient; mouse ears |

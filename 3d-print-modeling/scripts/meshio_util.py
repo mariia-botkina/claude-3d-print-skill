@@ -14,14 +14,27 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SKILL_DIR = os.path.dirname(HERE)
 
 
-def printer_defaults():
-    """Numbers from references/printer-profile.md, kept in sync by hand."""
+NOZZLES = (0.2, 0.4, 0.6, 0.8)   # sizes with Bambu presets in assets/bambu/nozzle_<d>/
+DEFAULT_NOZZLE = 0.4
+
+
+def nozzle_dir(nozzle=None):
+    n = DEFAULT_NOZZLE if nozzle is None else float(nozzle)
+    d = os.path.join(SKILL_DIR, "assets", "bambu", f"nozzle_{n:g}")
+    if not os.path.isdir(d):
+        raise ValueError(f"no Bambu presets for a {n:g} mm nozzle (have: {', '.join(f'{x:g}' for x in NOZZLES)})")
+    return d
+
+
+def printer_defaults(nozzle=None):
+    """Numbers from references/printer-profile.md, kept in sync by hand. Layer = nozzle / 2."""
+    n = DEFAULT_NOZZLE if nozzle is None else float(nozzle)
     return {
         "bed_x": 256.0, "bed_y": 256.0, "bed_z": 256.0,
         # P1S: the corner with the purge/cutter area is not printable
         "exclude": [(0.0, 0.0, 18.0, 28.0)],
-        "nozzle": 0.4,
-        "layer": 0.2,
+        "nozzle": n,
+        "layer": round(n / 2, 3),
         "overhang_deg": 45.0,
         "density": {"PLA": 1.24, "PETG": 1.27, "TPU": 1.21, "ABS": 1.04, "ASA": 1.07},
     }
@@ -85,16 +98,15 @@ def drop_to_bed(mesh):
 
 # ---------------------------------------------------------------- layer grid
 
-def process_layers(process=None):
-    """(first_layer_height, layer_height) for a Bambu process preset name (default preset if None)."""
-    assets = os.path.join(SKILL_DIR, "assets", "bambu")
-    with open(os.path.join(assets, "presets.json"), encoding="utf-8") as f:
+def process_layers(process=None, nozzle=None):
+    """(first_layer_height, layer_height, name) for a Bambu process preset (nozzle's default if None)."""
+    with open(os.path.join(nozzle_dir(nozzle), "presets.json"), encoding="utf-8") as f:
         presets = json.load(f)
     name = process or presets["meta"]["default_process"]
     if name not in presets["process"]:
         hits = [n for n in presets["process"] if n.lower().startswith(name.lower())]
         if len(hits) != 1:
-            raise ValueError(f"unknown process preset '{name}'")
+            raise ValueError(f"unknown process preset '{name}' for this nozzle; options: {sorted(presets['process'])}")
         name = hits[0]
     p = presets["process"][name]
     return float(p.get("initial_layer_print_height", 0.2)), float(p.get("layer_height", 0.2)), name

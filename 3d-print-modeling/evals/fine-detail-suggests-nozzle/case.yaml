@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: fine-detail-suggests-nozzle
+expected_outcome: |
+  plaque.stl has 3.2 mm text 0.6 mm tall and 0.3 mm ribs. With the installed 0.4 nozzle
+  the text strokes and ribs are dropped or fragile. Claude reports this in Russian, runs
+  the nozzle comparison and offers a 0.2 nozzle with the time difference (and alternatives
+  such as thickening the text/ribs for 0.4), asks the user to choose, and does not switch
+  the project to 0.2 on its own. If it mentions printing on 0.2 it reminds to put the 0.4
+  back afterwards.
+context:
+  scaffold_script: place-files.sh

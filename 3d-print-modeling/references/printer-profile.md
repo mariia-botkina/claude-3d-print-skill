@@ -13,7 +13,7 @@ the change is a commit) instead of keeping it only in one project.
 | Item | Value |
 |---|---|
 | Printer | Bambu Lab P1S with AMS (4 slots) |
-| Nozzle | 0.4 mm, stainless (no abrasive filaments: no CF/GF) |
+| Nozzle | 0.4 mm installed, stainless (no abrasive filaments: no CF/GF). Owns only 0.4; willing to buy another size when a project needs it (see Nozzles) |
 | Build volume | 256 x 256 x 256 mm |
 | No-print corner | front-left 18 x 28 mm (purge chute) |
 | Default process | 0.20mm Standard @BBL X1C (Bambu uses the X1C process presets for the P1S) |
@@ -31,6 +31,27 @@ the change is a commit) instead of keeping it only in one project.
 
 Before assigning AMS slots, ask which colours/materials are loaded. Do not invent a
 loadout.
+
+## Nozzles
+
+Owner's rule: whenever a project would print better on another nozzle, say so and ask;
+both directions count (smaller for detail, bigger for speed on big simple parts).
+
+| Nozzle | Default process | Thinnest feature | Min wall (2 lines) | Good for | Watch out |
+|---|---|---|---|---|---|
+| 0.2 | 0.10mm Standard @BBL X1C 0.2 nozzle | 0.2 mm | 0.4 mm | small text (< 4 mm), filigree, miniatures, fine lineart | 2-4x slower; clogs easier; no TPU, no CF/GF |
+| 0.4 | 0.20mm Standard @BBL X1C | 0.4 mm | 0.8 mm | almost everything | |
+| 0.6 | 0.30mm Standard @BBL X1C 0.6 nozzle | 0.6 mm | 1.2 mm | big, simple, strong parts; faster | loses small detail and text; heavier walls |
+| 0.8 | 0.40mm Standard @BBL X1C 0.8 nozzle | 0.8 mm | 1.6 mm | very large utilitarian parts | visible thick layers; no fine detail |
+
+- When the nozzle changes for a project, everything in it follows: `"nozzle"` in the 3MF
+  spec (printer + process presets), `--nozzle` for check_print / slice_check /
+  find_pockets / nozzle_advice, design numbers from this table, layer grid for pauses,
+  and a line in REQUIREMENTS.md with the reason.
+- Fits measured on one nozzle do not carry over: for another nozzle use the default fit
+  table as *(assumption)* and offer a tolerance comb printed with that nozzle.
+- Every report for a project on a non-installed nozzle ends with a reminder: swap the
+  nozzle before printing, select it in Bambu Studio, and put the 0.4 back afterwards.
 
 ## Design numbers (0.4 nozzle, 0.2 layers)
 
@@ -64,11 +85,12 @@ Until measured, use these *(assumption)* values and label them as such:
 
 ### Measured fits
 
-Not measured yet. `scripts/tolerance_comb.py` builds the test print; record results here:
+Not measured yet. `scripts/tolerance_comb.py --nozzle <d>` builds the test print; record
+results here (per nozzle):
 
-| Material | Hole type | Press | Sliding | Loose | Date |
-|---|---|---|---|---|---|
-| | | | | | |
+| Nozzle | Material | Hole type | Press | Sliding | Loose | Date |
+|---|---|---|---|---|---|---|
+| | | | | | | |
 
 ## Output conventions
 

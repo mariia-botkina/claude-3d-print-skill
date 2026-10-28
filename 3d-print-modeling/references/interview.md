@@ -60,6 +60,9 @@ Pick what applies; the starred ones are always asked on a new project.
 
 ### Printing constraints
 - Material if not the default (PLA Basic); reasons for PETG.
+- Nozzle: if the brief has fine detail (small text, filigree, miniatures) say a 0.2 nozzle
+  may be needed; if it is a big plain part, say a 0.6 would be faster. Ask whether she is
+  open to it; the real comparison comes after the first model (nozzle_advice.py).
 - Supports: acceptable at all? Where not?
 - Post-processing tolerance: sanding, gluing, painting, inserting magnets/nuts mid-print.
 - Quantity (one, a set, a batch), and deadline.

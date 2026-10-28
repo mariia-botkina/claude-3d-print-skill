@@ -11,7 +11,8 @@ Spec (JSON). Paths are relative to the spec file. Every key but "plates" is opti
 
 {
   "project": "Lantern",
-  "process": "0.20mm Standard @BBL X1C",      # Bambu process preset (P1S uses the X1C ones)
+  "nozzle": 0.4,                               # 0.2 | 0.4 | 0.6 | 0.8 (P1S presets for each)
+  "process": "0.20mm Standard @BBL X1C",      # Bambu process preset (P1S uses the X1C ones); omit = nozzle's default
   "bed_type": "Textured PEI Plate",            # Cool Plate | Engineering Plate | High Temp Plate | Textured PEI Plate
   "filaments": [                               # AMS slots in order: slot 1, 2, ...
     {"preset": "Bambu PLA Basic", "color": "#F2F2F2", "label": "white"},
@@ -75,7 +76,6 @@ def escape(text, entities=None):
 sys.path.insert(0, HERE)
 from meshio_util import band_split, load_mesh, rotation_matrix_deg  # noqa: E402
 
-ASSETS = os.path.join(os.path.dirname(HERE), "assets", "bambu")
 BED = 256.0
 PLATE_STRIDE = BED * 1.2          # Bambu lays plates out on a grid with 20% gaps
 EXCLUDE = (0.0, 0.0, 18.0, 28.0)  # P1S: no-print corner (purge chute)
@@ -98,7 +98,9 @@ EXAMPLE = {
 
 # ------------------------------------------------------------------ profiles
 
-def load_assets():
+def load_assets(nozzle=None):
+    from meshio_util import nozzle_dir
+    ASSETS = nozzle_dir(nozzle)
     with open(os.path.join(ASSETS, "base_project_settings.json"), encoding="utf-8") as f:
         base = json.load(f)
     with open(os.path.join(ASSETS, "presets.json"), encoding="utf-8") as f:
@@ -109,19 +111,23 @@ def load_assets():
 
 
 def find_filament(presets, name):
+    """Accepts a full preset name or a short one ("Bambu PLA Basic"); picks the variant for this printer/nozzle."""
     fil = presets["filament"]
     if name in fil:
         return name
-    printer = presets["meta"]["printer"]           # e.g. "Bambu Lab P1S 0.4 nozzle"
-    short = printer.replace("Bambu Lab ", "")       # "P1S 0.4 nozzle"
-    model = short.split()[0]                        # "P1S"
-    for cand in (f"{name} @BBL {short}", f"{name} @BBL {model}", f"{name} @BBL X1C", f"{name} @BBL X1"):
-        if cand in fil:
-            return cand
-    hits = [n for n in fil if n.lower().startswith(name.lower())]
-    if len(hits) == 1:
-        return hits[0]
-    raise SystemExit(f"filament preset '{name}' not found; try --list-filaments. Close matches: {hits[:8]}")
+    same = [n for n in fil if n.split(" @")[0].lower() == name.lower()]
+    if not same:
+        same = [n for n in fil if n.lower().startswith(name.lower())]
+    if not same:
+        raise SystemExit(f"filament preset '{name}' not available for {presets['meta']['printer']}; try --list-filaments")
+    model = presets["meta"]["printer"].replace("Bambu Lab ", "").split()[0]   # "P1S"
+    for pref in (f"@BBL {model}", "@BBL X1C", "@BBL X1", "@BBL P1P"):
+        hits = [n for n in same if pref in n]
+        if hits:
+            return sorted(hits, key=len)[0]
+    if len({n.split(" @")[0] for n in same}) > 1:
+        raise SystemExit(f"filament preset '{name}' is ambiguous: {sorted(same)[:8]}")
+    return sorted(same, key=len)[0]
 
 
 def find_process(presets, name):
@@ -563,7 +569,7 @@ def resolve_events(spec, plates, objs, colors, n_fil):
     """Snap pause / filament-change events to Bambu's layer grid and validate them.
     Returns {plate_index: [event, ...]} with print_z, layer and the Bambu fields filled in."""
     from meshio_util import process_layers, snap_to_layer
-    first, h, proc = process_layers(spec.get("process"))
+    first, h, proc = process_layers(spec.get("process"), spec.get("nozzle"))
     out = {}
     for pi, pl in enumerate(plates):
         evs = []
@@ -702,6 +708,7 @@ def main():
     ap.add_argument("--example", action="store_true")
     ap.add_argument("--list-filaments", nargs="?", const="", metavar="FILTER")
     ap.add_argument("--list-processes", action="store_true")
+    ap.add_argument("--nozzle", type=float, help="nozzle for --list-* (a spec sets its own \"nozzle\")")
     ap.add_argument("--verify", metavar="3MF", help="only run the structural self-check on an existing 3MF")
     a = ap.parse_args()
 
@@ -709,7 +716,11 @@ def main():
         probs = verify_3mf(a.verify)
         print("OK" if not probs else "\n".join(probs))
         sys.exit(1 if probs else 0)
-    base, presets, roles = load_assets()
+    spec = None
+    if a.spec and not (a.example or a.list_filaments is not None or a.list_processes):
+        with open(a.spec, encoding="utf-8") as f:
+            spec = json.load(f)
+    base, presets, roles = load_assets(spec.get("nozzle") if spec else a.nozzle)
     if a.example:
         print(json.dumps(EXAMPLE, indent=2))
         return
@@ -724,8 +735,6 @@ def main():
     if not a.spec or not a.out:
         ap.error("spec and -o are required")
 
-    with open(a.spec, encoding="utf-8") as f:
-        spec = json.load(f)
     base_dir = os.path.dirname(os.path.abspath(a.spec))
     n_fil = len(spec.get("filaments") or [1])
 
@@ -789,7 +798,7 @@ def main():
     if problems:
         print("3MF self-check FAILED:\n  " + "\n  ".join(problems), file=sys.stderr)
         sys.exit(1)
-    print(f"wrote {a.out}: {len(plates)} plate(s), {len(objs)} object(s), filaments: "
+    print(f"wrote {a.out}: {presets['meta']['printer']}, {cfg['print_settings_id']}; {len(plates)} plate(s), {len(objs)} object(s), filaments: "
           + ", ".join(f"{i + 1}={n.split(' @')[0]} {c}" for i, (n, c) in enumerate(zip(names, colors))))
     for i, pl in enumerate(plates):
         names_on = [o.name for o in objs if o.plate == i]

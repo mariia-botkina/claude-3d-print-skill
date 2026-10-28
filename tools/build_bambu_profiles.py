@@ -7,10 +7,11 @@ updates its profiles or when you switch printer:
     git clone --depth 1 --filter=blob:none --sparse https://github.com/bambulab/BambuStudio bs
     git -C bs sparse-checkout set resources/profiles/BBL
     python tools/build_bambu_profiles.py --profiles bs/resources/profiles/BBL \
-        --skeleton path/to/any_bambu_project.3mf
+        --skeleton path/to/any_bambu_project.3mf [--model "Bambu Lab P1S"] [--nozzles 0.2,0.4,0.6,0.8]
 
-It resolves the "inherits"/"include" chains of the machine, process and
-filament presets compatible with --printer and writes:
+For every nozzle it resolves the "inherits"/"include" chains of the machine, process
+and filament presets compatible with "<model> <nozzle> nozzle" and writes, into
+assets/bambu/nozzle_<d>/:
 
   base_project_settings.json  full project config: printer + default process
                               + one default filament slot
@@ -110,37 +111,27 @@ def per_slot(value, vidx, vcount, chunk):
     return v
 
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--profiles", required=True, help="BambuStudio/resources/profiles/BBL")
-    ap.add_argument("--skeleton", required=True, help="any project .3mf saved by Bambu Studio")
-    ap.add_argument("--printer", default="Bambu Lab P1S 0.4 nozzle")
-    ap.add_argument("--process", default="0.20mm Standard @BBL X1C")
-    ap.add_argument("--filament", default="Bambu PLA Basic @BBL P1S 0.4 nozzle")
-    ap.add_argument("--bed-type", default="Textured PEI Plate")
-    ap.add_argument("--out", default=os.path.join(os.path.dirname(__file__), "..",
-                                                  "3d-print-modeling", "assets", "bambu"))
-    a = ap.parse_args()
-
-    with zipfile.ZipFile(a.skeleton) as z:
-        tpl = json.loads(z.read("Metadata/project_settings.config"))
+def build(P, tpl, profiles_dir, printer, process, filament, bed_type, out, brands):
     n_tpl = len(tpl["filament_settings_id"])
-
-    P = Profiles(a.profiles)
-    machine = P.resolve("machine", a.printer)
+    machine = P.resolve("machine", printer)
     m_vidx, m_vcount = variant_index(machine)
+    process = process or machine.get("default_print_profile")
+    if not filament:
+        dflt = machine.get("default_filament_profile") or []
+        filament = dflt[0] if isinstance(dflt, list) and dflt else dflt
 
     # compatible presets
     processes, filaments = {}, {}
     for name in P.names("process"):
         raw = P.load("process", name)
-        if raw.get("instantiation") == "true" and a.printer in raw.get("compatible_printers", []):
+        if raw.get("instantiation") == "true" and printer in raw.get("compatible_printers", []):
             processes[name] = P.resolve("process", name)
     for name in P.names("filament"):
         raw = P.load("filament", name)
-        if raw.get("instantiation") == "true" and a.printer in raw.get("compatible_printers", []):
+        if brands and not name.startswith(tuple(b + " " for b in brands)):
+            continue
+        if raw.get("instantiation") == "true" and printer in raw.get("compatible_printers", []):
             filaments[name] = P.resolve("filament", name)
-
     machine_keys = set(machine) - {"name", "setting_id", "compatible_printers"}
     process_keys = set().union(*[set(p) for p in processes.values()]) - {"name", "setting_id", "compatible_printers", "compatible_printers_condition"}
     filament_keys = set().union(*[set(f) for f in filaments.values()]) - {"name", "setting_id", "compatible_printers", "compatible_printers_condition", "filament_id"}
@@ -163,13 +154,13 @@ def main():
             base[k] = norm_scalar_list(machine[k], tpl[k], m_vidx, m_vcount)
         else:
             base[k] = machine[k]
-    proc = processes[a.process]
+    proc = processes[process]
     for k in process_keys & set(proc):
         base[k] = norm_scalar_list(proc[k], tpl.get(k), m_vidx, m_vcount) if k in tpl else proc[k]
-    base["printer_settings_id"] = a.printer
-    base["print_settings_id"] = a.process
-    base["default_print_profile"] = machine.get("default_print_profile", a.process)
-    base["print_compatible_printers"] = proc.get("compatible_printers", [a.printer])
+    base["printer_settings_id"] = printer
+    base["print_settings_id"] = process
+    base["default_print_profile"] = machine.get("default_print_profile", process)
+    base["print_compatible_printers"] = proc.get("compatible_printers", [printer])
     base["inherits_group"] = []  # rebuilt by make_3mf
     for k in ("print_extruder_variant", "printer_extruder_variant"):
         if k in base:
@@ -192,8 +183,9 @@ def main():
         return vals
 
     presets = {"process": {}, "filament": {}, "meta": {
-        "printer": a.printer, "default_process": a.process, "default_filament": a.filament,
-        "profiles_version": json.load(open(os.path.join(a.profiles, "..", "BBL.json"))).get("version", "?"),
+        "printer": printer, "default_process": process, "default_filament": filament,
+        "nozzle": float(machine.get("nozzle_diameter", ["0.4"])[0]),
+        "profiles_version": json.load(open(os.path.join(profiles_dir, "..", "BBL.json"))).get("version", "?"),
     }}
     for name, p in processes.items():
         presets["process"][name] = {k: (norm_scalar_list(p[k], tpl.get(k), m_vidx, m_vcount) if k in tpl else p[k])
@@ -205,10 +197,10 @@ def main():
     for k in list(filament_keys | slot_extra):
         if k in base and isinstance(base[k], list) and n_tpl and len(base[k]) == n_tpl * chunk_of(k):
             base[k] = base[k][:chunk_of(k)]
-    for k, v in presets["filament"][a.filament].items():
+    for k, v in presets["filament"][filament].items():
         base[k] = v
     base["filament_colour"] = ["#FFFFFF"]
-    base["curr_bed_type"] = a.bed_type
+    base["curr_bed_type"] = bed_type
 
     roles = {
         "machine": sorted(machine_keys),
@@ -219,12 +211,31 @@ def main():
         "skeleton_app_version": tpl.get("version", ""),
     }
 
-    os.makedirs(a.out, exist_ok=True)
+    os.makedirs(out, exist_ok=True)
     for fn, obj in (("base_project_settings.json", base), ("presets.json", presets), ("key_roles.json", roles)):
-        with open(os.path.join(a.out, fn), "w", encoding="utf-8") as f:
+        with open(os.path.join(out, fn), "w", encoding="utf-8") as f:
             json.dump(obj, f, indent=1, ensure_ascii=False, sort_keys=True)
-    print(f"process presets: {len(processes)}, filament presets: {len(filaments)}")
-    print("filaments:", ", ".join(sorted(re.sub(r" @.*", "", n) for n in filaments)))
+    print(f"{printer}: {len(processes)} process presets (default {process}), {len(filaments)} filament presets")
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--profiles", required=True, help="BambuStudio/resources/profiles/BBL")
+    ap.add_argument("--skeleton", required=True, help="any project .3mf saved by Bambu Studio")
+    ap.add_argument("--model", default="Bambu Lab P1S", help="printer model as in the preset names")
+    ap.add_argument("--nozzles", default="0.2,0.4,0.6,0.8")
+    ap.add_argument("--brands", default="Bambu,Generic", help="filament preset brands to keep (empty = all)")
+    ap.add_argument("--bed-type", default="Textured PEI Plate")
+    ap.add_argument("--out", default=os.path.join(os.path.dirname(__file__), "..",
+                                                  "3d-print-modeling", "assets", "bambu"))
+    a = ap.parse_args()
+    with zipfile.ZipFile(a.skeleton) as z:
+        tpl = json.loads(z.read("Metadata/project_settings.config"))
+    P = Profiles(a.profiles)
+    brands = [b for b in a.brands.split(",") if b]
+    for n in a.nozzles.split(","):
+        printer = f"{a.model} {n} nozzle"
+        build(P, tpl, a.profiles, printer, None, None, a.bed_type, os.path.join(a.out, f"nozzle_{n}"), brands)
 
 
 if __name__ == "__main__":

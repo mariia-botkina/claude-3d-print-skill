@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the tolerance comb as a ready-to-print Bambu project.
 
-  python tolerance_comb.py -o out_dir [--material "Bambu PLA Basic"] [--color "#F2F2F2"]
+  python tolerance_comb.py -o out_dir [--nozzle 0.4] [--material "Bambu PLA Basic"] [--color "#F2F2F2"]
                            [--nominal 8] [--clearances 0,0.05,0.1,0.15,0.2,0.25,0.3,0.4]
 
 Writes out_dir/tolerance_comb.3mf (plate + round pin + square peg on one plate),
@@ -26,6 +26,7 @@ def main():
     ap.add_argument("--material", default="Bambu PLA Basic")
     ap.add_argument("--color", default="#F2F2F2")
     ap.add_argument("--nominal", type=float, default=8.0)
+    ap.add_argument("--nozzle", type=float, default=0.4, help="measure fits for this nozzle (fits differ per nozzle)")
     ap.add_argument("--clearances", default=None, help="comma list, mm per side")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
@@ -41,7 +42,8 @@ def main():
         files[part] = os.path.basename(stl)
 
     spec = {
-        "project": "Tolerance comb",
+        "project": f"Tolerance comb, nozzle {a.nozzle:g}",
+        "nozzle": a.nozzle,
         "filaments": [{"preset": a.material, "color": a.color}],
         "plates": [{"name": "Tolerance comb", "objects": [
             {"file": files["plate"], "name": "Comb plate"},

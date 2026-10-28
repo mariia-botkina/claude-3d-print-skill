@@ -34,6 +34,11 @@ presets (see below) to use it with another Bambu printer.
   the pocket. The head lifts and parks at the back while you insert, then you resume.
 - **Colour changes by height** (bands, layered signs, a contrasting top) written into the
   3MF as AMS filament changes, with a colour preview first.
+- **Nozzle advice.** Compares 0.2 / 0.4 / 0.6 / 0.8 mm nozzles per part (detail that would
+  be dropped, fragile features, print time and weight) and asks when another nozzle would
+  serve the project better, in both directions. Once chosen, the whole project follows:
+  presets in the 3MF (bundled for all four sizes), checks, design numbers, and a reminder
+  to swap the nozzle back.
 - **Tolerance comb** to measure real press/sliding/loose fits of your printer and filament.
 - Quick questions ("which plastic for a shower hook?") get a direct answer without the
   full workflow.
@@ -70,9 +75,10 @@ still runs the mesh checks and builds the 3MF.
     render.py               previews and problem overlays
     make_3mf.py             Bambu Studio project builder (+ --verify)
     find_pockets.py         closed pockets: pause layer, insert fit
+    nozzle_advice.py        nozzle comparison per part
     tolerance_comb.py       fit calibration print
   assets/
-    bambu/                  P1S machine/process/filament presets (generated)
+    bambu/nozzle_<d>/       P1S machine/process/filament presets per nozzle (generated)
     tolerance_comb.scad
   evals/                    test cases (claude plugin eval format)
 tools/
@@ -86,6 +92,7 @@ python 3d-print-modeling/scripts/check_print.py part.stl --orient
 python 3d-print-modeling/scripts/render.py part.stl -o views.png --overhang 45
 python 3d-print-modeling/scripts/make_3mf.py --example > spec.json
 python 3d-print-modeling/scripts/find_pockets.py coaster.stl --insert 10x3
+python 3d-print-modeling/scripts/nozzle_advice.py plaque.stl box.stl
 python 3d-print-modeling/scripts/make_3mf.py spec.json -o Project.3mf
 ```
 
@@ -96,7 +103,7 @@ git clone --depth 1 --filter=blob:none --sparse https://github.com/bambulab/Bamb
 git -C bs sparse-checkout set resources/profiles/BBL
 python tools/build_bambu_profiles.py --profiles bs/resources/profiles/BBL \
     --skeleton any_project_saved_by_bambu_studio.3mf \
-    --printer "Bambu Lab P1S 0.4 nozzle"
+    --model "Bambu Lab P1S" --nozzles 0.2,0.4,0.6,0.8
 ```
 
 ## Limitations

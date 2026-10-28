@@ -79,10 +79,11 @@ def main():
     ap.add_argument("--insert", action="append",
                     help="insert size; one value applies to every cavity, or repeat to match cavities in order")
     ap.add_argument("--process", help="Bambu process preset (sets layer height)")
+    ap.add_argument("--nozzle", type=float, help="nozzle diameter (default 0.4); picks that nozzle's default process")
     ap.add_argument("--json")
     a = ap.parse_args()
 
-    first, h, proc = process_layers(a.process)
+    first, h, proc = process_layers(a.process, a.nozzle)
     mesh = load_mesh(a.file)
     mesh.apply_translation([0, 0, -mesh.bounds[0][2]])
     bodies = mesh.split(only_watertight=False)

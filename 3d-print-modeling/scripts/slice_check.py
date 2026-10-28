@@ -42,7 +42,6 @@ P1S_INI = """
 printer_technology = FFF
 bed_shape = 0x0,256x0,256x256,0x256
 max_print_height = 256
-nozzle_diameter = 0.4
 filament_diameter = 1.75
 gcode_flavor = marlin2
 use_relative_e_distances = 1
@@ -73,7 +72,6 @@ travel_acceleration = 10000
 top_solid_layers = 5
 bottom_solid_layers = 3
 fill_pattern = grid
-first_layer_height = 0.2
 skirts = 0
 brim_width = 0
 support_material_auto = 1
@@ -137,12 +135,14 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("file")
     ap.add_argument("--material", default="PLA", choices=sorted(MATERIALS))
-    ap.add_argument("--layer", type=float, default=0.2)
+    ap.add_argument("--nozzle", type=float, default=0.4)
+    ap.add_argument("--layer", type=float, default=None, help="default nozzle / 2")
     ap.add_argument("--infill", type=int, default=15)
     ap.add_argument("--walls", type=int, default=2)
     ap.add_argument("--json")
     ap.add_argument("--keep-gcode", help="directory to keep the reference gcode in")
     ap.add_argument("--timeout", type=int, default=900)
+    ap.add_argument("--no-support-pass", action="store_true", help="skip the second slice with supports (faster)")
     a = ap.parse_args()
 
     exe = shutil.which("prusa-slicer") or shutil.which("PrusaSlicer")
@@ -159,14 +159,25 @@ def main():
     ini = os.path.join(work, "p1s.ini")
     with open(ini, "w") as f:
         f.write(P1S_INI)
+        try:  # Bambu's default process for this nozzle
+            from meshio_util import process_layers
+            first_h, def_h, _ = process_layers(None, a.nozzle)
+        except Exception:
+            first_h, def_h = 0.2, round(a.nozzle / 2, 3)
+        if a.layer is None:
+            a.layer = def_h
+        f.write(f"nozzle_diameter = {a.nozzle}\nfirst_layer_height = {first_h}\n")
         f.write(f"layer_height = {a.layer}\nperimeters = {a.walls}\nfill_density = {a.infill}%\n")
         f.write(f"filament_type = {mat['filament_type']}\nfilament_density = {mat['filament_density']}\n")
         f.write(f"temperature = {mat['temperature']}\nfirst_layer_temperature = {mat['temperature']}\n")
         f.write(f"bed_temperature = {mat['bed_temperature']}\nfirst_layer_bed_temperature = {mat['bed_temperature']}\n")
         f.write(f"filament_max_volumetric_speed = {mat['max_volumetric_speed']}\n")
 
-    result = {"file": a.file, "slicer": "PrusaSlicer (P1S approximation)", "material": a.material}
-    for label, sup in (("no_supports", False), ("auto_supports", True)):
+    result = {"file": a.file, "slicer": "PrusaSlicer (P1S approximation)", "material": a.material,
+              "nozzle": a.nozzle, "layer": None}
+    result["layer"] = a.layer
+    passes = (("no_supports", False),) if a.no_support_pass else (("no_supports", False), ("auto_supports", True))
+    for label, sup in passes:
         gc = os.path.join(work, f"{label}.gcode")
         ok, warns, log = run_slice(exe, stl, ini, gc, sup, a.timeout)
         entry = {"ok": ok, "warnings": warns[:20]}
@@ -180,8 +191,8 @@ def main():
             entry["log_tail"] = log[-1500:]
         result[label] = entry
 
-    ns, ws = result["no_supports"], result["auto_supports"]
-    print(f"== reference slice of {os.path.basename(a.file)} ({a.material}, {a.layer} mm, {a.walls} walls, {a.infill}% infill)")
+    ns, ws = result["no_supports"], result.get("auto_supports", {})
+    print(f"== reference slice of {os.path.basename(a.file)} ({a.material}, nozzle {a.nozzle:g}, {a.layer} mm layers, {a.walls} walls, {a.infill}% infill)")
     if not ns["ok"]:
         print("   [ERROR] slicing failed:\n" + ns.get("log_tail", "")[-800:])
     else:

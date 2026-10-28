@@ -23,6 +23,7 @@ Updated: <date>
 |---|---|---|---|
 | R1 | Overall size | max 120 x 80 x 60 mm | said <date> |
 | R2 | Material | PLA Basic, white (AMS slot 1) | chose <date> |
+| R2a | Nozzle | 0.4 (installed); or 0.2 because <reason> | chose <date> |
 | R3 | Fit to phone | 78.1 x 8.2 mm measured, sliding fit | measured <date> |
 
 ## Assumptions (unconfirmed)

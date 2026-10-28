@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Printability check for FDM (defaults: Bambu Lab P1S, 0.4 mm nozzle, 0.2 mm layers).
+"""Printability check for FDM (defaults: Bambu Lab P1S, 0.4 mm nozzle, layers = nozzle / 2).
 
 Checks the model in the orientation it will be printed (Z up, as given):
 
@@ -520,8 +520,8 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("files", nargs="+")
     ap.add_argument("--material", default="PLA")
-    ap.add_argument("--layer", type=float, default=None, help="layer height, default from profile (0.2)")
-    ap.add_argument("--nozzle", type=float, default=None)
+    ap.add_argument("--nozzle", type=float, default=None, help="nozzle diameter, default 0.4")
+    ap.add_argument("--layer", type=float, default=None, help="layer height, default nozzle/2")
     ap.add_argument("--overhang", type=float, default=None, help="max overhang from vertical, deg (45)")
     ap.add_argument("--bridge-max", type=float, default=25.0, help="longest acceptable bridge, mm")
     ap.add_argument("--rotate", type=float, nargs=3, metavar=("RX", "RY", "RZ"))
@@ -532,11 +532,9 @@ def main():
     ap.add_argument("-D", "--define", action="append", help="OpenSCAD variable for .scad input, name=value")
     args = ap.parse_args()
 
-    P = printer_defaults()
+    P = printer_defaults(args.nozzle)
     if args.layer:
         P["layer"] = args.layer
-    if args.nozzle:
-        P["nozzle"] = args.nozzle
     if args.overhang is None:
         args.overhang = P["overhang_deg"]
 
