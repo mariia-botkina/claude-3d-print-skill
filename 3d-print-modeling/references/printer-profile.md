@@ -100,4 +100,6 @@ results here (per nozzle):
 - Object names match the part names used in conversation and in REQUIREMENTS.md.
 - Alongside the 3MF: the editable source (.scad or .py), REQUIREMENTS.md, a preview PNG.
 - Pauses (embedding magnets/nuts) park the head at the back left (X65 Y245) after a
-  10 mm lift: the owner's choice ("move the head to the edge").
+  10 mm lift: the owner's choice ("move the head to the edge"). Written as per-layer
+  custom G-code, never by changing the printer's pause G-code (that triggers Bambu's
+  "Modified G-code" warning on every open): also the owner's choice.

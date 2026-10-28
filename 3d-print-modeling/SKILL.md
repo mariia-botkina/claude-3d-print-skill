@@ -169,7 +169,9 @@ repeat --insert per pocket). It gives each pocket's pause layer and fails if the
 would stick out above the closing layer (the nozzle would hit it) or not fit. Show the
 user the list (pocket, insert, layer number, height) and confirm before building the
 3MF. In the report say what to insert at which pause and which way up (magnet
-polarity), and that the head lifts and parks at the back while waiting.
+polarity), and that the head lifts and parks at the back while waiting. On the layer
+slider in Bambu Studio the pause shows as a custom G-code mark; resume on the printer
+screen or in the app.
 
 **Colour by height** (bands, layered signs, a contrasting top): the user describes it in
 words ("top 2 mm black"); translate to heights, show a preview with

@@ -532,6 +532,14 @@ def verify_3mf(path):
                 if m.get("key") == "thumbnail_file" and m.get("value") not in names:
                     probs.append(f"thumbnail {m.get('value')} missing")
         ps = json.loads(z.read("Metadata/project_settings.config"))
+        gcode_keys = ("machine_pause_gcode", "machine_start_gcode", "machine_end_gcode", "change_filament_gcode",
+                      "layer_change_gcode", "before_layer_change_gcode", "filament_start_gcode", "filament_end_gcode",
+                      "time_lapse_gcode", "template_custom_gcode")
+        diffs = ps.get("different_settings_to_system", [])
+        for d in diffs[1:]:
+            hit = [k for k in (d or "").split(";") if k in gcode_keys]
+            if hit:
+                probs.append(f"preset G-code changed ({', '.join(hit)}): Bambu Studio will warn about modified G-code")
         # Bambu reads these as plain strings; anything else aborts loading the whole config
         for k in ("version", "name", "from", "url", "type", "setting_id", "filament_id",
                   "description", "instantiation", "inherits"):
@@ -572,7 +580,10 @@ def verify_3mf(path):
 
 # ------------------------------------------------------------------ layer events
 
-PAUSE, TOOLCHANGE = 1, 2   # CustomGCode::Type in Bambu Studio
+PAUSE, TOOLCHANGE, CUSTOM = 1, 2, 4   # CustomGCode::Type in Bambu Studio
+# Pauses are written as a per-layer custom G-code (type CUSTOM) that parks the head and waits.
+# Overriding the printer's machine_pause_gcode instead makes Bambu Studio warn about
+# "modified G-code" every time the project opens, and marks the printer preset as modified.
 PARK_DEFAULT = {"x": 65, "y": 245, "lift": 10}  # back-left, where Bambu's own filament change parks
 MAX_Z_SAFE = 250.0
 
@@ -612,7 +623,7 @@ def resolve_events(spec, plates, objs, colors, n_fil):
                 raise SystemExit(f"plate {pi + 1}: {kind} at {pz} mm is above everything on the plate ({top:.2f} mm)")
             ev = {"type": kind, "print_z": pz, "bottom": bottom, "layer": layer, "note": e.get("note", "")}
             if kind == "pause":
-                ev.update(code=PAUSE, extruder=min(used or {1}), color="", gcode="pause")
+                ev.update(code=CUSTOM, extruder=min(used or {1}), color="", gcode="pause")
             elif kind == "filament":
                 f = int(e["filament"])
                 if not 1 <= f <= n_fil:
@@ -641,7 +652,7 @@ def resolve_events(spec, plates, objs, colors, n_fil):
 
 
 def pause_gcode(spec, events):
-    """machine_pause_gcode that lifts, parks the head at the back and waits for the user."""
+    """Per-layer G-code that lifts, parks the head at the back and waits for the user."""
     park = dict(PARK_DEFAULT, **(spec.get("pause_park") or {}))
     pauses = [e for v in events.values() for e in v["events"] if e["type"] == "pause"]
     if not pauses:
@@ -649,7 +660,7 @@ def pause_gcode(spec, events):
     highest = max(e["bottom"] for e in pauses)
     lift = max(0.0, min(float(park["lift"]), MAX_Z_SAFE - highest))
     lines = [
-        "; pause: lift, park at the back, wait (3d-print-modeling skill)",
+        "; lift, park at the back, wait for the user (3d-print-modeling skill)",
         "M400",
         "M83",
         "G1 E-0.8 F1800 ; retract so it does not ooze while parked",
@@ -669,9 +680,14 @@ def custom_gcode_xml(events, pause_code):
         rows.append("<plate>")
         rows.append(f'<plate_info id="{pi + 1}"/>')
         for e in events[pi]["events"]:
-            g = pause_code if e["code"] == PAUSE else "tool_change"
+            if e["type"] == "pause":
+                note = " ".join(e["note"].split())
+                code = (f"; PAUSE: {note}\n" if note else "; PAUSE\n") + pause_code
+                extra, g = code, code
+            else:
+                extra, g = "", "tool_change"
             rows.append(f'<layer top_z="{e["print_z"]:g}" type="{e["code"]}" extruder="{e["extruder"]}" '
-                        f'color="{escape(e["color"])}" extra="{escape(e["note"])}" '
+                        f'color="{escape(e["color"])}" extra="{escape(extra, {chr(10): "&#10;"})}" '
                         f'gcode="{escape(g, {chr(10): "&#10;"})}"/>')
         rows.append(f'<mode value="{events[pi]["mode"]}"/>')
         rows.append("</plate>")
@@ -779,11 +795,7 @@ def main():
     extra_files, park = {}, None
     if events:
         pcode, park = pause_gcode(spec, events)
-        if pcode:
-            cfg["machine_pause_gcode"] = pcode
-            diff = cfg["different_settings_to_system"]
-            diff[-1] = ";".join(x for x in (diff[-1], "machine_pause_gcode") if x)
-        extra_files["Metadata/custom_gcode_per_layer.xml"] = custom_gcode_xml(events, cfg.get("machine_pause_gcode", "M400 U1"))
+        extra_files["Metadata/custom_gcode_per_layer.xml"] = custom_gcode_xml(events, pcode or "")
 
     thumbs = {}
     if not a.no_thumbnails:
@@ -836,7 +848,7 @@ def main():
     if events:
         print(f"  layers: {proc_name}, first layer {first_h} mm, then {layer_h} mm")
     if park:
-        print(f"  pauses lift {park['lift']:.0f} mm and park the head at X{park['x']} Y{park['y']}, then wait (M400 U1)")
+        print(f"  pauses (custom G-code on the layer) lift {park['lift']:.0f} mm, park the head at X{park['x']} Y{park['y']}, then wait (M400 U1)")
 
 
 if __name__ == "__main__":

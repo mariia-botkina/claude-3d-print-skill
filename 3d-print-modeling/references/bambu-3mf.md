@@ -58,12 +58,15 @@ preset. For a pocket ceiling this is exactly the layer that would close it;
 `find_pockets.py` prints these layers. `print_z` instead of `z` sets an exact Bambu layer
 top. The script prints every event with its layer number: put that in the report.
 
-Pauses: the project's pause G-code retracts 0.8 mm, lifts the nozzle (10 mm, less near
-the top of the build volume), parks the head at X65 Y245 (back left, Bambu's own
-filament-change spot), waits with `M400 U1` (resume on the printer screen or in the
-app), then unretracts; the next travel move restores the height. Change the park
-position with `"pause_park": {"x": .., "y": .., "lift": ..}` at the top level. Bambu
-Studio shows the printer preset as modified because of this G-code: expected.
+Pauses are written as a custom G-code on that layer (Bambu Studio's "Add custom G-code" on
+the layer slider, shown with the custom G-code icon, not the pause icon). It retracts
+0.8 mm, lifts the nozzle (10 mm, less near the top of the build volume), parks the head at
+X65 Y245 (back left, Bambu's own filament-change spot), waits with `M400 U1` (resume on
+the printer screen or in the app), then unretracts; the next travel move restores the
+height. The note becomes a `; PAUSE: ...` comment. The printer preset is not touched, so
+Bambu Studio shows no "Modified G-code" warning (overriding `machine_pause_gcode` would).
+The pause time is not in Bambu's time estimate. Change the park position with
+`"pause_park": {"x": .., "y": .., "lift": ..}` at the top level.
 
 Colour changes switch the AMS slot for the whole plate from that layer on, so a plate
 with colour changes may only hold objects that each use a single filament. Preview with
