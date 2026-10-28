@@ -75,6 +75,12 @@ with colour changes may only hold objects that each use a single filament. Previ
 - Calibrated flush volumes: the script writes a flat 280 mm3 per change; she can press
   "Auto-calc" in the flushing dialog.
 
+## Names
+
+Bambu Studio refuses names containing `< > : / \ | ? * "` ("Invalid name" on opening).
+make_3mf.py replaces them in the project title, plate names and object/part names
+(`:` becomes ` -`); prefer names without them in the spec anyway.
+
 ## Checking the result
 
 - The script prints plates, objects and filaments; read it.

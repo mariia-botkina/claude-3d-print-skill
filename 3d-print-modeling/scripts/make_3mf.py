@@ -69,6 +69,18 @@ import trimesh
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
+BAD_NAME_CHARS = '<>:/\\|?*"'
+
+
+def safe_name(text):
+    """Bambu Studio rejects names with < > : / \\ | ? * " (error "Invalid name"): replace them."""
+    out = str(text)
+    for ch, rep in ((":", " -"), ("/", "-"), ("\\", "-"), ("|", "-"), ("?", ""), ("*", ""),
+                    ("<", "("), (">", ")"), ('"', "'")):
+        out = out.replace(ch, rep)
+    return " ".join(out.split())
+
+
 def escape(text, entities=None):
     """XML-escape for attribute values (quotes included)."""
     return _escape(str(text), {'"': "&quot;", **(entities or {})})
@@ -360,13 +372,13 @@ def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs, extra_files=
         build_items.append(f'  <item objectid="{oid}" p:UUID="{uuid.uuid4()}" transform="{tr}" printable="1"/>\n')
         assemble.append(f'   <assemble_item object_id="{oid}" instance_id="0" transform="{tr}" offset="0 0 0" />\n')
 
-        meta = [f'    <metadata key="name" value="{escape(o.name)}"/>\n',
+        meta = [f'    <metadata key="name" value="{escape(safe_name(o.name))}"/>\n',
                 f'    <metadata key="extruder" value="{int(o.filament or 1)}"/>\n']
         for sk, sv in o.settings.items():
             meta.append(f'    <metadata key="{escape(sk)}" value="{escape(str(as_cfg(sv)))}"/>\n')
         parts_xml = []
         for pid, (m, fil, subtype, pname, psettings) in zip(part_ids, o.parts):
-            pm = [f'      <metadata key="name" value="{escape(pname)}"/>\n',
+            pm = [f'      <metadata key="name" value="{escape(safe_name(pname))}"/>\n',
                   '      <metadata key="matrix" value="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1"/>\n']
             if fil:
                 pm.append(f'      <metadata key="extruder" value="{int(fil)}"/>\n')
@@ -379,7 +391,7 @@ def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs, extra_files=
         plate_instances[o.plate].append((oid, identify))
 
     today = datetime.date.today().isoformat()
-    title = escape(spec.get("project", "Project"))
+    title = escape(safe_name(spec.get("project", "Project")))
     files["3D/3dmodel.model"] = (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         '<model unit="millimeter" xml:lang="en-US" xmlns="http://schemas.microsoft.com/3dmanufacturing/core/2015/02" '
@@ -411,7 +423,7 @@ def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs, extra_files=
         plate_xml.append(
             '  <plate>\n'
             f'    <metadata key="plater_id" value="{i + 1}"/>\n'
-            f'    <metadata key="plater_name" value="{escape(pl.get("name", ""))}"/>\n'
+            f'    <metadata key="plater_name" value="{escape(safe_name(pl.get("name", "")))}"/>\n'
             '    <metadata key="locked" value="false"/>\n'
             '    <metadata key="filament_map_mode" value="Auto For Flush"/>\n'
             + thumb + inst + '  </plate>\n')
@@ -505,6 +517,12 @@ def verify_3mf(path):
             parts = [pt.get("id") for pt in o.findall("part")]
             if parts != comp_ids[oid]:
                 probs.append(f"object {oid}: part ids {parts} != component ids {comp_ids[oid]}")
+        for m in cfg.iter("metadata"):
+            if m.get("key") in ("name", "plater_name") and any(c in (m.get("value") or "") for c in BAD_NAME_CHARS):
+                probs.append(f"name with a character Bambu rejects: {m.get('value')!r}")
+        title = [m.text for m in root.findall("m:metadata", ns) if m.get("name") == "Title"]
+        if title and any(c in (title[0] or "") for c in BAD_NAME_CHARS):
+            probs.append(f"project title with a character Bambu rejects: {title[0]!r}")
         for pl in cfg.findall("plate"):
             for mi in pl.findall("model_instance"):
                 oid = [m.get("value") for m in mi.findall("metadata") if m.get("key") == "object_id"]
