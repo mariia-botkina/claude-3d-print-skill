@@ -225,7 +225,7 @@ def build_project_settings(spec, base, presets, roles, n_plates):
                 changed.append(k)
         fil_changed.append(";".join(changed))
     cfg["different_settings_to_system"] = [";".join(changed_proc)] + fil_changed + [""]
-    cfg["inherits_group"] = [""] * (n + 2)
+    cfg.pop("inherits_group", None)  # Bambu Studio does not write it for system presets
     cfg["filament_settings_id"] = names
     return cfg, names, colors
 
@@ -532,6 +532,11 @@ def verify_3mf(path):
                 if m.get("key") == "thumbnail_file" and m.get("value") not in names:
                     probs.append(f"thumbnail {m.get('value')} missing")
         ps = json.loads(z.read("Metadata/project_settings.config"))
+        # Bambu reads these as plain strings; anything else aborts loading the whole config
+        for k in ("version", "name", "from", "url", "type", "setting_id", "filament_id",
+                  "description", "instantiation", "inherits"):
+            if k in ps and not isinstance(ps[k], str):
+                probs.append(f"project_settings '{k}' must be a string, got {type(ps[k]).__name__}: Bambu stops reading the settings there")
         n = len(ps.get("filament_settings_id", []))
         for k in ("filament_colour", "filament_type", "nozzle_temperature", "filament_ids"):
             if len(ps.get(k, [])) != n:

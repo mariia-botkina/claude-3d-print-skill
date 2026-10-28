@@ -4,7 +4,6 @@
  "activate_air_filtration": [
   "0"
  ],
- "adaptive_layer_height": "0",
  "additional_cooling_fan_speed": [
   "70"
  ],
@@ -102,7 +101,6 @@
  "deretraction_speed": [
   "30"
  ],
- "description": "It has a very big layer height, and results in very apparent layer lines, low printing quality and general printing time.",
  "detect_floating_vertical_shell": "1",
  "detect_narrow_internal_solid_infill": "1",
  "detect_overhang_wall": "1",
@@ -170,11 +168,9 @@
  "extruder_clearance_height_to_lid": "90",
  "extruder_clearance_height_to_rod": "34",
  "extruder_clearance_max_radius": "68",
- "extruder_clearance_radius": "57",
  "extruder_colour": [
   "#018001"
  ],
- "extruder_height_gap": "0",
  "extruder_max_nozzle_count": [
   "1"
  ],
@@ -202,7 +198,6 @@
  "fan_min_speed": [
   "100"
  ],
- "farthest_point_timelapse": "1",
  "filament_adaptive_volumetric_speed": [
   "0"
  ],
@@ -222,9 +217,6 @@
   "#FFFFFF"
  ],
  "filament_colour_type": [
-  "1"
- ],
- "filament_contact_safe": [
   "1"
  ],
  "filament_cooling_before_tower": [
@@ -273,9 +265,6 @@
  "filament_diameter": [
   "1.75"
  ],
- "filament_emission_safe": [
-  "1"
- ],
  "filament_enable_overhang_speed": [
   "1"
  ],
@@ -294,17 +283,11 @@
  "filament_flush_temp": [
   "0"
  ],
- "filament_flush_temp_fast": [
-  "0"
- ],
  "filament_flush_volumetric_speed": [
   "0"
  ],
  "filament_ids": [
   "GFA00"
- ],
- "filament_ingredients_safe": [
-  "1"
  ],
  "filament_is_mixed": [
   "0"
@@ -314,9 +297,6 @@
  ],
  "filament_long_retractions_when_cut": [
   "1"
- ],
- "filament_long_retractions_when_ec": [
-  "nil"
  ],
  "filament_map": [
   "1"
@@ -371,9 +351,6 @@
  "filament_pre_cooling_temperature_nc": [
   "0"
  ],
- "filament_preheat_temperature_delta": [
-  "10"
- ],
  "filament_prime_volume": [
   "30"
  ],
@@ -409,9 +386,6 @@
  ],
  "filament_retraction_distances_when_cut": [
   "18"
- ],
- "filament_retraction_distances_when_ec": [
-  "nil"
  ],
  "filament_retraction_length": [
   "nil"
@@ -602,12 +576,10 @@
  "infill_rotate_step": "0",
  "infill_shift_step": "0.4",
  "infill_wall_overlap": "15%",
- "inherits_group": [],
  "initial_layer_acceleration": [
   "500"
  ],
  "initial_layer_flow_ratio": "1",
- "initial_layer_infill_line_width": "0.82",
  "initial_layer_infill_speed": [
   "55"
  ],
@@ -657,8 +629,6 @@
  "is_infill_first": "0",
  "layer_change_gcode": "; layer num/total_layer_count: {layer_num+1}/[total_layer_count]\n; update layer progress\nM73 L{layer_num+1}\nM991 S0 P{layer_num} ;notify layer change",
  "layer_height": "0.4",
- "layer_time_smoothing": "0",
- "layer_time_smoothing_threshold": "30",
  "line_width": "0.82",
  "locked_skeleton_infill_pattern": "zigzag",
  "locked_skin_infill_pattern": "crosszag",
@@ -668,7 +638,6 @@
  "long_retractions_when_ec": [
   "0"
  ],
- "machine_bed_mass_Y": "0",
  "machine_end_gcode": ";===== date: 20230428 =====================\nM400 ; wait for buffer to clear\nG92 E0 ; zero the extruder\nG1 E-0.8 F1800 ; retract\nG1 Z{max_layer_z + 0.5} F900 ; lower z a little\nG1 X65 Y245 F12000 ; move to safe pos \nG1 Y265 F3000\n\nG1 X65 Y245 F12000\nG1 Y265 F3000\nM140 S0 ; turn off bed\nM106 S0 ; turn off fan\nM106 P2 S0 ; turn off remote part cooling fan\nM106 P3 S0 ; turn off chamber cooling fan\n\nG1 X100 F12000 ; wipe\n; pull back filament to AMS\nM620 S255\nG1 X20 Y50 F12000\nG1 Y-3\nT255\nG1 X65 F12000\nG1 Y265\nG1 X100 F12000 ; wipe\nM621 S255\nM104 S0 ; turn off hotend\n\nM622.1 S1 ; for prev firware, default turned on\nM1002 judge_flag timelapse_record_flag\nM622 J1\n    M400 ; wait all motion done\n    M991 S0 P-1 ;end smooth timelapse at safe pos\n    M400 S3 ;wait for last picture to be taken\nM623; end of \"timelapse_record_flag\"\n\nM400 ; wait all motion done\nM17 S\nM17 Z0.4 ; lower z motor current to reduce impact if there is something in the bottom\n{if (max_layer_z + 100.0) < 250}\n    G1 Z{max_layer_z + 100.0} F600\n    G1 Z{max_layer_z +98.0}\n{else}\n    G1 Z250 F600\n    G1 Z248\n{endif}\nM400 P100\nM17 R ; restore z current\n\nM220 S100  ; Reset feedrate magnitude\nM201.2 K1.0 ; Reset acc magnitude\nM73.2   R1.0 ;Reset left time magnitude\nM1002 set_gcode_claim_speed_level : 0\n\nM17 X0.8 Y0.8 Z0.5 ; lower motor current to 45% power\n",
  "machine_hotend_change_time": "0",
  "machine_load_filament_time": "29",
@@ -700,7 +669,6 @@
   "500",
   "500"
  ],
- "machine_max_force_Y": "0",
  "machine_max_jerk_e": [
   "2.5",
   "2.5"
@@ -717,7 +685,6 @@
   "3",
   "3"
  ],
- "machine_max_printed_mass": "0",
  "machine_max_speed_e": [
   "30",
   "30"
@@ -793,7 +760,6 @@
   "Standard"
  ],
  "only_one_wall_first_layer": "0",
- "only_one_wall_top": "1",
  "ooze_prevention": "0",
  "other_layers_print_sequence": [
   "0"
@@ -977,7 +943,6 @@
  "skirt_distance": "2",
  "skirt_height": "1",
  "skirt_loops": "0",
- "skirt_per_object": "1",
  "slice_closing_radius": "0.049",
  "slicing_mode": "regular",
  "slow_down_for_layer_cooling": [
@@ -1054,7 +1019,6 @@
  "support_cooling_filter": "0",
  "support_critical_regions_only": "0",
  "support_expansion": "0",
- "support_fast_purge_mode": "0",
  "support_filament": "0",
  "support_interface_bottom_layers": "2",
  "support_interface_filament": "0",
@@ -1165,7 +1129,6 @@
  "wall_distribution_count": "1",
  "wall_filament": "0",
  "wall_generator": "classic",
- "wall_infill_order": "inner wall/outer wall/infill",
  "wall_loops": "2",
  "wall_sequence": "inner wall/outer wall",
  "wall_transition_angle": "10",

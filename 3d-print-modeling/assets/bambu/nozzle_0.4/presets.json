@@ -52,9 +52,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -87,9 +84,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -137,9 +131,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -158,26 +149,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFB00"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "16"
@@ -208,9 +190,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -247,9 +226,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "0.4"
@@ -463,9 +439,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -498,9 +471,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -548,9 +518,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -569,26 +536,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFB50"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "12"
@@ -619,9 +577,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -658,9 +613,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -874,9 +826,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -909,9 +858,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -959,9 +905,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -980,26 +923,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFB01"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "18"
@@ -1030,9 +964,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -1069,9 +1000,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -1285,9 +1213,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This filament is only used to print models with a low density usually, and some special parameters are required. To get better printing quality, please refer to this wiki: ASA Aero Printing Guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -1320,9 +1245,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -1370,9 +1292,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -1391,25 +1310,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFB02"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -1441,9 +1351,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -1479,9 +1386,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -1729,9 +1633,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -1778,9 +1679,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -1799,25 +1697,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFB51"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -1849,9 +1738,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -1887,9 +1773,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -2107,9 +1990,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -2142,9 +2022,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -2192,9 +2069,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -2213,25 +2087,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN03"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -2263,9 +2128,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -2301,9 +2163,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -2518,9 +2377,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -2553,9 +2409,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -2603,9 +2456,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -2624,25 +2474,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN05"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -2674,9 +2515,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -2712,9 +2550,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -2929,9 +2764,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -2964,9 +2796,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -3014,9 +2843,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -3035,25 +2861,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN08"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -3085,9 +2902,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -3123,9 +2937,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -3340,9 +3151,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -3375,9 +3183,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -3425,9 +3230,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -3446,25 +3248,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN04"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -3496,9 +3289,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -3534,9 +3324,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -3784,9 +3571,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -3833,9 +3617,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -3854,25 +3635,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFC00"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -3904,9 +3676,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -3942,9 +3711,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -4192,9 +3958,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -4241,9 +4004,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -4262,25 +4022,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFC01"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -4312,9 +4063,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -4350,9 +4098,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -4567,9 +4312,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -4602,9 +4344,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -4652,9 +4391,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -4673,25 +4409,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFT01"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -4723,9 +4450,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -4761,9 +4485,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -4981,9 +4702,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "To get better transparent or translucent results with the corresponding filament, please refer to this wiki: Printing tips for transparent PETG."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -5019,9 +4737,6 @@
    ],
    "filament_change_length_nc": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -5069,9 +4784,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -5090,26 +4802,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG00"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "15"
@@ -5140,9 +4843,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -5179,9 +4879,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "0.4"
@@ -5434,9 +5131,6 @@
    "filament_change_length": [
     "12"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -5483,9 +5177,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -5504,26 +5195,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG02"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "21"
@@ -5554,9 +5236,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "30"
@@ -5593,9 +5272,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -5809,9 +5485,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "To get better transparent or translucent results with the corresponding filament, please refer to this wiki: Printing tips for transparent PETG."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -5844,9 +5517,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -5894,9 +5564,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -5915,26 +5582,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG03"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "15"
@@ -5965,9 +5623,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -6004,9 +5659,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "0.4"
@@ -6076,9 +5728,6 @@
    ],
    "filament_z_hop_types": [
     "Spiral Lift"
-   ],
-   "fins_extrude_safe_temp": [
-    "71"
    ],
    "full_fan_speed_layer": [
     "0"
@@ -6226,9 +5875,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "To get better transparent or translucent results with the corresponding filament, please refer to this wiki: Printing tips for transparent PETG."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -6261,9 +5907,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -6311,9 +5954,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -6332,26 +5972,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG01"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "6"
@@ -6382,9 +6013,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -6421,9 +6049,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "0.3"
@@ -6670,9 +6295,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -6719,9 +6341,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -6740,26 +6359,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG50"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "11.5"
@@ -6790,9 +6400,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -6829,9 +6436,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -7045,9 +6649,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This filament is only used to print models with a low density usually, and some special parameters are required. To get better printing quality, please refer to this wiki: Instructions for printing RC model with foaming PLA (PLA Aero)."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -7080,9 +6681,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -7130,9 +6728,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -7151,25 +6746,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA11"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -7201,9 +6787,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -7239,9 +6822,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -7489,9 +7069,6 @@
    "filament_change_length": [
     "5"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -7538,9 +7115,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -7559,26 +7133,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA00"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "21"
@@ -7609,9 +7174,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "30"
@@ -7648,9 +7210,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -7897,9 +7456,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -7946,9 +7502,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -7967,25 +7520,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA13"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -8017,9 +7561,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -8055,9 +7596,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -8305,9 +7843,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -8354,9 +7889,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -8375,26 +7907,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA15"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "21"
@@ -8425,9 +7948,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -8464,9 +7984,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -8713,9 +8230,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -8762,9 +8276,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -8783,26 +8294,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA12"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "18"
@@ -8833,9 +8335,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -8872,9 +8371,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -9121,9 +8617,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -9170,9 +8663,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -9191,26 +8681,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA18"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "16"
@@ -9241,9 +8722,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -9280,9 +8758,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -9529,9 +9004,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -9578,9 +9050,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -9599,26 +9068,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA07"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "12"
@@ -9649,9 +9109,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -9688,9 +9145,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -9937,9 +9391,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -9986,9 +9437,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -10007,26 +9455,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA01"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "22"
@@ -10057,9 +9496,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -10096,9 +9532,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -10312,9 +9745,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "To make the prints get higher gloss, please dry the filament before use, and set the outer wall speed to be 40 to 60 mm/s when slicing."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -10347,9 +9777,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -10397,9 +9824,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -10418,25 +9842,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA02"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -10468,9 +9883,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -10506,9 +9918,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -10723,9 +10132,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "The generic presets are conservatively tuned for compatibility with a wider range of filaments. For higher printing quality and speeds, please use Bambu filaments with Bambu presets."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -10758,9 +10164,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -10808,9 +10211,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -10829,25 +10229,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA19"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -10879,9 +10270,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -10917,9 +10305,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -11137,9 +10522,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "To make the prints get higher gloss, please dry the filament before use, and set the outer wall speed to be 40 to 60 mm/s when slicing."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -11172,9 +10554,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -11222,9 +10601,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -11243,25 +10619,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA05"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -11293,9 +10660,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -11331,9 +10695,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -11548,9 +10909,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "To make the prints get higher gloss, please dry the filament before use, and set the outer wall speed to be 40 to 60 mm/s when slicing."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -11583,9 +10941,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -11633,9 +10988,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -11654,25 +11006,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA06"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -11704,9 +11047,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -11742,9 +11082,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -11992,9 +11329,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -12041,9 +11375,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -12062,25 +11393,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA08"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -12112,9 +11434,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -12150,9 +11469,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -12400,9 +11716,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -12449,9 +11762,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -12470,25 +11780,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA09"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -12520,9 +11821,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -12558,9 +11856,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -12808,9 +12103,6 @@
    "filament_change_length": [
     "5"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -12857,9 +12149,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -12878,26 +12167,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA10"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "18"
@@ -12928,9 +12208,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "30"
@@ -12967,9 +12244,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -13183,9 +12457,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "The generic presets are conservatively tuned for compatibility with a wider range of filaments. For higher printing quality and speeds, please use Bambu filaments with Bambu presets."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -13218,9 +12489,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -13268,9 +12536,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -13289,25 +12554,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA17"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -13339,9 +12595,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -13377,9 +12630,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -13627,9 +12877,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -13676,9 +12923,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -13697,26 +12941,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA16"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "18"
@@ -13747,9 +12982,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -13786,9 +13018,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -14035,9 +13264,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -14084,9 +13310,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -14105,26 +13328,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFA50"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "15"
@@ -14155,9 +13369,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -14194,9 +13405,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -14410,9 +13618,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -14442,9 +13647,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -14492,9 +13694,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -14513,25 +13712,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN06"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -14563,9 +13753,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -14601,9 +13788,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -14818,9 +14002,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a water-soluble support filament, and usually it is only for the support structure and not for the model body. Printing this filament is of many requirements, and to get better printing quality, please refer to this wiki: PVA Printing Guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -14853,9 +14034,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -14903,9 +14081,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -14924,25 +14099,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS04"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -14974,9 +14140,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -15012,9 +14175,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -15229,9 +14389,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a non-water-soluble support filament, and usually it is only for the support structure and not for the model body. To get better printing quality, please refer to this wiki: Printing Tips for Support Filament and Support Function."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -15264,9 +14421,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -15314,9 +14468,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -15335,25 +14486,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS03"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -15385,9 +14527,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -15423,9 +14562,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -15640,9 +14776,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a non-water-soluble support filament, and usually it is only for the support structure and not for the model body. To get better printing quality, please refer to this wiki: Printing Tips for Support Filament and Support Function."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -15675,9 +14808,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -15725,9 +14855,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -15746,25 +14873,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS02"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -15796,9 +14914,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -15834,9 +14949,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -16051,9 +15163,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a non-water-soluble support filament, and usually it is only for the support structure and not for the model body. To get better printing quality, please refer to this wiki: Printing Tips for Support Filament and Support Function."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -16086,9 +15195,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -16136,9 +15242,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -16157,26 +15260,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS05"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "6"
@@ -16207,9 +15301,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -16246,9 +15337,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -16462,9 +15550,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a non-water-soluble support filament, and usually it is only for the support structure and not for the model body. To get better printing quality, please refer to this wiki: Printing Tips for Support Filament and Support Function."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -16497,9 +15582,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -16547,9 +15629,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -16568,25 +15647,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS01"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -16618,9 +15688,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -16656,9 +15723,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -16873,9 +15937,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a non-water-soluble support filament, and usually it is only for the support structure and not for the model body. To get better printing quality, please refer to this wiki: Printing Tips for Support Filament and Support Function."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -16908,9 +15969,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -16958,9 +16016,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -16979,25 +16034,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS00"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -17029,9 +16075,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -17067,9 +16110,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -17284,9 +16324,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a non-water-soluble support filament, and usually it is only for the support structure and not for the model body. To get better printing quality, please refer to this wiki: Printing Tips for Support Filament and Support Function."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -17319,9 +16356,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -17369,9 +16403,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -17390,26 +16421,17 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS06"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
     "1"
-   ],
-   "filament_long_retractions_when_ec": [
-    "nil"
    ],
    "filament_max_volumetric_speed": [
     "6"
@@ -17440,9 +16462,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -17479,9 +16498,6 @@
    ],
    "filament_retraction_distances_when_cut": [
     "18"
-   ],
-   "filament_retraction_distances_when_ec": [
-    "nil"
    ],
    "filament_retraction_length": [
     "nil"
@@ -17695,9 +16711,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This filament is too soft and not compatible with the AMS. Printing it is of many requirements, and to get better printing quality, please refer to this wiki: TPU printing guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -17730,9 +16743,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -17780,9 +16790,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -17801,25 +16808,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFU03"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -17851,9 +16849,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -17889,9 +16884,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -18106,9 +17098,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This filament is too soft and not compatible with the AMS. Printing it is of many requirements, and to get better printing quality, please refer to this wiki: TPU printing guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -18141,9 +17130,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -18191,9 +17177,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -18212,25 +17195,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFU01"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -18262,9 +17236,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -18300,9 +17271,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -18517,9 +17485,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This filament is too soft and not compatible with the AMS. Printing it is of many requirements, and to get better printing quality, please refer to this wiki: TPU printing guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -18552,9 +17517,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -18602,9 +17564,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -18623,25 +17582,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFU00"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -18673,9 +17623,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -18711,9 +17658,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -18928,9 +17872,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "If you are to print a kind of soft TPU, please don't slice with this profile, and it is only for TPU that has high enough hardness (not less than 55D) and is compatible with the AMS. To get better printing quality, please refer to this wiki: TPU printing guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -18963,9 +17904,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -19013,9 +17951,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -19034,25 +17969,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFU02"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -19084,9 +18010,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -19122,9 +18045,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -19339,9 +18259,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -19374,9 +18291,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -19424,9 +18338,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -19445,25 +18356,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFB99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -19494,9 +18396,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -19533,9 +18432,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -19750,9 +18646,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -19785,9 +18678,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -19835,9 +18725,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -19856,25 +18743,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFB98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -19905,9 +18783,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -19944,9 +18819,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -20194,9 +19066,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -20243,9 +19112,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -20264,25 +19130,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS97"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -20314,9 +19171,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -20352,9 +19206,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -20569,9 +19420,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is neither a commonly used filament, nor one of Bambu filaments, and it varies a lot from brand to brand. So, it's highly recommended to ask its vendor for suitable profile before printing and adjust some parameters according to its performances."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -20601,9 +19449,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -20651,9 +19496,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -20672,25 +19514,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFR99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -20722,9 +19555,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -20760,9 +19590,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -21010,9 +19837,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -21059,9 +19883,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -21080,25 +19901,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -21130,9 +19942,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -21168,9 +19977,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -21385,9 +20191,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -21420,9 +20223,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -21470,9 +20270,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -21491,25 +20288,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -21540,9 +20328,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -21579,9 +20364,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -21796,9 +20578,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -21831,9 +20610,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -21881,9 +20657,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -21902,25 +20675,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -21951,9 +20715,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -21990,9 +20751,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -22207,9 +20965,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -22242,9 +20997,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -22292,9 +21044,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -22313,25 +21062,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFC99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -22363,9 +21103,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -22401,9 +21138,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -22648,9 +21382,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -22697,9 +21428,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -22718,25 +21446,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG97"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -22768,9 +21487,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -22806,9 +21522,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -23023,9 +21736,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is neither a commonly used filament, nor one of Bambu filaments, and it varies a lot from brand to brand. So, it's highly recommended to ask its vendor for suitable profile before printing and adjust some parameters according to its performances."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -23058,9 +21768,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -23108,9 +21815,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -23129,25 +21833,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFP99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -23179,9 +21874,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -23217,9 +21909,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -23467,9 +22156,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -23516,9 +22202,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -23537,25 +22220,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFP98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -23587,9 +22261,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -23625,9 +22296,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -23875,9 +22543,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -23924,9 +22589,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -23945,25 +22607,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -23994,9 +22647,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -24033,9 +22683,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -24283,9 +22930,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -24332,9 +22976,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -24353,25 +22994,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG96"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -24403,9 +23035,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -24441,9 +23070,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -24691,9 +23317,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -24740,9 +23363,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -24761,25 +23381,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFG98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -24811,9 +23422,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -24849,9 +23457,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -25066,9 +23671,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is neither a commonly used filament, nor one of Bambu filaments, and it varies a lot from brand to brand. So, it's highly recommended to ask its vendor for suitable profile before printing and adjust some parameters according to its performances."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -25098,9 +23700,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -25148,9 +23747,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -25169,25 +23765,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFR98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -25219,9 +23806,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -25257,9 +23841,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -25474,9 +24055,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "The generic presets are conservatively tuned for compatibility with a wider range of filaments. For higher printing quality and speeds, please use Bambu filaments with Bambu presets."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -25509,9 +24087,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -25559,9 +24134,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -25580,25 +24152,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFL99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -25629,9 +24192,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -25668,9 +24228,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -25918,9 +24475,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -25967,9 +24521,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -25988,25 +24539,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFL95"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -26038,9 +24580,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -26076,9 +24615,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -26293,9 +24829,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "To make the prints get higher gloss, please dry the filament before use, and set the outer wall speed to be 40 to 60 mm/s when slicing."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -26328,9 +24861,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -26378,9 +24908,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -26399,25 +24926,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFL96"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -26448,9 +24966,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -26487,9 +25002,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -26737,9 +25249,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -26786,9 +25295,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -26807,25 +25313,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFL98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -26856,9 +25353,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -26895,9 +25389,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -27112,9 +25603,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is neither a commonly used filament, nor one of Bambu filaments, and it varies a lot from brand to brand. So, it's highly recommended to ask its vendor for suitable profile before printing and adjust some parameters according to its performances."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -27147,9 +25635,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -27197,9 +25682,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -27218,25 +25700,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFP97"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -27268,9 +25741,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -27306,9 +25776,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -27523,9 +25990,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is neither a commonly used filament, nor one of Bambu filaments, and it varies a lot from brand to brand. So, it's highly recommended to ask its vendor for suitable profile before printing and adjust some parameters according to its performances."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -27558,9 +26022,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -27608,9 +26069,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -27629,25 +26087,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFP96"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -27679,9 +26128,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -27717,9 +26163,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -27934,9 +26377,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is neither a commonly used filament, nor one of Bambu filaments, and it varies a lot from brand to brand. So, it's highly recommended to ask its vendor for suitable profile before printing and adjust some parameters according to its performances."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -27969,9 +26409,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -28019,9 +26456,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -28040,25 +26474,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFP95"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -28090,9 +26515,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -28128,9 +26550,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -28345,9 +26764,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "When printing this filament, there's a risk of nozzle clogging, oozing, warping and low layer adhesion strength. To get better results, please refer to this wiki: Printing Tips for High Temp / Engineering materials."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -28377,9 +26793,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -28427,9 +26840,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -28448,25 +26858,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN97"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -28498,9 +26899,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -28536,9 +26934,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -28783,9 +27178,6 @@
    "filament_change_length": [
     "10"
    ],
-   "filament_contact_safe": [
-    "1"
-   ],
    "filament_cooling_before_tower": [
     "0"
    ],
@@ -28832,9 +27224,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -28853,25 +27242,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFN96"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -28903,9 +27283,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -28941,9 +27318,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -29158,9 +27532,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This is a water-soluble support filament, and usually it is only for the support structure and not for the model body. Printing this filament is of many requirements, and to get better printing quality, please refer to this wiki: PVA Printing Guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -29193,9 +27564,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -29243,9 +27611,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -29264,25 +27629,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFS99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "1"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -29313,9 +27669,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -29352,9 +27705,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -29569,9 +27919,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "This filament is too soft and not compatible with the AMS. Printing it is of many requirements, and to get better printing quality, please refer to this wiki: TPU printing guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -29604,9 +27951,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -29654,9 +27998,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -29675,25 +28016,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFU99"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -29724,9 +28056,6 @@
     "0"
    ],
    "filament_pre_cooling_temperature_nc": [
-    "0"
-   ],
-   "filament_preheat_temperature_delta": [
     "0"
    ],
    "filament_prime_volume": [
@@ -29763,9 +28092,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -29980,9 +28306,6 @@
    "counter_limit_min": [
     "-0.035"
    ],
-   "description": [
-    "If you are to print a kind of soft TPU, please don't slice with this profile, and it is only for TPU that has high enough hardness (not less than 55D) and is compatible with the AMS. To get better printing quality, please refer to this wiki: TPU printing guide."
-   ],
    "diameter_limit": [
     "50"
    ],
@@ -30015,9 +28338,6 @@
    ],
    "filament_change_length": [
     "10"
-   ],
-   "filament_contact_safe": [
-    "1"
    ],
    "filament_cooling_before_tower": [
     "0"
@@ -30065,9 +28385,6 @@
    "filament_diameter": [
     "1.75"
    ],
-   "filament_emission_safe": [
-    "1"
-   ],
    "filament_enable_overhang_speed": [
     "1"
    ],
@@ -30086,25 +28403,16 @@
    "filament_flush_temp": [
     "0"
    ],
-   "filament_flush_temp_fast": [
-    "0"
-   ],
    "filament_flush_volumetric_speed": [
     "0"
    ],
    "filament_ids": [
     "GFU98"
    ],
-   "filament_ingredients_safe": [
-    "1"
-   ],
    "filament_is_support": [
     "0"
    ],
    "filament_long_retractions_when_cut": [
-    "nil"
-   ],
-   "filament_long_retractions_when_ec": [
     "nil"
    ],
    "filament_max_volumetric_speed": [
@@ -30136,9 +28444,6 @@
    ],
    "filament_pre_cooling_temperature_nc": [
     "0"
-   ],
-   "filament_preheat_temperature_delta": [
-    "10"
    ],
    "filament_prime_volume": [
     "45"
@@ -30174,9 +28479,6 @@
     "nil"
    ],
    "filament_retraction_distances_when_cut": [
-    "nil"
-   ],
-   "filament_retraction_distances_when_ec": [
     "nil"
    ],
    "filament_retraction_length": [
@@ -30349,7 +28651,6 @@
  },
  "process": {
   "0.08mm Extra Fine @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "7",
    "bottom_shell_layers": "7",
@@ -30367,7 +28668,6 @@
    "default_acceleration": [
     "10000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a smaller layer height, and results in almost negligible layer lines and longer printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -30410,7 +28710,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -30441,8 +28740,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.08",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -30450,7 +28747,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "5000"
    ],
@@ -30511,7 +28807,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -30618,7 +28913,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -30626,7 +28920,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.08mm High Quality @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "7",
    "bottom_shell_layers": "7",
@@ -30644,7 +28937,6 @@
    "default_acceleration": [
     "4000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a smaller layer height, lower speeds and acceleration, and the sparse infill pattern is Gyroid. So, it results in almost negligible layer lines and much higher printing quality, but much longer printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -30687,7 +28979,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -30718,8 +29009,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.08",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -30727,7 +29016,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "2000"
    ],
@@ -30788,7 +29076,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -30895,7 +29182,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -30903,7 +29189,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.12mm Fine @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "5",
    "bottom_shell_layers": "5",
@@ -30921,7 +29206,6 @@
    "default_acceleration": [
     "10000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a smaller layer height, and results in almost negligible layer lines and higher printing quality, but longer printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -30964,7 +29248,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -30995,8 +29278,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.12",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -31004,7 +29285,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "5000"
    ],
@@ -31065,7 +29345,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -31172,7 +29451,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -31180,7 +29458,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.12mm High Quality @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "5",
    "bottom_shell_layers": "5",
@@ -31198,7 +29475,6 @@
    "default_acceleration": [
     "4000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a smaller layer height, lower speeds and acceleration, and the sparse infill pattern is Gyroid. So, it results in almost negligible layer lines and much higher printing quality, but much longer printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -31241,7 +29517,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -31272,8 +29547,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.12",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -31281,7 +29554,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "2000"
    ],
@@ -31342,7 +29614,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -31449,7 +29720,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -31457,7 +29727,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.16mm High Quality @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "4",
    "bottom_shell_layers": "4",
@@ -31475,7 +29744,6 @@
    "default_acceleration": [
     "4000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a smaller layer height, lower speeds and acceleration, and the sparse infill pattern is Gyroid. So, it results in less apparent layer lines and much higher printing quality, but much longer printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -31518,7 +29786,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -31549,8 +29816,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.16",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -31558,7 +29823,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "2000"
    ],
@@ -31619,7 +29883,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -31726,7 +29989,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -31734,7 +29996,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.16mm Optimal @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "4",
    "bottom_shell_layers": "4",
@@ -31752,7 +30013,6 @@
    "default_acceleration": [
     "10000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a smaller layer height, and results in less apparent layer lines and higher printing quality, but longer printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -31795,7 +30055,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -31826,8 +30085,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.16",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -31835,7 +30092,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "5000"
    ],
@@ -31896,7 +30152,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -32003,7 +30258,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -32011,7 +30265,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.20mm Standard @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "3",
    "bottom_shell_layers": "3",
@@ -32029,7 +30282,6 @@
    "default_acceleration": [
     "10000"
    ],
-   "description": "It has a general layer height, and results in general layer lines and printing quality. It is suitable for most general printing cases.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -32072,7 +30324,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -32103,8 +30354,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.2",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -32112,7 +30361,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "5000"
    ],
@@ -32173,7 +30421,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -32280,7 +30527,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -32288,7 +30534,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.20mm Strength @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "3",
    "bottom_shell_layers": "3",
@@ -32306,7 +30551,6 @@
    "default_acceleration": [
     "10000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has more wall loops and a higher sparse infill density. So, it results in higher strength of the prints, but more filament consumption and longer printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -32349,7 +30593,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -32380,8 +30623,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.2",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -32389,7 +30630,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "5000"
    ],
@@ -32450,7 +30690,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -32557,7 +30796,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "6",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -32565,7 +30803,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.24mm Draft @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "3",
    "bottom_shell_layers": "3",
@@ -32583,7 +30820,6 @@
    "default_acceleration": [
     "10000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a bigger layer height, and results in more apparent layer lines and lower printing quality, but slightly shorter printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -32626,7 +30862,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -32657,8 +30892,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.24",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -32666,7 +30899,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "5000"
    ],
@@ -32727,7 +30959,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -32834,7 +31065,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",
@@ -32842,7 +31072,6 @@
    "z_direction_outwall_speed_continuous": "0"
   },
   "0.28mm Extra Draft @BBL X1C": {
-   "adaptive_layer_height": "0",
    "avoid_crossing_wall_includes_support": "0",
    "bottom_color_penetration_layers": "3",
    "bottom_shell_layers": "3",
@@ -32860,7 +31089,6 @@
    "default_acceleration": [
     "10000"
    ],
-   "description": "Compared with the default profile of a 0.4 mm nozzle, it has a bigger layer height, and results in more apparent layer lines and lower printing quality, but shorter printing time.",
    "detect_floating_vertical_shell": "1",
    "detect_overhang_wall": "1",
    "detect_thin_wall": "0",
@@ -32903,7 +31131,6 @@
    "initial_layer_acceleration": [
     "500"
    ],
-   "initial_layer_infill_line_width": "0.5",
    "initial_layer_infill_speed": [
     "105"
    ],
@@ -32934,8 +31161,6 @@
    "ironing_speed": "30",
    "ironing_type": "no ironing",
    "layer_height": "0.28",
-   "layer_time_smoothing": "0",
-   "layer_time_smoothing_threshold": "30",
    "line_width": "0.42",
    "locked_skeleton_infill_pattern": "zigzag",
    "locked_skin_infill_pattern": "crosszag",
@@ -32943,7 +31168,6 @@
    "max_travel_detour_distance": "0",
    "minimum_sparse_infill_area": "15",
    "monotonic_travel_into_wall": "0.0",
-   "only_one_wall_top": "1",
    "outer_wall_acceleration": [
     "5000"
    ],
@@ -33004,7 +31228,6 @@
    "skirt_distance": "2",
    "skirt_height": "1",
    "skirt_loops": "0",
-   "skirt_per_object": "1",
    "slowdown_end_acc": [
     "100000"
    ],
@@ -33111,7 +31334,6 @@
    ],
    "wall_filament": "0",
    "wall_generator": "classic",
-   "wall_infill_order": "inner wall/outer wall/infill",
    "wall_loops": "2",
    "wipe_tower_no_sparse_layers": "0",
    "xy_contour_compensation": "0",

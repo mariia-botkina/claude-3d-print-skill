@@ -356,6 +356,21 @@ def build(P, tpl, profiles_dir, printer, process, filament, bed_type, out, brand
     base["filament_colour"] = ["#FFFFFF"]
     base["curr_bed_type"] = bed_type
 
+    # Keep exactly the keys Bambu Studio itself writes into a project (the skeleton's keys).
+    # Extra keys are risky: e.g. a preset's "description" is a JSON list in newer profiles,
+    # and Bambu Studio 2.06 aborts reading project_settings.config on it, after which every
+    # preset loads as a "customized" one named after the project.
+    allowed = set(tpl)
+    for k in list(base):
+        if k not in allowed:
+            base.pop(k)
+    for group in ("process", "filament"):
+        for name in presets[group]:
+            presets[group][name] = {k: v for k, v in presets[group][name].items() if k in allowed}
+    process_keys &= allowed
+    filament_keys &= allowed
+    slot_extra &= allowed | {"filament_settings_id", "filament_ids", "default_filament_colour"}
+
     roles = {
         "machine": sorted(machine_keys),
         "process": sorted(process_keys),
