@@ -68,6 +68,15 @@ Pick what applies; the starred ones are always asked on a new project.
 - Quantity (one, a set, a batch), and deadline.
 - Print time limits per plate.
 
+### Cost
+- * Filament price per kg for each material/colour this project uses, electricity price per
+  kWh, printer wear per hour (prices change; ask every project).
+- Target cost or mass per item, if there is one (optional, depends on the project).
+- How many items in total (one, a set, a series)? Series change the default: lead with the
+  cheapest variant and plan plates per batch.
+- Where can material be cut without hurting the purpose (hidden faces, inner volume,
+  decoration level), and where not (parts children grab, load-bearing parts)?
+
 ### Output
 - * Plates: how to group parts (by colour, by sub-assembly, by priority)?
 - Labels/numbering on parts for assembly?

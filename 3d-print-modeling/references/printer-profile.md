@@ -32,6 +32,15 @@ the change is a commit) instead of keeping it only in one project.
 Before assigning AMS slots, ask which colours/materials are loaded. Do not invent a
 loadout.
 
+## Cost
+
+- Filament prices, electricity price and printer wear differ per project: ask each time,
+  store in the project's `prices.json` and REQUIREMENTS.md.
+- Printer power while printing PLA: 105 W average (Bambu wiki, P1S); idle about 6 W.
+- The owner's rule: keep plastic to the minimum the purpose allows, in the design, in the
+  print settings, in purge/supports and in test prints; always show a cheaper variant and
+  let her choose; for series lead with it; agree every multi-colour saving first.
+
 ## Nozzles
 
 Owner's rule: whenever a project would print better on another nozzle, say so and ask;

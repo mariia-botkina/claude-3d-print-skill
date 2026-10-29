@@ -39,6 +39,10 @@ presets (see below) to use it with another Bambu printer.
   serve the project better, in both directions. Once chosen, the whole project follows:
   presets in the 3MF (bundled for all four sizes), checks, design numbers, and a reminder
   to swap the nozzle back.
+- **Cost and material.** Cost per plate and per item (filament, supports, colour-change
+  purge, prime tower, electricity, printer wear), was/now after every change, batch
+  planning for series, a cheaper variant next to every design, and test pieces cut out
+  around the feature under test instead of printing the whole part.
 - **Tolerance comb** to measure real press/sliding/loose fits of your printer and filament.
 - Quick questions ("which plastic for a shower hook?") get a direct answer without the
   full workflow.
@@ -76,6 +80,8 @@ still runs the mesh checks and builds the 3MF.
     make_3mf.py             Bambu Studio project builder (+ --verify)
     find_pockets.py         closed pockets: pause layer, insert fit
     nozzle_advice.py        nozzle comparison per part
+    cost.py                 cost per plate/item, was/now, batches
+    test_slice.py           cut a small test piece around a feature
     tolerance_comb.py       fit calibration print
   assets/
     bambu/nozzle_<d>/       P1S machine/process/filament presets per nozzle (generated)

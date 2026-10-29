@@ -1,0 +1,11 @@
+schema_version: "1.1"
+name: cheap-variant-and-cost
+expected_outcome: |
+  Claude computes the cost per item of the key holder (filament, electricity, wear) with
+  the given prices, plans the batch of 20 (plates needed, cost per item when copies share
+  plates), and because it is a series leads with cheaper variants (e.g. lower infill,
+  fewer top/bottom layers, thinner panel or cut-outs), each with grams and roubles saved
+  and the trade-off. It does not apply visible/structural changes without asking.
+  Reply in Russian.
+context:
+  scaffold_script: place-files.sh

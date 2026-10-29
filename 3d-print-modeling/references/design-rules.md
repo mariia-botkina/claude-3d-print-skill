@@ -15,6 +15,7 @@ nozzle / 0.4 and use that nozzle's layer height (printer-profile.md, Nozzles).
 7. Large objects
 8. Embedded hardware
 9. Fixing check_print.py findings
+10. Saving material
 
 ## 1. Orientation
 
@@ -106,6 +107,7 @@ Closed pockets filled during a pause (`find_pockets.py`, layer events in the 3MF
 - Heat-set inserts: hole per insert spec, wall around >= 1.6 mm.
 
 ## 9. Fixing check_print.py findings
+10. Saving material
 
 | Finding | Usual fixes (ask before changing the design) |
 |---|---|
@@ -121,3 +123,47 @@ Closed pockets filled during a pause (`find_pockets.py`, layer events in the 3MF
 | not_watertight / non_manifold | fix the source geometry (in OpenSCAD: avoid coincident faces, overlap unions by 0.01 mm); trimesh repair only as a last resort |
 | debris | find the stray shell in the source and remove it |
 | too_big | split the part (section 7) |
+
+## 10. Saving material
+
+Roughly in order of effect. Each is a design change: offer it with the saving in grams
+and money (cost.py --compare) and what it costs in look, strength or time.
+
+**Print settings (often the biggest share)**
+- Infill 10-15 % for parts that are not loaded; gyroid or lightning for decorative parts
+  (lightning only supports top skins, so not for anything handled roughly). Strength comes
+  from walls, not from dense infill: 3 walls + 15 % beats 2 walls + 40 %.
+- Fewer top/bottom layers on parts whose top/bottom is not visible or loaded (top 4,
+  bottom 3 with 0.2 mm layers); check that the top does not pillow.
+- Thicker layers (0.24-0.28 mm Draft presets) save time, not plastic; use them for speed.
+- Modifiers: dense infill only where screws, pegs or clips go (a modifier part with its
+  own infill), sparse elsewhere.
+
+**Geometry**
+- Hollow or shell big volumes: a box-shaped solid becomes walls + ribs; plates get ribs
+  underneath instead of more thickness.
+- Cut-outs, lattices and windows in panels that only need stiffness, when the look allows.
+- Smallest size that still works: ask whether dimensions are fixed or "about".
+- Thin decorative relief instead of thick blocks; text engraved or 0.4-0.6 mm embossed.
+- Combine parts that are always used together; split parts only where it saves supports.
+
+**Waste**
+- Supports: orientation, 45 deg chamfers, bridges and splitting are cheaper than support
+  material (design-rules section 2). Tree supports use less than normal ones.
+- Brim only for small-contact or warp-prone parts; mouse ears instead of a full brim.
+- Multi-colour (AMS): every filament change purges 0.1-0.5 g plus prime-tower material.
+  Cheapest: colour only on the top 2-3 layers (inlay flush with the surface) and on as few
+  layers as possible; colour by height instead of per-layer alternation; many copies per
+  plate so one purge serves all; purge into infill or into a sacrificial object (ask).
+  Avoid full-height colour (text on vertical faces).
+
+**Tests**
+- Print only the feature under test (test_slice.py): a 3-5 mm slice through a fit, one
+  hinge knuckle pair, one clip, one slot with its peg. Thin, low infill.
+- Reuse measured fits (printer-profile.md) instead of re-testing them per project.
+- Batch several test pieces on one plate; log grams per test.
+
+**Series**
+- Fill plates: cost.py --batch shows cost per item with copies sharing one plate (purge
+  and warm-up shared). Group identical colour sets on the same plate.
+

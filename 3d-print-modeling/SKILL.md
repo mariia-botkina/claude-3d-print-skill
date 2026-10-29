@@ -90,7 +90,9 @@ change parameters.
    or specify an owner test).
 5. On the first full model, and whenever detail or size changes a lot, run
    `nozzle_advice.py` (see "Nozzle choice").
-6. With findings, render again with `--report check.json` to mark the problem spots.
+6. Cost: `cost.py` on the spec (see "Cost and material"), with `--compare` against the
+   previous version.
+7. With findings, render again with `--report check.json` to mark the problem spots.
 
 ### 7. Fix loop: ask first
 Do not silently change the design to fix a finding, technical or visible. For each issue:
@@ -127,10 +129,42 @@ choose. Log the result.
 - <finding in plain words> -> <proposed fix options or "fine as is">
 Usability: <check>: pass / to test on the print: <what to try>
 Estimate (PrusaSlicer reference): ~<time>, ~<g> PLA; supports: none / <where>
+Cost: <total> per item (<g> g incl. purge <g>, supports <g>; electricity, wear) | cheaper variant: <what> -> <total>, <g> g
+Tests so far: <n> prints, <g> g
 Nozzle: <d> (installed) | <d>: swap before printing, put the 0.4 back afterwards
 Waiting for your decision: <numbered questions>
 ```
 Keep it to what the user needs to decide or know. Full JSON reports stay in files.
+
+## Cost and material
+The owner wants every item as cheap as it can be without failing its purpose: less
+plastic in the design, in the print settings, in waste, and in test prints. Cost =
+filament (parts + supports + colour-change purge + prime tower) + electricity + printer wear.
+
+- **Prices** change between projects: ask for the filament price per kg (per material/
+  colour used), electricity per kWh and printer wear per hour on every new project, put
+  them in the project's `prices.json` and REQUIREMENTS.md. Never invent a price; an
+  unpriced item is reported as such. Printer power: 105 W printing PLA (Bambu wiki, P1S).
+- **Target**: ask in the interview whether there is a target cost or mass per item; it
+  depends on the project, so it is optional, but when given, design to it and report
+  against it.
+- **Default stance**: show the cost of the design as built and, next to it, a cheaper
+  variant with the difference in grams and money and what it trades away (look,
+  strength, time); the owner chooses. For series (many copies, several schools, a fair)
+  lead with the cheaper variant. Never cut material silently: it is a visible or
+  structural change, so the fix loop rules apply.
+- **Measure**: `python scripts/cost.py spec.json --prices prices.json --json cost.json`
+  after building the spec; `--compare old.json` after every change ("was / now");
+  `--batch N` for series: plates needed and cost per item when copies share a plate.
+- **Multi-colour**: purge on the AMS can outweigh the part. Show the purge grams and
+  offer cheaper layouts (colour only on top layers, fewer colours per layer, inlays
+  instead of full-height colour, more copies per plate to share the purge, purge into
+  infill/objects). Agree each one with the owner before applying it.
+- **Tests**: test only the feature in question, not the whole part:
+  `python scripts/test_slice.py part.stl --around X Y Z R -o test.stl` (or `--z`,
+  `--box`), check it, give it its own plate or 3MF named "test", and log every test
+  print with its grams in REQUIREMENTS.md ("Tests"), so the cost of testing is visible.
+- Design techniques that save plastic: `references/design-rules.md`, section 10.
 
 ## Nozzle choice
 The owner has a 0.4 nozzle and will buy another size when a project needs it. Raise it
@@ -193,6 +227,8 @@ header of `assets/tolerance_comb.scad`) and record the results in the profile.
 - `scripts/make_3mf.py` Bambu Studio project builder (plates, settings, AMS, pauses, colour by height, --verify)
 - `scripts/find_pockets.py` closed pockets: pause layer and insert fit
 - `scripts/nozzle_advice.py` per-part nozzle comparison: lost detail, fragile features, time, grams
+- `scripts/cost.py` cost per plate and item: filament, supports, purge, prime tower, electricity, wear; was/now; batches
+- `scripts/test_slice.py` cut a small test piece around the feature to check
 - `scripts/tolerance_comb.py` + `assets/tolerance_comb.scad` fit calibration print
 - `assets/bambu/nozzle_<d>/` P1S presets per nozzle (0.2/0.4/0.6/0.8) extracted from Bambu Studio (regenerate with `tools/build_bambu_profiles.py` in the repo)
 - `references/` printer-profile, interview, usability-checks, design-rules, modeling-workflow, requirements-template, bambu-3mf

@@ -41,6 +41,18 @@ Updated: <date>
 - Joints: <how parts connect, fit class, clearance used>
 - Plates: <plate name: parts>
 
+## Cost
+Prices (this project): PLA Basic <price>/kg, PETG <price>/kg, electricity <price>/kWh, wear <price>/h
+Target per item: <cost or mass, or "none">
+| Version | g per item | cost per item | cheaper variant offered | chosen |
+|---|---|---|---|---|
+| v1 | 38.5 | 98 | no colour inlay: 37.4 g, 93 | <owner's choice> |
+
+## Tests
+| Date | What was tested | Piece | g | Result |
+|---|---|---|---|---|
+| <date> | hook strength | hook_test.stl (24 mm cube around the hook) | 3.0 | pass |
+
 ## Usability checks (agreed)
 | Check | Method | Result v1 | Result v2 |
 |---|---|---|---|
