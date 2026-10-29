@@ -87,8 +87,9 @@ with colour changes may only hold objects that each use a single filament. Previ
 ## Not covered (tell the owner to do it in Bambu Studio)
 
 - Painted colour regions, painted supports/seams.
-- Calibrated flush volumes: the script writes a flat 280 mm3 per change; she can press
-  "Auto-calc" in the flushing dialog.
+- Exact flush volumes: the script computes them from the filament colours with Bambu's
+  colour formula (dark to light ~600 mm3, light to dark ~170 mm3); Bambu's "Auto-calc" in
+  the flushing dialog may differ slightly. `"flush_volume": N` in the spec forces one value.
 
 ## Names
 

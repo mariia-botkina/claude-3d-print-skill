@@ -156,7 +156,13 @@ filament (parts + supports + colour-change purge + prime tower) + electricity + 
 - **Measure**: `python scripts/cost.py spec.json --prices prices.json --json cost.json`
   after building the spec; `--compare old.json` after every change ("was / now");
   `--batch N` for series: plates needed and cost per item when copies share a plate.
-- **Multi-colour**: purge on the AMS can outweigh the part. Show the purge grams and
+- **Multi-colour**: every filament change on the P1S + AMS takes ~1.5-2 min (cut,
+  unload, load, purge out of the chute at the back: the "curls" that come out there are
+  normal) and 0.2-0.8 g of purge plus prime tower. make_3mf.py prints the number of
+  changes per plate; put it in the report before the owner prints, with the time. A tiny
+  colour feature spread over several layers (a 0.6 mm inlay = 3 layers = 3 changes) is
+  the expensive case; never put several materials (PLA + PETG) on one plate: every layer
+  then needs a change. Purge on the AMS can outweigh the part. Show the purge grams and
   offer cheaper layouts (colour only on top layers, fewer colours per layer, inlays
   instead of full-height colour, more copies per plate to share the purge, purge into
   infill/objects). Agree each one with the owner before applying it.

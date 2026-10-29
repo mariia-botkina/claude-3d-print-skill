@@ -20,8 +20,8 @@ type (PLA, PETG...). Anything missing is reported and counted as 0, never guesse
 
 Numbers come from PrusaSlicer reference slices (see slice_check.py) plus an estimate of
 purge and prime-tower filament from the colour layout; Bambu Studio's own numbers after
-slicing are the real ones. Purge is estimated at the project's flush volume per filament
-change (make_3mf writes 280 mm3; Bambu's auto-calculated values are often 100-500 mm3).
+slicing are the real ones. Purge per change uses the same colour-based flush volumes as
+make_3mf.py (dark to light needs ~600 mm3, light to dark ~170 mm3).
 """
 import argparse
 import hashlib
@@ -103,7 +103,7 @@ def as_int_percent(v, default):
 
 
 def plate_costs(spec, objs, plates, names, prices, cache, first_h, layer_h, events):
-    flush_mm3 = float(spec.get("flush_volume", 280))
+    colors = [f.get("color", "#FFFFFF") for f in (spec.get("filaments") or [{}])]
     proj = spec.get("settings") or {}
     out = []
     for pi, pl in enumerate(plates):
@@ -154,13 +154,23 @@ def plate_costs(spec, objs, plates, names, prices, cache, first_h, layer_h, even
             z = round(z + layer_h, 4)
         n_fil_plate = len({r[2] for r in ranges})
         dens = DENSITY.get(filament_type(names[0]), 1.24)
+        used = sorted({r[2] for r in ranges} | {e["extruder"] for e in ev if e["type"] == "filament"})
+        if spec.get("flush_volume") is not None:
+            flush_mm3 = float(spec["flush_volume"])
+        elif len(used) > 1:
+            pairs = [M.flush_volume(colors[a - 1], colors[b - 1]) for a in used for b in used if a != b]
+            flush_mm3 = sum(pairs) / len(pairs)
+        else:
+            flush_mm3 = 0.0
         purge_g = changes * flush_mm3 * dens / 1000.0
         tower_g = 0.0
         if n_fil_plate > 1 and spec.get("settings", {}).get("enable_prime_tower", "1") not in ("0", 0, False):
             width = 35.0
             per_layer_mm3 = 4 * width * 2 * TOWER_LINE * layer_h
             tower_g = tower_layers * per_layer_mm3 * dens / 1000.0
-        change_min = changes * 1.2   # cut, load, purge on P1S + AMS, about a minute each
+        # P1S + AMS change: cut and unload 28 s, load 29 s (Bambu machine profile), purge at
+        # ~21 mm3/s with pulses, wipe and shake: about 1.5-2 min each, measured in Bambu's own G-code
+        change_min = changes * (1.0 + flush_mm3 / 21.0 / 60.0 * 1.6)
         minutes += change_min
         out.append({
             "plate": pi + 1, "name": pl.get("name", f"Plate {pi + 1}"),

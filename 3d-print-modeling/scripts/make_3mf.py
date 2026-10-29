@@ -88,6 +88,37 @@ FULL_DENSITY_PATTERNS = {"concentric", "zig-zag", "monotonic", "monotonicline", 
 FULL_DENSITY_DEFAULT = "zig-zag"   # Bambu's "Rectilinear", what its own dialog switches to
 
 
+def _rgb(hexcol):
+    h = hexcol.lstrip("#")[:6]
+    return tuple(int(h[i:i + 2], 16) / 255.0 for i in (0, 2, 4))
+
+
+def flush_volume(src_hex, dst_hex, min_flush=107, max_flush=900):
+    """Purge volume (mm3) for a filament change, after Bambu Studio's colour-based formula
+    (FlushVolCalculator::calc_flush_vol_rgb + the nozzle's minimum). Dark to light needs
+    much more than light to dark. Bambu's own Auto-calc may differ by a few tens of mm3."""
+    import colorsys
+    sr, sg, sb = _rgb(src_hex)
+    dr, dg, db = _rgb(dst_hex)
+    h1, s1, v1 = colorsys.rgb_to_hsv(sr, sg, sb)
+    h2, s2, v2 = colorsys.rgb_to_hsv(dr, dg, db)
+    h1, h2 = math.radians(h1 * 360), math.radians(h2 * 360)
+    dx = math.cos(h1) * s1 * v1 - math.cos(h2) * s2 * v2
+    dy = math.sin(h1) * s1 * v1 - math.sin(h2) * s2 * v2
+    hs_dist = min(1.2, math.hypot(dx, dy))
+    lum_from = sr * 0.3 + sg * 0.59 + sb * 0.11
+    lum_to = dr * 0.3 + dg * 0.59 + db * 0.11
+    if lum_to >= lum_from:
+        lumi_flush = (lum_to - lum_from) ** 0.7 * 560.0
+    else:
+        lumi_flush = (lum_from - lum_to) * 80.0
+        hs_dist = min(0.67 * v2 + 0.33 * v1, hs_dist)
+    hs_flush = 230.0 * hs_dist
+    vol = math.sqrt(hs_flush ** 2 + lumi_flush ** 2 - 2 * hs_flush * lumi_flush * math.cos(math.radians(120)))
+    vol = max(vol, 60.0) + min_flush
+    return int(min(vol, max_flush))
+
+
 def is_full_density(v):
     try:
         return float(str(v).strip().rstrip("%")) >= 100.0 - 1e-6
@@ -223,8 +254,11 @@ def build_project_settings(spec, base, presets, roles, n_plates):
     cfg["filament_is_mixed"] = ["0"] * n
     cfg["filament_mixed_components"] = [""] * n
     cfg["default_filament_colour"] = [""] * n
-    flush = spec.get("flush_volume", 280)
-    cfg["flush_volumes_matrix"] = [("0" if i == j else str(flush)) for i in range(n) for j in range(n)]
+    flush = spec.get("flush_volume")   # a number forces one value for every change
+    min_flush = int(float((base.get("nozzle_volume") or ["107"])[0]))
+    cfg["flush_volumes_matrix"] = [
+        "0" if i == j else str(int(flush) if flush is not None else flush_volume(colors[i], colors[j], min_flush))
+        for i in range(n) for j in range(n)]
     cfg["flush_volumes_vector"] = ["140"] * (2 * n)
     cfg["wipe_tower_x"] = [str(TOWER[0] + 5)] * n_plates
     cfg["wipe_tower_y"] = [str(TOWER[1] + 5)] * n_plates
@@ -754,6 +788,35 @@ def custom_gcode_xml(events, pause_code):
     return "\n".join(rows) + "\n"
 
 
+def colour_layout(objs, plate, first, h, colors):
+    """Filament changes a plate needs (same counting as cost.py): returns dict or None."""
+    ranges = []
+    for o in objs:
+        if o.plate != plate:
+            continue
+        base_z = min(p[0].bounds[0][2] for p in o.parts if p[2] == "normal_part")
+        for (m, fil, subtype, pname, _) in o.parts:
+            if subtype == "normal_part":
+                ranges.append((m.bounds[0][2] - base_z, m.bounds[1][2] - base_z, int(fil or o.filament or 1),
+                               abs(m.volume) if m.is_watertight else 0.0, pname))
+    if len({r[2] for r in ranges}) < 2:
+        return None
+    top = max(r[1] for r in ranges)
+    z, prev, changes, multi_layers = first, None, 0, 0
+    while z <= top + 1e-6:
+        mid = z - h / 2
+        cur = {r[2] for r in ranges if r[0] <= mid <= r[1]}
+        if len(cur) > 1:
+            changes += len(cur) - 1
+            multi_layers += 1
+        if prev and cur and (not (cur & prev) or (len(prev) > 1 and len(cur) == 1)):
+            changes += 1
+        prev = cur or prev
+        z = round(z + h, 4)
+    tiny = [r for r in ranges if r[3] and r[3] < 50.0 and (r[1] - r[0]) > 2 * h + 1e-6]
+    return {"multi_layers": multi_layers, "changes": changes, "tiny_spread": tiny}
+
+
 # ------------------------------------------------------------------ main
 
 def assign_plates(spec, base_dir, has_multi):
@@ -904,6 +967,14 @@ def main():
             else:
                 print(f"    from layer {e['layer']} ({e['bottom']} mm up): filament {e['extruder']} {e['color']}"
                       + (f" ({e['note']})" if e["note"] else ""))
+        lay = colour_layout(objs, i, first_h, layer_h, colors)
+        if lay:
+            mins = lay["changes"] * 1.7
+            print(f"    colour: {lay['changes']} filament change(s) on {lay['multi_layers']} multi-colour layer(s), "
+                  f"~{mins:.0f} min of changes (each: cut, unload, load, purge out of the chute at the back)")
+            for r in lay["tiny_spread"]:
+                print(f"    hint: '{r[4]}' is {r[3]:.0f} mm3 of colour spread over {round((r[1] - r[0]) / layer_h)} layers: "
+                      "each layer costs a change; fewer colour layers or putting colour features on the same layers saves time and purge")
     if events:
         print(f"  layers: {proc_name}, first layer {first_h} mm, then {layer_h} mm")
     if park:

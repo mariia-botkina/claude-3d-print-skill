@@ -76,6 +76,14 @@ Use the fits table in printer-profile.md (measured values beat defaults).
   separate glued parts instead.
 - Minimum colour feature ~0.8 mm wide in XY.
 - Multi-colour plates get a prime tower; make_3mf.py keeps the back-right corner free for it.
+- Count filament changes before building: (colours on a layer - 1) per layer, plus one
+  when the colour set changes. Each is ~1.5-2 min and 0.2-0.8 g of purge + tower on the
+  P1S. To cut them: inlays 0.4 mm (2 layers) instead of 0.6; all colour features of a
+  plate on the same layers (aligned depths), so one change serves all; one material per
+  plate; colour by height (one change) instead of inlays where the design allows.
+- Colour features on the first layer (face-down inlays): crisp face on the textured plate,
+  but the slow first layer then waits for every change; tiny islands of another colour on
+  layer 1 can be dragged. Make them at least ~2 mm across.
 
 ## 6. Text and relief
 
