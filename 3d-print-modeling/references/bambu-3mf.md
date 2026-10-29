@@ -43,6 +43,12 @@ numbers or strings; percentages as strings ("20%").
 | curr_bed_type (top-level "bed_type") | plate | "Textured PEI Plate", "Cool Plate", "Engineering Plate", "High Temp Plate" |
 | layer height | choose a process preset instead ("process") | "0.12mm Fine @BBL X1C", "0.16mm Optimal @BBL X1C", "0.20mm Standard @BBL X1C", "0.24mm Draft @BBL X1C" |
 
+100% infill (`"sparse_infill_density": "100%"`) only works with the patterns Bambu also
+allows for top surfaces (zig-zag = Rectilinear, monotonic, concentric...). With the
+default grid Bambu Studio stops with "Grid infill pattern doesn't support 100% density".
+make_3mf.py switches such objects to `zig-zag` (Rectilinear) and prints a note; `--verify`
+reports it.
+
 Per-filament overrides go into the filament entry: `{"preset": "Bambu PETG HF", "color":
 "#3366FF", "settings": {"nozzle_temperature": 250}}`.
 

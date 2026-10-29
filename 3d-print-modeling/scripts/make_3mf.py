@@ -81,6 +81,33 @@ def safe_name(text):
     return " ".join(out.split())
 
 
+# Patterns Bambu Studio accepts at 100% sparse infill (its top_surface_pattern list).
+# Any other pattern with 100% makes Bambu Studio stop with "... doesn't support 100% density".
+FULL_DENSITY_PATTERNS = {"concentric", "zig-zag", "monotonic", "monotonicline", "globalmonotonicline",
+                         "alignedrectilinear", "hilbertcurve", "archimedeanchords", "octagramspiral"}
+FULL_DENSITY_DEFAULT = "zig-zag"   # Bambu's "Rectilinear", what its own dialog switches to
+
+
+def is_full_density(v):
+    try:
+        return float(str(v).strip().rstrip("%")) >= 100.0 - 1e-6
+    except ValueError:
+        return False
+
+
+def fix_full_density(settings, inherited_pattern, where):
+    """If settings set 100% infill with a pattern Bambu rejects at 100%, switch to rectilinear."""
+    if "sparse_infill_density" not in settings or not is_full_density(settings["sparse_infill_density"]):
+        return False
+    pattern = settings.get("sparse_infill_pattern", inherited_pattern)
+    if pattern in FULL_DENSITY_PATTERNS:
+        return False
+    settings["sparse_infill_pattern"] = FULL_DENSITY_DEFAULT
+    print(f"note: {where}: 100% infill with '{pattern}' is rejected by Bambu Studio; "
+          f"using rectilinear ({FULL_DENSITY_DEFAULT})", file=sys.stderr)
+    return True
+
+
 def escape(text, entities=None):
     """XML-escape for attribute values (quotes included)."""
     return _escape(str(text), {'"': "&quot;", **(entities or {})})
@@ -207,7 +234,10 @@ def build_project_settings(spec, base, presets, roles, n_plates):
 
     # user overrides (project wide), recorded so Bambu shows them as modified
     changed_proc = []
-    for k, v in (spec.get("settings") or {}).items():
+    proj_settings = dict(spec.get("settings") or {})
+    fix_full_density(proj_settings, cfg.get("sparse_infill_pattern"), "project settings")
+    spec["settings"] = proj_settings
+    for k, v in proj_settings.items():
         if k not in cfg:
             print(f"warning: setting '{k}' is not a known Bambu key; written anyway", file=sys.stderr)
         cfg[k] = as_cfg(v)
@@ -372,6 +402,11 @@ def write_3mf(path, spec, objs, plates, cfg, names, colors, thumbs, extra_files=
         build_items.append(f'  <item objectid="{oid}" p:UUID="{uuid.uuid4()}" transform="{tr}" printable="1"/>\n')
         assemble.append(f'   <assemble_item object_id="{oid}" instance_id="0" transform="{tr}" offset="0 0 0" />\n')
 
+        fix_full_density(o.settings, cfg.get("sparse_infill_pattern"), f"object '{o.name}'")
+        for (_, _, _, pname, psettings) in o.parts:
+            if psettings:
+                fix_full_density(psettings, o.settings.get("sparse_infill_pattern", cfg.get("sparse_infill_pattern")),
+                                 f"part '{pname}'")
         meta = [f'    <metadata key="name" value="{escape(safe_name(o.name))}"/>\n',
                 f'    <metadata key="extruder" value="{int(o.filament or 1)}"/>\n']
         for sk, sv in o.settings.items():
@@ -574,6 +609,16 @@ def verify_3mf(path):
                     if any(c.startswith(("G90", "G91", "M82")) for c in cmds):
                         probs.append(f"custom G-code at z {lay.get('top_z')} changes positioning mode (G90/G91/M82): "
                                      "on Bambu firmware this can leave the extruder in absolute mode and stop extrusion")
+        if is_full_density(ps.get("sparse_infill_density", "")) and ps.get("sparse_infill_pattern") not in FULL_DENSITY_PATTERNS:
+            probs.append(f"100% infill with pattern '{ps.get('sparse_infill_pattern')}': Bambu Studio rejects it")
+        glob_pat = ps.get("sparse_infill_pattern")
+        for o in cfg.findall("object"):
+            meta = {m.get("key"): m.get("value") for m in o.findall("metadata")}
+            for pt in [meta] + [{m.get("key"): m.get("value") for m in p.findall("metadata")} for p in o.findall("part")]:
+                if is_full_density(pt.get("sparse_infill_density", "")):
+                    pat = pt.get("sparse_infill_pattern", meta.get("sparse_infill_pattern", glob_pat))
+                    if pat not in FULL_DENSITY_PATTERNS:
+                        probs.append(f"object {o.get('id')}: 100% infill with pattern '{pat}': Bambu Studio rejects it")
         used = set()
         for o in cfg.findall("object"):
             for m in o.iter("metadata"):
