@@ -115,7 +115,6 @@ Closed pockets filled during a pause (`find_pockets.py`, layer events in the 3MF
 - Heat-set inserts: hole per insert spec, wall around >= 1.6 mm.
 
 ## 9. Fixing check_print.py findings
-10. Saving material
 
 | Finding | Usual fixes (ask before changing the design) |
 |---|---|
